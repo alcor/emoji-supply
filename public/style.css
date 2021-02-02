@@ -1,0 +1,41 @@
+/*use-itty-bitty-template*/
+canvas {
+  background:gray;
+  max-width:100%;
+  max-height:100%;
+  border-radius:4px;
+}
+body {
+  line-height:160%;
+  margin:0;
+  max-width:inherit;
+}
+.swatch {
+  width: 1em; height:1em;
+  border-radius:100%;
+  margin-top:10px;
+  display:inline-block;
+  margin-right:0.5em;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,0.2);
+}
+
+input {
+  height:2em;
+  line-height:1em;
+  margin-top:-8px;
+  border:none;
+  min-width:72px;
+  height:2.5em;
+  padding-top:0;
+  
+  border-bottom:1px solid black;
+}
+
+input#emojiPickker {
+  font-family: monospace;
+}
+
+input#rows, input#cols {
+  width: 2em;
+  min-width: 2em;
+}
