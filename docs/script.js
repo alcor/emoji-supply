@@ -112,7 +112,7 @@ function render() {
   }
 
   var name = "emoji-" + color + "-"
-  + sw / density + "x" + sw / density 
+  + sw / density + "x" + sh / density 
   + (density != 1 ? "@" + density + "x" : "") + ".png"
   
   a.innerHTML = name + "<p>"
