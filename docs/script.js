@@ -148,27 +148,8 @@ function render() {
   grd.addColorStop(1,lightColor);
   ctx.fillStyle = grd;
   ctx.fillRect(0,0, c.width, c.height);
-
-  const gridLayout = (emojis) => {
-    let size = Math.max(c.width, c.height) / 20;
-    ctx.font = size/2 + "px Arial";
-    let cols = c.width / size
-    let rows = c.height / size
-
-    for (var x = 0; x < cols; x++) {
-      for (var y = 0; y < rows; y++) {
-        let emojiIndex = (x + y) % emojis.length;         
-        
-        ctx.fillText(emojis[emojiIndex], 
-                     (0.3 + x) * size, 
-                     (0.6 + y) * size);
-      }
-    }      
-  }
   
-  
-  
-  const diamondLayout = (emojis, options = {}) => {
+  const gridLayout = (emojis, options = {}) => {
 
     let pattern = options.pattern || 'diamond';
     let size = Math.max(c.width, c.height) / 40;
@@ -222,15 +203,12 @@ function render() {
         let rx = (Math.random() - 0.5) * randomScale;
         let ry = (Math.random() - 0.5) * randomScale;
 
-
-
         ctx.globalAlpha = 0.95;
         //ctx.globalCompositeOperation = "luminosity";
         ctx.shadowColor = 'rgba(0,0,0,0.05)';
         ctx.shadowOffsetY = size / 8;
         ctx.shadowBlur = size / 8;
 
-  
         ctx.save()
         ctx.translate(margin + size/2 + (staggerX + x + rx) * spacingX, 
                       margin + size/2 + (y + ry) * spacingY);
@@ -245,53 +223,7 @@ function render() {
     }      
   }
   
-  
-  const hexLayout = (emojis) => {
-    let size = Math.max(c.width, c.height) / 20;
-    ctx.font = size/2 + "px Arial";
-    let cols = c.width / size
-    let rows = c.height / size
-    for (var x = 0; x < cols; x++) {
-      for (var y = 0; y < rows; y++) {
-          let emojiIndex = (x + y) % emojis.length
-          let offset = y % 2 ? -0.5 : 0;
-          let emoji = emojis[emojiIndex];
-          let rx = (Math.random() - 0.5) / 8
-          let ry = (Math.random() - 0.5) / 8
-          ctx.fillText(emoji, 
-                       (0.3 + x + offset + rx) * size, 
-                       (0.6 + y + ry) * size);
-      }
-    }      
-  }
-  
-  
-  const randomLayout = (emojis) => {
-    let size = Math.max(c.width, c.height) / 20;
-    ctx.font = size/2 + "px Arial";
-    let cols = c.width / size
-    let rows = c.height / size
-    for (var x = 0; x < cols; x++) {
-      for (var y = 0; y < rows; y++) {
-          let emojiIndex = (x + y) % emojis.length
-          let offset = y % 2 ? -0.5 : 0;
-          let emoji = emojis[emojiIndex];
-          emoji = emojis[Math.floor(Math.random() * emojis.length)]
-          let rx = (Math.random() - 0.5) / 2
-          let ry = (Math.random() - 0.5) / 2
-          
-          
-        ctx.save()
-        ctx.translate((0.3 + x + offset + rx) * size, 
-                       (0.6 + y + ry) * size);
-        ctx.rotate((Math.random() - 0.5) * Math.PI/4)
-        ctx.textAlign = 'center'
-        ctx.fillText(emoji, 0, -size/2 - size/8);
-        //ctx.strokeRect(-size/2, -size/2, size, -size);
-        ctx.restore();
-      }
-    }      
-  }
+
 
 
 
@@ -331,11 +263,11 @@ function render() {
     case 'random':
     case 'grid':
     {
-      diamondLayout(emojis, options);
+      gridLayout(emojis, options);
       break;
     }    
     default: {
-      diamondLayout(emojis, {layout:layout})
+      gridLayout(emojis, options)
     }
   }
 
