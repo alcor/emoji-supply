@@ -83,6 +83,8 @@ if (iOS) {
 }
 
 function render() {
+  updateURL();
+
   let form = document.getElementById("form");
   let data = new FormData(form);
 
@@ -95,16 +97,27 @@ function render() {
     [sw, sh] = [sh, sw]
   }
   
-  var name = "emoji-" + color + "-"
-    + screen.width + "x" + screen.height
-    + "@" + density + "x.png"
-  
-  a.innerHTML = name + "<p>"
-  a.download = name;
+
 
   sw *= density;
   sh *= density;
 
+  let sizeString = document.querySelector('#sizePicker').value || "*";
+
+  if (sizeString != "*") {
+    let sizes = sizeString.split("x");
+    sw = sizes[0]
+    sh = sizes[1] || sw
+    density = 1;
+  }
+
+  var name = "emoji-" + color + "-"
+  + sw / density + "x" + sw / density 
+  + (density != 1 ? "@" + density + "x" : "") + ".png"
+  
+  a.innerHTML = name + "<p>"
+  a.download = name;
+  
   c.setAttribute("height", sh);
   c.setAttribute("width", sw);
   a.appendChild(c); 
@@ -155,34 +168,61 @@ function render() {
   
   
   
-  const diamondLayout = (emojis) => {
+  const diamondLayout = (emojis, options = {}) => {
+
+    let pattern = options.pattern || 'diamond';
     let size = Math.max(c.width, c.height) / 40;
     ctx.font = size + "px Arial";
     
     let margin = size;
+
+    if (pattern == "random") {
+      margin = 0;
+    }
+
     let width = c.width - margin * 2;
     let height = c.height - margin * 2;
     
-    let spacingX = size * 3;
-    let spacingY = spacingX / 2;
+    let spacingX = size * 2;
+    let spacingY = spacingX;
+
+    if (pattern == "diamond") {
+      spacingX = size * 3;
+      spacingY = spacingX / 2;
+    }
     
     let cols = width / spacingX;
     let rows = height / spacingY;
     
     ctx.setLineDash([5, 15]);
     //ctx.strokeRect(margin, margin, width, height);
-    // Fit to the width cleanly
-    spacingX *= (width -size/2) / (spacingX * cols);
-    
 
+    // Fit to the rect cleanly by fudging spacing
+    spacingX *= (width -size/2) / (spacingX * cols);
+    spacingY *= (height - size/2) / (spacingY * rows);
     
-    
+    if (pattern == "diamond" || pattern == "hex") {
+      spacingX *= (width - size/2) / (spacingX * cols);
+      spacingY *= (height - size/2) / (spacingY * rows);  
+    } else {
+      spacingX *= (width + size) / (spacingX * cols);
+      spacingY *= (height) / (spacingY * rows);
+    }
+
+    let stagger = pattern == "diamond" || pattern == "hex" || pattern == "random";
+
     for (var x = 0; x < cols; x++) {
       for (var y = 0; y < rows; y++) {
         let emojiIndex = (x + y) % emojis.length
-        let stagger = y%2 ? 0.5 : 0;
+        let staggerX = stagger && y%2 ? 0.5 : 0;
         let emoji = emojis[emojiIndex];
         emoji = emojis[Math.floor(Math.random() * emojis.length)]
+
+        let randomScale = pattern == "random" ? 0.5 : 0.01;
+        let rx = (Math.random() - 0.5) * randomScale;
+        let ry = (Math.random() - 0.5) * randomScale;
+
+
 
         ctx.globalAlpha = 0.95;
         //ctx.globalCompositeOperation = "luminosity";
@@ -192,12 +232,13 @@ function render() {
 
   
         ctx.save()
-        ctx.translate(margin + size/2 + (stagger + x) * spacingX, 
-                      margin + spacingY + y * spacingY);
+        ctx.translate(margin + size/2 + (staggerX + x + rx) * spacingX, 
+                      margin + size/2 + (y + ry) * spacingY);
         if (y%2 && emojis.length == 1 ) ctx.scale(-1, 1);
         ctx.textAlign = 'center'
-        ctx.fillText(emoji, 0, -size/2 - size/8);
-        //ctx.strokeRect(-size/2, -size/2, size, -size);
+        ctx.fillText(emoji, 0, + size/3);
+        //ctx.strokeRect(-size/2, -size/2, size, size);
+        //ctx.strokeRect(-2, -2, 4, 4);
 
         ctx.restore();
       }
@@ -252,7 +293,8 @@ function render() {
     }      
   }
 
-  
+
+
   const splitEmoji = string => {
     var array = string.split(" ");
     if (array.length > 1) return array;
@@ -268,7 +310,7 @@ function render() {
   ctx.font = c.width / 12 + "px Arial";
   ctx.fillStyle = "black";
   
-  let layout = document.querySelector('#patternPicker').value || 'hex';
+  let pattern = document.querySelector('#patternPicker').value || 'hex';
 
   
   // var options = {
@@ -280,25 +322,20 @@ function render() {
   // console.log(params.toString());
   // //Prints "var1=value&var2=value2&arr=foo"
 
+  let options = Object.fromEntries(new URLSearchParams(location.search));
 
-  // history.replaceState(options, undefined, "?" + params.toString())
-  
-  switch (layout) {
-    case 'diamond': {
-      diamondLayout(emojis);
-      break;
-    }    
-    case 'hex': {
-      hexLayout(emojis);
-      break;
-    }    
-    case 'random': {
-      randomLayout(emojis);
-      break;
-    }      
+  console.log(options)
+  switch (pattern) {
+    case 'hex':
+    case 'diamond':
+    case 'random':
     case 'grid':
+    {
+      diamondLayout(emojis, options);
+      break;
+    }    
     default: {
-      gridLayout(emojis)
+      diamondLayout(emojis, {layout:layout})
     }
   }
 
@@ -317,7 +354,6 @@ function render() {
   // } 
   // ctx.putImageData(dt, 0, 0);
   
-  updateURL();
 
   var blob = c.toBlob(function(blob) {
     var date = new Date()

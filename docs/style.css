@@ -37,12 +37,14 @@ input[type="color"] {
 }
 form > div {
   display:flex;
+  flex-wrap:wrap;
   align-items:flex-end;
   margin-top:1em;
 }
 
 form > div > * {
   margin-right:1em;
+  margin-bottom:1em;
 }
 input[type=color]::-webkit-color-swatch {
   border: none;
