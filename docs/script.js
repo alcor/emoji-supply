@@ -79,7 +79,7 @@ var a = document.createElement("a");
 var c = document.createElement("canvas");
 
 if (iOS) {
-  document.getElementById("textPicker").style.display = "none"
+  //document.getElementById("textPicker").style.display = "none"
 }
 
 function render() {
