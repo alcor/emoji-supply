@@ -1,3 +1,5 @@
+let debug = false;
+
 function hexToRGB(hex) {
   var c = hex.substring(1);      // strip #
   var rgb = parseInt(c, 16);   // convert rrggbb to decimal
@@ -103,15 +105,16 @@ function render() {
   sh *= density;
 
   let sizeString = document.querySelector('#sizePicker').value || "*";
+  localStorage.setItem("size", sizeString)
 
   if (sizeString != "*") {
     let sizes = sizeString.split("x");
     sw = sizes[0]
     sh = sizes[1] || sw
-    density = 1;
+    density = 2;
   }
 
-  var name = "emoji-" + color + "-"
+  var name = "emoji-" + color.replace("#","") + "-"
   + sw / density + "x" + sh / density 
   + (density != 1 ? "@" + density + "x" : "") + ".png"
   
@@ -128,13 +131,13 @@ function render() {
   ctx.lineWidth = 2 * density;
   ctx.fillRect(0,0,c.width,c.height);
 
-//   // Generate Linear Gradient
-//   var grd=ctx.createLinearGradient(0,40,0, c.height);
-//   grd.addColorStop(0,lightColor);
-//   grd.addColorStop(0.5,color);
-//   grd.addColorStop(1,darkColor);
-//   ctx.fillStyle=grd;
-//   ctx.fillRect(0,0,c.width,c.height);
+  //   // Generate Linear Gradient
+  //   var grd=ctx.createLinearGradient(0,40,0, c.height);
+  //   grd.addColorStop(0,lightColor);
+  //   grd.addColorStop(0.5,color);
+  //   grd.addColorStop(1,darkColor);
+  //   ctx.fillStyle=grd;
+  //   ctx.fillRect(0,0,c.width,c.height);
   
   // Generate Raking Gradient
   var r2 = c.width * 2;
@@ -152,54 +155,57 @@ function render() {
   const gridLayout = (emojis, options = {}) => {
 
     let pattern = options.pattern || 'diamond';
-    let size = Math.max(c.width, c.height) / 40;
+    let size = Math.hypot(c.width, c.height) / 80;
     ctx.font = size + "px Arial";
     
-    let margin = size;
+    let marginX = size*1.5;
+    let marginY = size*1.5;
 
     if (pattern == "random") {
       margin = 0;
     }
 
-    let width = c.width - margin * 2;
-    let height = c.height - margin * 2;
+    let width = c.width - marginX * 2;
+    let height = c.height - marginY * 2;
     
-    let spacingX = size * 2;
+    let spacingX = size;
     let spacingY = spacingX;
 
     if (pattern == "diamond") {
-      spacingX = size * 3;
-      spacingY = spacingX / 2;
+      spacingX = size * 3 / 2;
+      spacingY = spacingX / 3;
     }
     
-    let cols = width / spacingX;
-    let rows = height / spacingY;
+    let cols = Math.round(width / (size + spacingX));
+    let rows = Math.round(height / (size + spacingY));
     
-    ctx.setLineDash([5, 15]);
-    //ctx.strokeRect(margin, margin, width, height);
+    ctx.lineWidth = 0.5
+    if (debug) ctx.strokeRect(marginX, marginY, width, height);
 
     // Fit to the rect cleanly by fudging spacing
     spacingX *= (width -size/2) / (spacingX * cols);
     spacingY *= (height - size/2) / (spacingY * rows);
     
     if (pattern == "diamond" || pattern == "hex") {
-      spacingX *= (width - size/2) / (spacingX * cols);
-      spacingY *= (height - size/2) / (spacingY * rows);  
+      spacingX *= (width  - (size * (cols-1))) / (spacingX * (cols-1));
+      spacingY *= (height - (size * (rows-1))) / (spacingY * (rows-1));
     } else {
-      spacingX *= (width + size) / (spacingX * cols);
-      spacingY *= (height) / (spacingY * rows);
+      spacingX *= (width  - (size * (cols-1))) / (spacingX * (cols-1));
+      spacingY *= (height - (size * (rows-1))) / (spacingY * (rows-1));
     }
 
     let stagger = pattern == "diamond" || pattern == "hex" || pattern == "random";
 
-    for (var x = 0; x < cols; x++) {
-      for (var y = 0; y < rows; y++) {
+    for (var y = 0; y < rows; y++) {
+      for (var x = 0; x < cols; x++) {
+        let staggerRow = stagger && y%2;
+        if (staggerRow && x == cols - 1) continue;
         let emojiIndex = (x + y) % emojis.length
-        let staggerX = stagger && y%2 ? 0.5 : 0;
+        let staggerX = staggerRow ? 0.5 : 0;
         let emoji = emojis[emojiIndex];
         emoji = emojis[Math.floor(Math.random() * emojis.length)]
 
-        let randomScale = pattern == "random" ? 0.5 : 0.01;
+        let randomScale = pattern == "random" ? 0.5 : 0.00;
         let rx = (Math.random() - 0.5) * randomScale;
         let ry = (Math.random() - 0.5) * randomScale;
 
@@ -210,14 +216,17 @@ function render() {
         ctx.shadowBlur = size / 8;
 
         ctx.save()
-        ctx.translate(margin + size/2 + (staggerX + x + rx) * spacingX, 
-                      margin + size/2 + (y + ry) * spacingY);
-        if (y%2 && emojis.length == 1 ) ctx.scale(-1, 1);
+        ctx.translate(marginX + (spacingX + size) * (x + rx + staggerX), 
+                      marginY + (spacingY + size) * (y + ry));
+        if (y%2 && emojis.length == 1) ctx.scale(-1, 1);
         ctx.textAlign = 'center'
+        if (debug) {
+          ctx.strokeRect(-size/2, -size/2, size, size);
+          ctx.strokeRect(-2, -2, 4, 4);
+          ctx.globalAlpha = 0.2
+          ctx.strokeRect(size/2, size/2, spacingX, spacingY);
+        }
         ctx.fillText(emoji, 0, + size/3);
-        //ctx.strokeRect(-size/2, -size/2, size, size);
-        //ctx.strokeRect(-2, -2, 4, 4);
-
         ctx.restore();
       }
     }      
@@ -305,6 +314,10 @@ function changeListeners() {
   let form = document.getElementById("form");
   form.onchange = render;
 
+  if (size = localStorage.getItem("size")) {
+    form.elements["sizePicker"].value = size;
+  }
+  
 
   document.querySelectorAll('.swatch').forEach(e => {
     e.style.backgroundColor = e.value;

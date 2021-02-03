@@ -4,42 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>emoji.supply</title>
-  <link rel='stylesheet' href='https://itty.bitty.app/base.css'><link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css">
   <meta property="og:title" content="emoji.supply - Wallpaper" />
   <meta property="og:description" content="Generate wallpaper for your device with colorful emoji" />
 </head>
 <body>
 <!-- partial:index.partial.html -->
-<i>emoji.supply<br>
-the snozzberries taste like snozzberries<br>
-background-o-matic</i>
-<p>  
+
 <form id="form">
+
+  <label for="colorPicker">A vast field of &nbsp;</label> 
+<input id="colorPicker" name="color" type="color" onInput="setColor(this);" value="#ffe7bd">
+&nbsp;&nbsp;&nbsp;&nbsp;
+<div style="display:inline-block;">
 <span class="swatch" value="#1e1e1e" style="background-color:#1e1e1e;"></span>
 <span class="swatch" value="#eeeeee" style="background-color:#eeeeee;"></span>
 <span class="swatch" value="#928a82" style="background-color:#928a82;"></span>
 <span class="swatch" value="#005493" style="background-color:#005493;"></span>
 <span class="swatch" value="#33815c" style="background-color:#33815c;"></span>
 <span class="swatch" value="#941751" style="background-color:#941751;"></span>
+</div>
 <br>
 
-<div>
-<input id="colorPicker" name="color" type="color" onInput="setColor(this);" value="#ffe7bd">
-<input id="emojiPicker" name="emoji" type="text" size=15 placeholder="emoji string" value="🫐🍏🍌🍓🍊🍇">
+<label for="patternPicker">Covered in</label>
 <select id="patternPicker" name="pattern">
-  <option value="grid">Grid</option>
-  <option value="diamond" selected>Diamond</option>
-  <option value="hex">Hex</option>
-  <xoption value="spiral">Spiral</xoption>
-  <option value="random">Random</option>
+  <option value="grid">grids</option>
+  <option value="diamond" selected>diamonds</option>
+  <option value="hex">hexes</option>
+  <xoption value="spiral">spirals</xoption>
+  <option value="random">a scattering</option>
 </select>
+<label for="emojiPicker"> of </label> 
+<input id="emojiPicker" name="emoji" type="text" size=15 placeholder="emoji string" value="🫐🍏🍌🍓🍊🍇">
+
+<br>
+<label for="sizePicker">Custom fit for </label>
 
 <select id="sizePicker">
-  <option value="*" selected>This Screen</option>
-  <option value="1500x500">Cover Image</option>
-  <option value="1000x1000">Square</option>
+  <option value="*" selected>this screen</option>
+  <option value="1500x500">a cover image</option>
+  <option value="1600x1600">a square</option>
 </select>
-</div>
+
 </form>
 <p>
 <!-- partial -->
