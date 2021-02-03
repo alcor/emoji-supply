@@ -14,7 +14,7 @@ function luminance(rgb) {
 }
 
 function contrastColor(hex, shift) {
-  var rgb = hexToRGB(color);
+  var rgb = hexToRGB(hex);
   var lab = rgb2lab(rgb);
   
   if (shift) {
@@ -36,14 +36,37 @@ function contrastColor(hex, shift) {
   return "hsl(" + hsl[0] + ", " + hsl[1] + "%, " + hsl[2] + "%)" 
 }
 
-var color = "#ffe7bd";
 var timer;
+
+function updateForm() {
+  let form = document.getElementById("form");
+  let paramsString = window.location.search.substring(1);
+  let params = new URLSearchParams(paramsString);
+  let entries = params.entries();
+  for (const [k, v] of entries) {
+    let input = form.elements[k];
+    switch(input.type) {
+      case 'checkbox': input.checked = !!v; break;
+      default:         input.value = v;     break;
+    }
+  }
+}
+
+function updateURL() {
+  let form = document.getElementById("form");
+  let params = new URLSearchParams(new FormData(form));
+  history.replaceState(undefined, undefined, "?" + params.toString())
+}
+
+
+
+
 function setColor(e) {
   console.log("e", e)
-  color = e.value || e.getAttribute("value");
+  let color = e.value || e.getAttribute("value");
   console.log("setcolor", color)
   document.getElementById("colorPicker").value = color
-  document.getElementById("textPicker").value = color
+  //document.getElementById("textPicker").value = color
   clearTimeout(timer);
   timer = setTimeout(render, 300);
 }
@@ -60,6 +83,10 @@ if (iOS) {
 }
 
 function render() {
+  let form = document.getElementById("form");
+  let data = new FormData(form);
+
+  let color = data.get('color');
   var lightColor = contrastColor(color, 10);
   var darkColor = contrastColor(color, -5);
   var density = window.devicePixelRatio;
@@ -233,7 +260,7 @@ function render() {
     return array;
   }
   
-  let emojiString = document.querySelector('#emojiPicker').value;
+  let emojiString = document.querySelector('#emojiPicker').value || " ";
   let emojis = splitEmoji(emojiString)
   
   
@@ -243,9 +270,18 @@ function render() {
   
   let layout = document.querySelector('#patternPicker').value || 'hex';
 
-  localStorage.setItem('emoji', emojiString)
-  localStorage.setItem('color', color);
-  localStorage.setItem('pattern', layout);
+  
+  // var options = {
+  //   emoji: emojiString,
+  //   color: color,
+  //   pattern:layout
+  // }
+  // const params = new URLSearchParams(options);
+  // console.log(params.toString());
+  // //Prints "var1=value&var2=value2&arr=foo"
+
+
+  // history.replaceState(options, undefined, "?" + params.toString())
   
   switch (layout) {
     case 'diamond': {
@@ -281,7 +317,8 @@ function render() {
   // } 
   // ctx.putImageData(dt, 0, 0);
   
-  
+  updateURL();
+
   var blob = c.toBlob(function(blob) {
     var date = new Date()
     window.URL.revokeObjectURL(blobURL);
@@ -296,6 +333,11 @@ var blobURL = undefined
 
 
 function changeListeners() {
+  updateForm();
+  let form = document.getElementById("form");
+  form.onchange = render;
+
+
   document.querySelectorAll('.swatch').forEach(e => {
     e.style.backgroundColor = e.value;
     e.addEventListener('click', e => {
@@ -303,19 +345,15 @@ function changeListeners() {
     })
   });
 
-  var patternPicker = document.querySelector('#patternPicker')
-  patternPicker.addEventListener('change', e => {
-    render();
-  }) 
-  console.log("e", localStorage.getItem('pattern'))
-  patternPicker.value = localStorage.getItem('pattern') || "grid";
-  
+  // var patternPicker = document.querySelector('#patternPicker')
+  // patternPicker.addEventListener('change', e => {
+  //   render();
+  // }) 
+
   var emojiPicker = document.querySelector('#emojiPicker') 
-    emojiPicker.addEventListener('change', e => {
+    emojiPicker.addEventListener('input', e => {
     render();
   })
-   
-  emojiPicker.value = localStorage.getItem('emoji') || "🍌🍏🫐🍑🍓🍊🍇";
 
 }
 changeListeners()
