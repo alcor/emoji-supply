@@ -1,41 +1,39 @@
 let debug = false;
 
-function hexToRGB(hex) {
-  var c = hex.substring(1);      // strip #
-  var rgb = parseInt(c, 16);   // convert rrggbb to decimal
-  var r = (rgb >> 16) & 0xff;  // extract red
-  var g = (rgb >>  8) & 0xff;  // extract green
-  var b = (rgb >>  0) & 0xff;  // extract blue
-  return [r,g,b]; 
+const copyToClipboard = str => {
+  const el = document.createElement('textarea');
+  el.value = str;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+};
+
+const download = () => {
+  document.getElementById("download-link").click()
 }
 
-function luminance(rgb) {
-  var luma = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];  
-  var luma2 = rgb2lab(rgb);
-  return luma;
-}
-
-function contrastColor(hex, shift) {
-  var rgb = hexToRGB(hex);
-  var lab = rgb2lab(rgb);
-  
-  if (shift) {
-    lab[0] += shift;
-  } else if (lab[0]< 40) {
-    lab[0] += 25;
-  } else {
-    lab[0] -= 25;
-  }
-  rgb = lab2rgb(lab);
-  var hsl = rgbToHsl(rgb);
-  rgb[0] = Math.round(rgb[0]);
-  rgb[1] = Math.round(rgb[1]);
-  rgb[2] = Math.round(rgb[2]);
-  
-  hsl[0] = Math.round(hsl[0] * 360);
-  hsl[1] = Math.round(hsl[1] * 100);
-  hsl[2] = Math.round(hsl[2] * 100);
-  return "hsl(" + hsl[0] + ", " + hsl[1] + "%, " + hsl[2] + "%)" 
+const copy = (el) => {
+  let strings = []
+  let form = document.getElementById("form");
+  form.childNodes.forEach(node => {
+    if (node.className == "ignore") return;
+    let text = ""
+    if (node.options) {
+      node = node.options[node.selectedIndex];
+    } 
+    let string = node.innerText || node.value || "";
+    string = string.trim();
+    if (string.length)
+      strings.push(string.trim());
+  })
+  let text = strings.join(" ");
+  text += "\n\n"
+  text += location.href;
+ copyToClipboard(text)
+ document.getElementById("copy").innerText = "✓";
+ setTimeout(e => {document.getElementById("copy").innerText = "COPY";}, 5000)
+ return false;
 }
 
 var timer;
@@ -81,8 +79,8 @@ var ua = navigator.userAgent;
 var isMac = /Macintosh/.test(ua)
 var isWin = /Windows/.test(ua)
 var iOS = /iPad|iPhone|iPod/.test(ua)
-var a = document.createElement("a");
-var c = document.createElement("canvas");
+var a = document.getElementById("download-link");
+var c = document.getElementById("canvas");
 
 if (iOS) {
   //document.getElementById("textPicker").style.display = "none"
@@ -123,13 +121,12 @@ function render() {
   + sw / density + "x" + sh / density 
   + (density != 1 ? "@" + density + "x" : "") + ".png"
   
-  a.innerHTML = name + "<p>"
+  // a.innerHTML = name + "<p>"
   a.download = name;
   
   c.setAttribute("height", sh);
   c.setAttribute("width", sw);
-  a.appendChild(c); 
-  document.body.appendChild(a);
+
   var fontSize = 10 * density;
   var ctx = c.getContext('2d');
   ctx.fillStyle = color || "#1e1e1e";
@@ -315,6 +312,48 @@ changeListeners()
 
 render();
 
+
+// Color Functions
+
+
+function hexToRGB(hex) {
+  var c = hex.substring(1);      // strip #
+  var rgb = parseInt(c, 16);   // convert rrggbb to decimal
+  var r = (rgb >> 16) & 0xff;  // extract red
+  var g = (rgb >>  8) & 0xff;  // extract green
+  var b = (rgb >>  0) & 0xff;  // extract blue
+  return [r,g,b]; 
+}
+
+function luminance(rgb) {
+  var luma = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];  
+  var luma2 = rgb2lab(rgb);
+  return luma;
+}
+
+function contrastColor(hex, shift) {
+  var rgb = hexToRGB(hex);
+  var lab = rgb2lab(rgb);
+  
+  if (shift) {
+    lab[0] += shift;
+  } else if (lab[0]< 40) {
+    lab[0] += 25;
+  } else {
+    lab[0] -= 25;
+  }
+  rgb = lab2rgb(lab);
+  var hsl = rgbToHsl(rgb);
+  rgb[0] = Math.round(rgb[0]);
+  rgb[1] = Math.round(rgb[1]);
+  rgb[2] = Math.round(rgb[2]);
+  
+  hsl[0] = Math.round(hsl[0] * 360);
+  hsl[1] = Math.round(hsl[1] * 100);
+  hsl[2] = Math.round(hsl[2] * 100);
+  return "hsl(" + hsl[0] + ", " + hsl[1] + "%, " + hsl[2] + "%)" 
+}
+
 function lab2rgb(lab){
   var y = (lab[0] + 16) / 116,
       x = lab[1] / 500 + y,
@@ -338,7 +377,6 @@ function lab2rgb(lab){
           Math.max(0, Math.min(1, b)) * 255]
 }
 
-
 function rgb2lab(rgb){
   var r = rgb[0] / 255,
       g = rgb[1] / 255,
@@ -359,8 +397,6 @@ function rgb2lab(rgb){
 
   return [(116 * y) - 16, 500 * (x - y), 200 * (y - z)]
 }
-
-
 
 function rgbToHsl(rgb) {
   var r = rgb[0], g = rgb[1], b = rgb[2];

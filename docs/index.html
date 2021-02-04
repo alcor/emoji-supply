@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Emoji Wallpaper</title>
   <link rel="stylesheet" href="./style.css">
-  <meta property="og:title" content="emoji.supply - Wallpaper" />
+  <meta property="og:title" content="An Emoji Wallpaper" />
   <meta property="og:description" content="Generate wallpaper for your device with colorful emoji" />
 </head>
 <body>
@@ -26,7 +26,7 @@
 </div>
 <br>
 
-<label for="patternPicker">Covered in</label>
+<label for="patternPicker">covered in</label>
 <select id="patternPicker" name="pattern">
   <option value="grid">a grid</option>
   <option value="diamond" selected>diamonds</option>
@@ -35,9 +35,10 @@
   <option value="random">a scattering</option>
 </select>
 <label for="emojiPicker"> of </label> 
-<input id="emojiPicker" name="emoji" type="text" size=15 placeholder="emoji string" value="🍌🍓🍊🍇">
+<input id="emojiPicker" name="emoji" type="text" size=15 placeholder="emoji" value="🍌🍓🍊🍇">
 
 <br>
+<div class="ignore">
 <label for="scalePicker">A </label>
 
 <select id="scalePicker" name="scale">
@@ -53,13 +54,21 @@
   <option value="1500x500">a cover image</option>
   <option value="1600x1600">a square</option>
 </select>
-
-</form>
+</div>
 <p>
-<!-- partial -->
-<script  src="./runes.js"></script>
+<!-- <a href="#" class="button" id="download" onclick="download(this)"><span>Download</button> -->
+</form>
 
-  <script  src="./script.js"></script>
+  <span class="button" id="copy" onclick="copy(this); ">COPY</span>
+  <a id="download-link">
+  <span class="button" id="download-name">Download</span>
+  <br>
+  <canvas id="canvas"></canvas>
+</a>
+
+
+<script  src="./runes.js"></script>
+<script  src="./script.js"></script>
 
 </body>
 </html>
