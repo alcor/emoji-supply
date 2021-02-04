@@ -22,9 +22,9 @@ function contrastColor(hex, shift) {
   if (shift) {
     lab[0] += shift;
   } else if (lab[0]< 40) {
-    lab[0] += 15;
+    lab[0] += 25;
   } else {
-    lab[0] -= 15;
+    lab[0] -= 25;
   }
   rgb = lab2rgb(lab);
   var hsl = rgbToHsl(rgb);
@@ -93,14 +93,13 @@ function render() {
   let color = data.get('color');
   var lightColor = contrastColor(color, 10);
   var darkColor = contrastColor(color, -5);
+  var textColor = contrastColor(color)
   var density = window.devicePixelRatio;
   var sh = screen.height, sw = screen.width;
   if (iOS && Math.abs(window.orientation) == 90) {
     [sw, sh] = [sh, sw]
   }
   
-
-
   sw *= density;
   sh *= density;
 
@@ -155,9 +154,8 @@ function render() {
   const gridLayout = (emojis, options = {}) => {
 
     let pattern = options.pattern || 'diamond';
-    let size = Math.hypot(c.width, c.height) / 80;
-    ctx.font = size + "px Arial";
-    
+    let size = Math.hypot(c.width, c.height) / 50;
+    ctx.font = size + "px sans-serif";
     let marginX = size*1.5;
     let marginY = size*1.5;
 
@@ -195,6 +193,8 @@ function render() {
     }
 
     let stagger = pattern == "diamond" || pattern == "hex" || pattern == "random";
+
+    ctx.fillStyle = textColor;
 
     for (var y = 0; y < rows; y++) {
       for (var x = 0; x < cols; x++) {
@@ -236,19 +236,19 @@ function render() {
 
 
 
-  const splitEmoji = string => {
-    var array = string.split(" ");
-    if (array.length > 1) return array;
-    array =  Array.from(string);
-    return array;
-  }
+  const splitEmoji = runes; 
+  //string => {
+  //   return runes(string);
+  //   var array = string.split(" ");
+  //   if (array.length > 1) return array;
+  //   array =  Array.from(string);
+  //   return array;
+  // }
   
   let emojiString = document.querySelector('#emojiPicker').value || " ";
   let emojis = splitEmoji(emojiString)
   
   
-  
-  ctx.font = c.width / 12 + "px Arial";
   ctx.fillStyle = "black";
   
   let pattern = document.querySelector('#patternPicker').value || 'hex';
