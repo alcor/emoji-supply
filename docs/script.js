@@ -45,8 +45,10 @@ function updateForm() {
   let paramsString = window.location.search.substring(1);
   let params = new URLSearchParams(paramsString);
   let entries = params.entries();
-  for (const [k, v] of entries) {
+  for (var [k, v] of entries) {
     let input = form.elements[k];
+    if (k == "emoji") v = v.replace(/FE0F/g, "\uFE0F").replace(/200D/g, "\u200D")
+ 
     switch(input.type) {
       case 'checkbox': input.checked = !!v; break;
       default:         input.value = v;     break;
@@ -57,6 +59,7 @@ function updateForm() {
 function updateURL() {
   let form = document.getElementById("form");
   let params = new URLSearchParams(new FormData(form));
+  params.set("emoji", params.get("emoji").replace(/\uFE0F/g, "FE0F").replace(/\u200D/g, "200D"))
   history.replaceState(undefined, undefined, "?" + params.toString())
 }
 
@@ -164,10 +167,6 @@ function render() {
     let marginX = size*1.5;
     let marginY = size*1.5;
 
-    if (pattern == "random") {
-      margin = 0;
-    }
-
     let width = c.width - marginX * 2;
     let height = c.height - marginY * 2;
     
@@ -183,6 +182,8 @@ function render() {
     let rows = Math.round(height / (size + spacingY));
     
     ctx.lineWidth = 0.5
+    ctx.textAlign = 'center'
+
     if (debug) ctx.strokeRect(marginX, marginY, width, height);
 
     // Fit to the rect cleanly by fudging spacing
@@ -223,8 +224,11 @@ function render() {
         ctx.save()
         ctx.translate(marginX + (spacingX + size) * (x + rx + staggerX), 
                       marginY + (spacingY + size) * (y + ry));
-        if (y%2 && emojis.length == 1) ctx.scale(-1, 1);
-        ctx.textAlign = 'center'
+        if (y%2 && emojis.length == 1 && (pattern == 'diamond')) ctx.scale(-1, 1);
+
+        if (pattern == 'random')
+          ctx.rotate((Math.random() - 0.5) * Math.PI/4)
+
         if (debug) {
           ctx.strokeRect(-size/2, -size/2, size, size);
           ctx.strokeRect(-2, -2, 4, 4);
