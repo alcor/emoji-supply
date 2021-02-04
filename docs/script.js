@@ -47,8 +47,7 @@ function updateForm() {
   let entries = params.entries();
   for (var [k, v] of entries) {
     let input = form.elements[k];
-    if (k == "emoji") v = v.replace(/FE0F/g, "\uFE0F").replace(/200D/g, "\u200D")
- 
+    if (k == "emoji") v = decodeURIComponent(v)
     switch(input.type) {
       case 'checkbox': input.checked = !!v; break;
       default:         input.value = v;     break;
@@ -59,7 +58,9 @@ function updateForm() {
 function updateURL() {
   let form = document.getElementById("form");
   let params = new URLSearchParams(new FormData(form));
-  params.set("emoji", params.get("emoji").replace(/\uFE0F/g, "FE0F").replace(/\u200D/g, "200D"))
+
+  // This works around a bug in apple's url detection that can't handle a whole mess of encoded unicode characters
+  params.set("emoji", encodeURIComponent(params.get("emoji")))
   history.replaceState(undefined, undefined, "?" + params.toString())
 }
 
