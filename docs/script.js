@@ -86,6 +86,8 @@ if (iOS) {
 
 function render() {
   updateURL();
+  let options = Object.fromEntries(new URLSearchParams(location.search));
+
 
   let form = document.getElementById("form");
   let data = new FormData(form);
@@ -155,6 +157,9 @@ function render() {
 
     let pattern = options.pattern || 'diamond';
     let size = Math.hypot(c.width, c.height) / 50;
+
+    let scale = options.scale;
+    size *= scale;
     ctx.font = size + "px sans-serif";
     let marginX = size*1.5;
     let marginY = size*1.5;
@@ -231,39 +236,13 @@ function render() {
       }
     }      
   }
-  
 
-
-
-
-  const splitEmoji = runes; 
-  //string => {
-  //   return runes(string);
-  //   var array = string.split(" ");
-  //   if (array.length > 1) return array;
-  //   array =  Array.from(string);
-  //   return array;
-  // }
-  
   let emojiString = document.querySelector('#emojiPicker').value || " ";
-  let emojis = splitEmoji(emojiString)
-  
+  let emojis = runes(emojiString)
   
   ctx.fillStyle = "black";
   
   let pattern = document.querySelector('#patternPicker').value || 'hex';
-
-  
-  // var options = {
-  //   emoji: emojiString,
-  //   color: color,
-  //   pattern:layout
-  // }
-  // const params = new URLSearchParams(options);
-  // console.log(params.toString());
-  // //Prints "var1=value&var2=value2&arr=foo"
-
-  let options = Object.fromEntries(new URLSearchParams(location.search));
 
   console.log(options)
   switch (pattern) {
@@ -280,7 +259,6 @@ function render() {
     }
   }
 
-  
   // Generate Noise
   // var dt = ctx.getImageData(0,0, c.width, c.height);
   // var dd = dt.data, dl = dt.width * dt.height;
@@ -295,7 +273,6 @@ function render() {
   // } 
   // ctx.putImageData(dt, 0, 0);
   
-
   var blob = c.toBlob(function(blob) {
     var date = new Date()
     window.URL.revokeObjectURL(blobURL);
@@ -303,11 +280,8 @@ function render() {
     a.href = blobURL;
   });
 }
+
 var blobURL = undefined
-
-    
-
-
 
 function changeListeners() {
   updateForm();
@@ -317,7 +291,6 @@ function changeListeners() {
   if (size = localStorage.getItem("size")) {
     form.elements["sizePicker"].value = size;
   }
-  
 
   document.querySelectorAll('.swatch').forEach(e => {
     e.style.backgroundColor = e.value;
@@ -325,11 +298,6 @@ function changeListeners() {
       setColor(e.target);
     })
   });
-
-  // var patternPicker = document.querySelector('#patternPicker')
-  // patternPicker.addEventListener('change', e => {
-  //   render();
-  // }) 
 
   var emojiPicker = document.querySelector('#emojiPicker') 
     emojiPicker.addEventListener('input', e => {

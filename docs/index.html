@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>emoji.supply</title>
+  <title>Emoji Wallpaper</title>
   <link rel="stylesheet" href="./style.css">
   <meta property="og:title" content="emoji.supply - Wallpaper" />
   <meta property="og:description" content="Generate wallpaper for your device with colorful emoji" />
@@ -38,7 +38,15 @@
 <input id="emojiPicker" name="emoji" type="text" size=15 placeholder="emoji string" value="🫐🍏🍌🍓🍊🍇">
 
 <br>
-<label for="sizePicker">Custom fit for </label>
+<label for="scalePicker">A </label>
+
+<select id="scalePicker" name="scale">
+  <option value="1.25">comfortable</option>
+  <option value="1.0" selected>cozy</option>
+  <option value="0.85">compact</option>
+</select>
+
+<label for="sizePicker">fit for </label>
 
 <select id="sizePicker">
   <option value="*" selected>this screen</option>
