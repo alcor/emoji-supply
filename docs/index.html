@@ -12,8 +12,36 @@
 <!-- partial:index.partial.html -->
 
 <form id="form">
+  <label for="title"></label> 
+  <input id="title" name="title" type="text" size=25 placeholder="title" value="">
+  <br><br>
 
-  <label for="colorPicker">A vast field of &nbsp;</label> 
+  <br>
+
+
+
+<select id="patternPicker" name="pattern">
+  <option value="grid">A grid</option>
+  <option value="diamond" selected>Diamonds</option>
+  <option value="hex">Hexes</option>
+  <xoption value="spiral">spirals</xoption>
+  <option value="random">A scattering</option>
+</select>
+<label for="patternPicker"> of </label>
+
+<label for="emojiPicker"></label> 
+<input id="emojiPicker" name="emoji" type="text" size=15 placeholder="emoji" value="🍌🍓🍊🍇">
+
+
+<br>
+<label for="texture">on a</label> 
+
+<select id="texture" name="texture">
+  <option value="flat">flat</option>
+  <option value="gradient" selected>rolling</option>
+</select>
+
+<label for="colorPicker">field of &nbsp;</label> 
 <input id="colorPicker" name="color" type="color" onInput="setColor(this);" value="#ffe7bd">
 &nbsp;&nbsp;&nbsp;&nbsp;
 <div style="display:inline-block;">
@@ -24,18 +52,6 @@
 <span class="swatch" value="#33815c" style="background-color:#33815c;"></span>
 <span class="swatch" value="#941751" style="background-color:#941751;"></span>
 </div>
-<br>
-
-<label for="patternPicker">covered in</label>
-<select id="patternPicker" name="pattern">
-  <option value="grid">a grid</option>
-  <option value="diamond" selected>diamonds</option>
-  <option value="hex">hexes</option>
-  <xoption value="spiral">spirals</xoption>
-  <option value="random">a scattering</option>
-</select>
-<label for="emojiPicker"> of </label> 
-<input id="emojiPicker" name="emoji" type="text" size=15 placeholder="emoji" value="🍌🍓🍊🍇">
 
 <br>
 <div class="ignore">

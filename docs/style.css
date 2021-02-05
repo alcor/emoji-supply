@@ -12,11 +12,17 @@ form {
   line-height:2.5em;
 }
 body {
-  margin:0 auto;padding:20vmin 6vmin;
+  margin:0 auto;padding:10vmin 6vmin;
   max-width:35em;
   word-wrap: break-word;
   font-size:15px;
   font-weight:300;
+}
+
+#title {
+  font-weight: 200;
+  font-size:200%;
+  max-width:500px;
 }
 
 body, input, select, label {

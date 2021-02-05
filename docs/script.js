@@ -14,26 +14,36 @@ const download = () => {
 }
 
 const copy = (el) => {
+  let options = Object.fromEntries(new URLSearchParams(location.search));
+
   let strings = []
-  let form = document.getElementById("form");
-  form.childNodes.forEach(node => {
-    if (node.className == "ignore") return;
-    let text = ""
-    if (node.options) {
-      node = node.options[node.selectedIndex];
-    } 
-    let string = node.innerText || node.value || "";
-    string = string.trim();
-    if (string.length)
-      strings.push(string.trim());
-  })
-  let text = strings.join(" ");
+  let title = document.getElementById("title");
+  let text = ""
+  if (options.title && options.title.length) {
+    text = options.title + "\n" + decodeURIComponent(options.emoji);
+  } else {
+    let form = document.getElementById("form");
+    form.childNodes.forEach(node => {
+      if (node.className == "ignore") return;      
+      if (node.options) {
+        node = node.options[node.selectedIndex];
+      } 
+      let string = node.innerText || node.value || "";
+      console.log("child", node, string)
+
+      string = string.trim();
+      if (string.length)
+        strings.push(string.trim());
+    })
+    console.log("strings", strings)
+    text = strings.join(" ");
+  }
   text += "\n\n"
   text += location.href;
- copyToClipboard(text)
- document.getElementById("copy").innerText = "✓";
- setTimeout(e => {document.getElementById("copy").innerText = "COPY";}, 5000)
- return false;
+  copyToClipboard(text)
+  document.getElementById("copy").innerText = "✓";
+  setTimeout(e => {document.getElementById("copy").innerText = "COPY";}, 5000)
+  return false;
 }
 
 var timer;
@@ -117,12 +127,20 @@ function render() {
     density = 2;
   }
 
-  var name = "emoji-" + color.replace("#","") + "-"
-  + sw / density + "x" + sh / density 
+  var filename = "emoji-" + color.replace("#","");
+
+  let title = options.title || "";
+
+  if (title.length) {
+    filename = title
+  }
+
+  
+  filename += "-" + sw / density + "x" + sh / density 
   + (density != 1 ? "@" + density + "x" : "") + ".png"
   
   // a.innerHTML = name + "<p>"
-  a.download = name;
+  a.download = filename;
   
   c.setAttribute("height", sh);
   c.setAttribute("width", sw);
@@ -141,6 +159,9 @@ function render() {
   //   ctx.fillStyle=grd;
   //   ctx.fillRect(0,0,c.width,c.height);
   
+  if (options.texture == 'flat') {
+ctx.fillStyle = color;
+  } else {
   // Generate Raking Gradient
   var r2 = c.width * 2;
   var grd = ctx.createRadialGradient(
@@ -152,8 +173,9 @@ function render() {
   grd.addColorStop(0.5,color);
   grd.addColorStop(1,lightColor);
   ctx.fillStyle = grd;
+  }
   ctx.fillRect(0,0, c.width, c.height);
-  
+
   const gridLayout = (emojis, options = {}) => {
 
     let pattern = options.pattern || 'diamond';
