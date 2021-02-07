@@ -11,13 +11,8 @@
 <body>
 <!-- partial:index.partial.html -->
 
-<form id="form">
-  <label for="title"></label> 
-  <input id="title" name="title" type="text" size=25 placeholder="title" value="">
-  <br><br>
-
+<form id="form"><label for="title"></label><input id="title" name="title" type="text" size=25 placeholder="untitled" value="">
   <br>
-
 
 
 <select id="patternPicker" name="pattern">
@@ -25,23 +20,30 @@
   <option value="diamond" selected>Diamonds</option>
   <option value="hex">Hexes</option>
   <xoption value="spiral">spirals</xoption>
-  <option value="random">A scattering</option>
+  <option value="random">A sprinkle</option>
 </select>
 <label for="patternPicker"> of </label>
 
+<label for="orderPicker"></label> 
+
+<select id="orderPicker" name="order">
+  <option value="ordered">ordered</option>
+  <option value="alternating" selected>alternating</option>
+  <option value="random" selected>random</option>
+</select>
+
 <label for="emojiPicker"></label> 
-<input id="emojiPicker" name="emoji" type="text" size=15 placeholder="emoji" value="🍌🍓🍊🍇">
+<input id="emojiPicker" name="emoji" type="text" size=10 placeholder="emoji" value="🍌🍓🍊🍇">
 
 
 <br>
-<label for="texture">on a</label> 
-
-<select id="texture" name="texture">
-  <option value="flat">flat</option>
-  <option value="gradient" selected>rolling</option>
+<label for="texture"></label><select id="texture" name="texture">
+  <option value="flat">on a solid field of</option>
+  <option value="gradient" selected>on a gradient of </option>
+  <option value="monochrome" selected>in monchrome</option>
 </select>
 
-<label for="colorPicker">field of &nbsp;</label> 
+<label for="colorPicker">&nbsp;</label> 
 <input id="colorPicker" name="color" type="color" onInput="setColor(this);" value="#ffe7bd">
 &nbsp;&nbsp;&nbsp;&nbsp;
 <!-- <div style="display:inline-block;">
@@ -58,9 +60,9 @@
 <label for="scalePicker">A </label>
 
 <select id="scalePicker" name="scale">
-  <option value="1.25">comfortable</option>
-  <option value="1.0" selected>cozy</option>
   <option value="0.85">compact</option>
+  <option value="1.0" selected>cozy</option>
+  <option value="1.25">comfortable</option>
 </select>
 
 <label for="sizePicker">fit for </label>
@@ -68,8 +70,10 @@
 <select id="sizePicker">
   <option value="*" selected>this screen</option>
   <option value="1500x500">a cover image</option>
+  <option value="1920x1080">a virtual background</option>
   <option value="1600x1600">a square</option>
 </select>
+
 </div>
 <p>
 <!-- <a href="#" class="button" id="download" onclick="download(this)"><span>Download</button> -->

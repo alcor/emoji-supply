@@ -5,24 +5,31 @@ canvas {
   max-height:100%;
   border-radius:4px;
   font-size:15px;
-  margin-top:2em;
+  margin-top:1.5em;
 }
 
 form {
   line-height:2.5em;
 }
+
 body {
-  margin:0 auto;padding:10vmin 6vmin;
+  margin:0 auto;
+  padding:6vmin 6vmin;
   max-width:35em;
   word-wrap: break-word;
   font-size:15px;
   font-weight:300;
+  line-height:160%;
+  margin:0;
+  max-width:inherit;
 }
 
 #title {
-  font-weight: 200;
-  font-size:200%;
+  font-weight: 400;
+  font-size:150%;
+  width:80%;
   max-width:500px;
+  margin-bottom:1em;
 }
 
 body, input, select, label {
@@ -30,11 +37,7 @@ font-weight:300;
 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
 }
-body {
-  line-height:160%;
-  margin:0;
-  max-width:inherit;
-}
+
 .swatch {
   width: 1em; height:1em;
   border-radius:100%;
@@ -45,12 +48,16 @@ body {
 }
 
 input, select {
-  margin-top:-8px;
+  -webkit-appearance: none;
+  background:white;
+  border-radius:0;
   border:none;
-  min-width:72px;
+  min-width:5em;
   padding-top:0;
   background:transparent;
   border-bottom:1px solid rgba(0,0,0,0.3);
+  padding:0;
+  margin:0;
 }
 input, select, label {
   height:1.5em;
@@ -70,15 +77,20 @@ input[type="color"] {
 input[type=color]::-webkit-color-swatch {
   border: none;
   padding: 0;
+	-webkit-appearance: none;
 
 }
 
 input[type=color]::-webkit-color-swatch-wrapper {
     border: 1px solid black;;
     padding: 0;
+    margin:0;
     height:1em;
-    width:5em;
+    xwidth:5em;
+    -webkit-appearance: none;
+
 }
+
 
 input#emojiPickker {
   font-family: monospace;
@@ -101,7 +113,7 @@ input#rows, input#cols {
   text-align:center;
 	text-transform:uppercase;
 	font-weight:300;
-  margin-left:0.5em;
+  margin-right:0.5em;
   text-decoration:none;
   cursor:pointer;
 }

@@ -160,7 +160,7 @@ function render() {
   //   ctx.fillRect(0,0,c.width,c.height);
   
   if (options.texture == 'flat') {
-ctx.fillStyle = color;
+    ctx.fillStyle = color;
   } else {
   // Generate Raking Gradient
   var r2 = c.width * 2;
@@ -197,6 +197,9 @@ ctx.fillStyle = color;
       spacingX = size * 3 / 2;
       spacingY = spacingX / 3;
     }
+
+    let order = options.order || 'random';
+
     
     let cols = Math.round(width / (size + spacingX));
     let rows = Math.round(height / (size + spacingY));
@@ -229,14 +232,18 @@ ctx.fillStyle = color;
         let emojiIndex = (x + y) % emojis.length
         let staggerX = staggerRow ? 0.5 : 0;
         let emoji = emojis[emojiIndex];
-        emoji = emojis[Math.floor(Math.random() * emojis.length)]
+
+        if (order == 'random') {
+          emoji = emojis[Math.floor(Math.random() * emojis.length)]
+        }
 
         let randomScale = pattern == "random" ? 0.5 : 0.00;
         let rx = (Math.random() - 0.5) * randomScale;
         let ry = (Math.random() - 0.5) * randomScale;
 
         ctx.globalAlpha = 0.95;
-        //ctx.globalCompositeOperation = "luminosity";
+        if (options.texture == 'monochrome')
+          ctx.globalCompositeOperation = "luminosity";
         ctx.shadowColor = 'rgba(0,0,0,0.05)';
         ctx.shadowOffsetY = size / 8;
         ctx.shadowBlur = size / 8;
@@ -244,10 +251,23 @@ ctx.fillStyle = color;
         ctx.save()
         ctx.translate(marginX + (spacingX + size) * (x + rx + staggerX), 
                       marginY + (spacingY + size) * (y + ry));
-        if (y%2 && emojis.length == 1 && (pattern == 'diamond')) ctx.scale(-1, 1);
+        
+        let flip = false;
+        if (order == 'alternating') {
+          if (pattern == 'random') {
+            flip = (Math.random() < 0.5)
+          } else {
+            flip = y%2;
+          }
+        }
+                        
+        if (flip) {
+          ctx.scale(-1, 1);
+        }
 
-        if (pattern == 'random')
-          ctx.rotate((Math.random() - 0.5) * Math.PI/4)
+        if (pattern == 'random') {
+          ctx.rotate((Math.random() - 0.5) * Math.PI/5)
+        }
 
         if (debug) {
           ctx.strokeRect(-size/2, -size/2, size, size);
@@ -296,7 +316,27 @@ ctx.fillStyle = color;
   //   dd[p++] += 0 //255;
   // } 
   // ctx.putImageData(dt, 0, 0);
-  
+  vingette = options.texture != 'flat';
+  if (vingette) {
+    ctx.globalCompositeOperation = "hard-light";
+    grd = ctx.createRadialGradient(
+      c.width / 2, c.height/4,
+      c.width/4, 
+      c.width/2 , c.height/2 ,
+      Math.hypot(c.width/2, c.height/2)*1.1);
+  //  grd.addColorStop(0,darkColor);
+  ctx.globalAlpha = 0.05
+  grd.addColorStop(0.0,"rgba(0,0,0,0.0");
+  grd.addColorStop(0.9,"rgba(0,0,0,0.8");
+  grd.addColorStop(0.95,"rgba(0,0,0,0.9");
+    grd.addColorStop(1.0,"rgba(0,0,0,1.0");
+    ctx.fillStyle = grd;
+    
+    ctx.fillRect(0,0, c.width, c.height);
+  }
+
+
+
   var blob = c.toBlob(function(blob) {
     var date = new Date()
     window.URL.revokeObjectURL(blobURL);
