@@ -20,7 +20,7 @@ const copy = (el) => {
   let title = document.getElementById("title");
   let text = ""
   if (options.title && options.title.length) {
-    text = options.title + "\n" + decodeURIComponent(options.emoji);
+    text = options.title + "\i" + decodeURIComponent(options.emoji);
   } else {
     let form = document.getElementById("form");
     form.childNodes.forEach(node => {
@@ -38,7 +38,7 @@ const copy = (el) => {
     console.log("strings", strings)
     text = strings.join(" ");
   }
-  text += "\n\n"
+  text += "\i\i"
   text += location.href;
   copyToClipboard(text)
   document.getElementById("copy").innerText = "✓";
@@ -176,38 +176,45 @@ function render() {
   }
   ctx.fillRect(0,0, c.width, c.height);
 
+  let pattern = options.pattern || 'diamond';
+  let size = Math.hypot(c.width, c.height) / 50;
+
+  let scale = options.scale;
+  size *= scale;
+  ctx.font = size + "px sans-serif";
+  let marginX = size*1.5;
+  let marginY = size*1.5;
+
+  let width = c.width - marginX * 2;
+  let height = c.height - marginY * 2;
+  
+  if (debug) ctx.strokeRect(marginX, marginY, width, height);
+  if (debug) ctx.strokeRect(marginX, marginY, width, height);
+
+  let spacingX = size;
+  let spacingY = spacingX;
+      
+  ctx.lineWidth = 0.5
+  ctx.textAlign = 'center'
+  ctx.fillStyle = textColor;
+
+  let order = options.order || 'random';
+
+  ctx.globalAlpha = 0.95;
+  if (options.texture == 'monochrome')
+    ctx.globalCompositeOperation = "luminosity";
+  ctx.shadowColor = 'rgba(0,0,0,0.05)';
+  ctx.shadowOffsetY = size / 8;
+  ctx.shadowBlur = size / 8;
+
   const gridLayout = (emojis, options = {}) => {
-
-    let pattern = options.pattern || 'diamond';
-    let size = Math.hypot(c.width, c.height) / 50;
-
-    let scale = options.scale;
-    size *= scale;
-    ctx.font = size + "px sans-serif";
-    let marginX = size*1.5;
-    let marginY = size*1.5;
-
-    let width = c.width - marginX * 2;
-    let height = c.height - marginY * 2;
-    
-    let spacingX = size;
-    let spacingY = spacingX;
-
     if (pattern == "diamond") {
       spacingX = size * 3 / 2;
       spacingY = spacingX / 3;
     }
 
-    let order = options.order || 'random';
-
-    
     let cols = Math.round(width / (size + spacingX));
     let rows = Math.round(height / (size + spacingY));
-    
-    ctx.lineWidth = 0.5
-    ctx.textAlign = 'center'
-
-    if (debug) ctx.strokeRect(marginX, marginY, width, height);
 
     // Fit to the rect cleanly by fudging spacing
     spacingX *= (width -size/2) / (spacingX * cols);
@@ -222,8 +229,6 @@ function render() {
     }
 
     let stagger = pattern == "diamond" || pattern == "hex" || pattern == "random";
-
-    ctx.fillStyle = textColor;
 
     for (var y = 0; y < rows; y++) {
       for (var x = 0; x < cols; x++) {
@@ -281,27 +286,98 @@ function render() {
     }      
   }
 
+// <em>r = c√n</em><br><em>θ = i × 137.5°</em>
+
+  const spiralLayout = (emojis, options = {}) => {
+    var scale = size * 1.1,
+    //n = radius * radius / (scale * scale),
+    α = Math.PI * (3 - Math.sqrt(5));
+    var maxRadius = Math.hypot(canvas.width/2, canvas.height/2)
+
+    for (var i = 0; i < 1000; i++) {
+        let emojiIndex = (i) % emojis.length
+        let emoji = emojis[emojiIndex];
+
+        if (order == 'random') {
+          emoji = emojis[Math.floor(Math.random() * emojis.length)]
+        }
+
+        var r = Math.sqrt(i),
+        a = i * α;
+
+        if (scale*r > maxRadius) break; 
+
+        let randomScale = pattern == "random" ? 1.0 : 0.00;
+        let rx = (Math.random() - 0.5) * randomScale;
+        let ry = (Math.random() - 0.5) * randomScale;
+
+        var x = marginX + width / 2  + scale * r * Math.cos(a) + size * rx;
+        var y = marginY + height / 2 + scale * r * Math.sin(a) + size * ry;
+        
+        if (x < -size || x > (width + marginX*2 + size)) continue;
+        if (y < -size || y > (height + marginY*2 + size)) continue;
+
+        ctx.save()
+        if (i == 0) x+= size/2;//console.log(scale * r * Math.cos(a), scale * r * Math.sin(a))
+        ctx.translate(x, y);
+        
+        let flip = false;
+        if (order == 'alternating') {
+          if (pattern == 'random') {
+            flip = (Math.random() < 0.5)
+          } else {
+            flip = i%2;
+          }
+        }
+                        
+        if (flip) {
+          ctx.scale(-1, 1);
+        }
+
+        // if (pattern == 'random') {
+        //   ctx.rotate((Math.random() - 0.5) * Math.PI/5)
+        // }
+
+        if (debug) {
+          ctx.strokeRect(-size/2, -size/2, size, size);
+          ctx.strokeRect(-2, -2, 4, 4);
+          ctx.globalAlpha = 0.2
+          //ctx.strokeRect(size/2, size/2, spacingX, spacingY);
+        }
+        ctx.fillText(emoji, 0, + size/3);
+        ctx.restore();
+      }
+    }      
+  
   let emojiString = document.querySelector('#emojiPicker').value || " ";
   let emojis = runes(emojiString)
   
   ctx.fillStyle = "black";
   
-  let pattern = document.querySelector('#patternPicker').value || 'hex';
+  //let pattern = document.querySelector('#patternPicker').value || 'hex';
 
   console.log(options)
   switch (pattern) {
     case 'hex':
     case 'diamond':
-    case 'random':
     case 'grid':
-    {
+    case 'random':
+        {
       gridLayout(emojis, options);
+      break;
+    }
+    case 'spiral':
+    {
+      spiralLayout(emojis, options);
       break;
     }    
     default: {
       gridLayout(emojis, options)
     }
   }
+
+
+  
 
   // Generate Noise
   // var dt = ctx.getImageData(0,0, c.width, c.height);
