@@ -20,7 +20,7 @@ const copy = (el) => {
   let title = document.getElementById("title");
   let text = ""
   if (options.title && options.title.length) {
-    text = options.title + "\i" + decodeURIComponent(options.emoji);
+    text = options.title + "\n" + decodeURIComponent(options.emoji);
   } else {
     let form = document.getElementById("form");
     form.childNodes.forEach(node => {
@@ -38,7 +38,7 @@ const copy = (el) => {
     console.log("strings", strings)
     text = strings.join(" ");
   }
-  text += "\i\i"
+  text += "\n\n"
   text += location.href;
   copyToClipboard(text)
   document.getElementById("copy").innerText = "✓";
