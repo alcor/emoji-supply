@@ -17,10 +17,10 @@ const copy = (el) => {
   let options = Object.fromEntries(new URLSearchParams(location.search));
 
   let strings = []
-  let title = document.getElementById("title");
+  let title = document.getElementById("t");
   let text = ""
-  if (options.title && options.title.length) {
-    text = options.title + "\n" + decodeURIComponent(options.emoji);
+  if (options.t && options.t.length) {
+    text = options.t + "\n" + decodeURIComponent(options.emoji);
   } else {
     let form = document.getElementById("form");
     form.childNodes.forEach(node => {
@@ -129,7 +129,7 @@ function render() {
 
   var filename = "emoji-" + color.replace("#","");
 
-  let title = options.title || "";
+  let title = options.t || "";
 
   if (title.length) {
     filename = title
