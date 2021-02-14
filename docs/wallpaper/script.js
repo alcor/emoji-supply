@@ -342,7 +342,6 @@ function render() {
           ctx.strokeRect(-size/2, -size/2, size, size);
           ctx.strokeRect(-2, -2, 4, 4);
           ctx.globalAlpha = 0.2
-          //ctx.strokeRect(size/2, size/2, spacingX, spacingY);
         }
         ctx.fillText(emoji, 0, + size/3);
         ctx.restore();
