@@ -55,6 +55,7 @@ function updateForm() {
   let entries = params.entries();
   for (var [k, v] of entries) {
     let input = form.elements[k];
+    if (!input) continue; // URL-only param
     if (k == "emoji") v = decodeURIComponent(v)
     switch(input.type) {
       case 'checkbox': input.checked = !!v; break;
@@ -145,7 +146,6 @@ function render() {
   c.setAttribute("height", sh);
   c.setAttribute("width", sw);
 
-  var fontSize = 10 * density;
   var ctx = c.getContext('2d');
   ctx.fillStyle = color || "#1e1e1e";
   ctx.lineWidth = 2 * density;
@@ -181,7 +181,8 @@ function render() {
 
   let scale = options.scale;
   size *= scale;
-  ctx.font = size + "px sans-serif";
+  let fontSize = parseFloat(options.fontSize) || size;
+  ctx.font = fontSize + "px sans-serif";
   let marginX = size*1.5;
   let marginY = size*1.5;
 
