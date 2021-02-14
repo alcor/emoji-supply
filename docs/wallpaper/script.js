@@ -107,7 +107,7 @@ function render() {
   let color = data.get('color');
   var lightColor = contrastColor(color, 10);
   var darkColor = contrastColor(color, -5);
-  var textColor = contrastColor(color)
+  var textColor = contrastColor(color);
   var density = window.devicePixelRatio;
   var sh = screen.height, sw = screen.width;
   if (iOS && Math.abs(window.orientation) == 90) {
@@ -196,7 +196,6 @@ function render() {
       
   ctx.lineWidth = 0.5
   ctx.textAlign = 'center'
-  ctx.fillStyle = textColor;
 
   let order = options.order || 'random';
 
@@ -351,7 +350,7 @@ function render() {
   let emojiString = document.querySelector('#emojiPicker').value || " ";
   let emojis = runes(emojiString)
   
-  ctx.fillStyle = "black";
+  ctx.fillStyle = textColor;
   
   //let pattern = document.querySelector('#patternPicker').value || 'hex';
 
