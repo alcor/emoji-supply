@@ -145,7 +145,6 @@ function render() {
   c.setAttribute("height", sh);
   c.setAttribute("width", sw);
 
-  var fontSize = 10 * density;
   var ctx = c.getContext('2d');
   ctx.fillStyle = color || "#1e1e1e";
   ctx.lineWidth = 2 * density;
@@ -280,6 +279,7 @@ function render() {
           ctx.globalAlpha = 0.2
           ctx.strokeRect(size/2, size/2, spacingX, spacingY);
         }
+        ctx.fillStyle = textColor;
         ctx.fillText(emoji, 0, + size/3);
         ctx.restore();
       }
