@@ -68,6 +68,12 @@ function updateURL() {
   let form = document.getElementById("form");
   let params = new URLSearchParams(new FormData(form));
 
+  // omit empty/default params
+  for (const [k, v] of params) {
+    if (k == 'emoji') continue; // except emoji, let that be empty
+    if (v == '' || v == null) params.delete(k)
+  }
+
   // This works around a bug in apple's url detection that can't handle a whole mess of encoded unicode characters
   params.set("emoji", encodeURIComponent(params.get("emoji")))
   history.replaceState(undefined, undefined, "?" + params.toString())
