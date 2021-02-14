@@ -55,6 +55,7 @@ function updateForm() {
   let entries = params.entries();
   for (var [k, v] of entries) {
     let input = form.elements[k];
+    if (!input) continue; // URL-only param
     if (k == "emoji") v = decodeURIComponent(v)
     switch(input.type) {
       case 'checkbox': input.checked = !!v; break;
@@ -66,6 +67,12 @@ function updateForm() {
 function updateURL() {
   let form = document.getElementById("form");
   let params = new URLSearchParams(new FormData(form));
+
+  // omit empty/default params
+  for (const [k, v] of params) {
+    if (k == 'emoji') continue; // except emoji, let that be empty
+    if (v == '' || v == null) params.delete(k)
+  }
 
   // This works around a bug in apple's url detection that can't handle a whole mess of encoded unicode characters
   params.set("emoji", encodeURIComponent(params.get("emoji")))
@@ -145,7 +152,6 @@ function render() {
   c.setAttribute("height", sh);
   c.setAttribute("width", sw);
 
-  var fontSize = 10 * density;
   var ctx = c.getContext('2d');
   ctx.fillStyle = color || "#1e1e1e";
   ctx.lineWidth = 2 * density;
@@ -181,7 +187,8 @@ function render() {
 
   let scale = options.scale;
   size *= scale;
-  ctx.font = size + "px sans-serif";
+  let fontSize = parseFloat(options.fontSize) || size;
+  ctx.font = fontSize + "px sans-serif";
   let marginX = size*1.5;
   let marginY = size*1.5;
 
