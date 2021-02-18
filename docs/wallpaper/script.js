@@ -328,6 +328,8 @@ function render() {
 
       if (order == 'alternating') {
         ctx.scale(1 - 2*(i%2), 1);
+      } else if (order == 'random') {
+        ctx.scale((Math.random() < 0.5 ? -1 : 1), 1);
       }
 
       ctx.fillText(emoji, 0, 0.2*r);
