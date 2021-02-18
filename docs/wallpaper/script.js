@@ -325,6 +325,11 @@ function render() {
       }
       ctx.textBaseline = "middle";
       ctx.font = 1.75*r + "px " + ctx.font.split(" ")[2];
+
+      if (order == 'alternating') {
+        ctx.scale(1 - 2*(i%2), 1);
+      }
+
       ctx.fillText(emoji, 0, 0.2*r);
       ctx.restore();
     }
