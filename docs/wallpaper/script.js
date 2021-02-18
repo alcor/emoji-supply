@@ -292,6 +292,50 @@ function render() {
     }      
   }
 
+  // Warning: computationally expensive.
+  const foamLayout = (emojis, options = {}) => {
+    var r;
+    var bubbs = [];
+    for (var j = 0; j < 10000; j++) {
+      let emoji = emojis[j % emojis.length];
+      var x = Math.random() * canvas.width;
+      var y = Math.random() * canvas.height;
+      r = Math.min(x, canvas.width - x, y, canvas.height - y);
+      // shrink radius by other extant bubble radii
+      for (var i = 0; i < bubbs.length; i++) {
+        r = Math.min(r, Math.hypot(x - bubbs[i].x, y - bubbs[i].y) - bubbs[i].r);
+        if (r < 5) break;
+      }
+      if (r < 5) {
+        if (debug) ctx.fillText("X", x, y);
+        continue;
+      }
+
+      // we've got a good one
+      bubbs.push({x:x, y:y, r:r});
+
+      ctx.save()
+      ctx.translate(x, y);
+      if (debug) {
+        ctx.beginPath();
+        ctx.arc(0, 0, r, 0, Math.PI*2, true);
+        ctx.stroke();
+        ctx.strokeRect(-2, -2, 4, 4);
+        ctx.globalAlpha = 0.2
+      }
+      ctx.textBaseline = "middle";
+      ctx.font = 1.75*r + "px " + ctx.font.split(" ")[2];
+
+      if (order == 'alternating') {
+        ctx.scale(1 - 2*(i%2), 1);
+      }
+
+      ctx.fillText(emoji, 0, 0.2*r);
+      ctx.restore();
+    }
+    //console.log(bubbs);
+  }
+
 // <em>r = c√n</em><br><em>θ = i × 137.5°</em>
 
   const spiralLayout = (emojis, options = {}) => {
@@ -375,7 +419,12 @@ function render() {
     {
       spiralLayout(emojis, options);
       break;
-    }    
+    }
+    case 'foam':
+    {
+      foamLayout(emojis, options);
+      break;
+    }
     default: {
       gridLayout(emojis, options)
     }
