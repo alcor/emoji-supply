@@ -321,7 +321,7 @@ function render() {
         if (r < 5) break;
       }
       if (r < 5) {
-        if (debug) ctx.fillText("X", x, y);
+        //if (debug) ctx.fillText("X", x, y);
         continue;
       }
       r = Math.min(maxSize, r);
@@ -338,12 +338,12 @@ function render() {
       ctx.translate(b.x, b.y);
       if (debug) {
         ctx.beginPath();
-        ctx.arc(0, 0, r, 0, Math.PI*2, true);
+        ctx.arc(0, 0, b.r, 0, Math.PI*2, true);
         ctx.stroke();
         ctx.strokeRect(-2, -2, 4, 4);
         ctx.globalAlpha = 0.2
       }
-      ctx.textBaseline = "middle";
+      // ctx.textBaseline = "middle";
       ctx.font = 1.75*b.r + "px " + ctx.font.split(" ")[2];
 
       if (order == 'alternating' || order == 'random') {
@@ -353,7 +353,7 @@ function render() {
         ctx.rotate((Math.random() - 0.5) * Math.PI/5)
       }
 
-      ctx.fillText(b.emoji, 0, 0.2*b.r);
+      ctx.fillText(b.emoji, 0, 0.6*b.r);
       ctx.restore();
     }
     //console.log(bubbs);
