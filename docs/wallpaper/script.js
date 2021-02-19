@@ -312,10 +312,15 @@ function render() {
       }
 
       // we've got a good one
-      bubbs.push({x:x, y:y, r:r});
+      bubbs.push({x:x, y:y, r:r, emoji:emoji});
+    }
 
+    bubbs.reverse();
+    
+    for (var i = 0; i < bubbs.length; i++) {
+      var b = bubbs[i];
       ctx.save()
-      ctx.translate(x, y);
+      ctx.translate(b.x, b.y);
       if (debug) {
         ctx.beginPath();
         ctx.arc(0, 0, r, 0, Math.PI*2, true);
@@ -324,13 +329,13 @@ function render() {
         ctx.globalAlpha = 0.2
       }
       ctx.textBaseline = "middle";
-      ctx.font = 1.75*r + "px " + ctx.font.split(" ")[2];
+      ctx.font = 1.75*b.r + "px " + ctx.font.split(" ")[2];
 
       if (order == 'alternating') {
         ctx.scale(1 - 2*(i%2), 1);
       }
 
-      ctx.fillText(emoji, 0, 0.2*r);
+      ctx.fillText(b.emoji, 0, 0.2*b.r);
       ctx.restore();
     }
     //console.log(bubbs);
