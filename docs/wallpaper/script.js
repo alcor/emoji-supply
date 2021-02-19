@@ -341,6 +341,81 @@ function render() {
     //console.log(bubbs);
   }
 
+  // Conceptually splits the canvas into a grid and lays out 2x2, 3x3, 4x4 emojis randomly
+  // and fills any empty spaces with 1x1 emojis.
+  const packingLayout = (emojis, options = {}) => {
+    let cols = Math.ceil(width / size);
+    let rows = Math.ceil(height / size);
+
+    const sizes = [2, 3, 4];
+    
+    const bins = Array.from(Array(cols).keys()).map(i => {
+      return new Array(rows).fill(false);
+    });
+
+    const randomSize = () => {
+      return sizes[Math.floor(Math.random() * sizes.length)]
+    }
+    const randomEmoji = () => {
+      return emojis[Math.floor(Math.random() * emojis.length)]
+    }
+    const checkFittable = (bins, size, x, y) => {
+      for (let ix = x; ix < x + size; ix++) {
+        for (let iy = y; iy < y + size; iy++) {
+          if (ix >= bins.length) {
+            return false;
+          }
+          if (iy >= bins[ix].length) {
+            return false;
+          }
+          if (bins[ix][iy] == true) {
+            return false
+          }
+        }
+      }
+      return true
+    }
+
+    const fillBin = (bins, size, x, y) => {
+      for (let ix = x; ix < x + size; ix++) {
+        for (let iy = y; iy < y + size; iy++) {
+          bins[ix][iy] = true;
+        }
+      }
+    }
+
+
+    let baseFontSize = (parseFloat(options.fontSize) || size);
+
+    ctx.textBaseline = "bottom";
+    ctx.textAlign = "left";
+    ctx.stroke = 'black'
+
+    for (let x = 0; x < bins.length; x++) {
+      for (let y = 0; y < bins[x].length; y++) {
+        let occupied = bins[x][y]
+        if (occupied) { continue; }
+
+        let binSize = randomSize()
+        let emoji = randomEmoji()
+
+        // Try using the bin size that was randomly selected, if it doesn't fit
+        // reduce size by one and try again.
+        while (binSize > 0) {
+          if (checkFittable(bins, binSize, x, y)) {
+            fillBin(bins, binSize, x, y)
+            const thisFontSize = baseFontSize * binSize;
+            ctx.font =  `${thisFontSize}px sans-serif`
+            ctx.fillText(emoji, marginX + x * size, marginY + (y + binSize) * size);
+            //ctx.strokeRect(x * size, y * size, binSize * size, binSize * size)
+            break
+          }
+          binSize -= 1
+        }
+      }
+    }
+  }
+
 // <em>r = c√n</em><br><em>θ = i × 137.5°</em>
 
   const spiralLayout = (emojis, options = {}) => {
@@ -430,6 +505,11 @@ function render() {
       foamLayout(emojis, options);
       break;
     }
+    case 'stacks': {
+      packingLayout(emojis, options);
+      break;
+    }
+
     default: {
       gridLayout(emojis, options)
     }
