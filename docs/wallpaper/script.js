@@ -295,6 +295,7 @@ function render() {
   // Warning: computationally expensive.
   const foamLayout = (emojis, options = {}) => {
     var r;
+    var maxSize = size * 2.5;
     var bubbs = [];
     for (var j = 0; j < 10000; j++) {
       let emoji = emojis[j % emojis.length];
@@ -310,6 +311,7 @@ function render() {
         if (debug) ctx.fillText("X", x, y);
         continue;
       }
+      r = Math.min(maxSize, r);
 
       // we've got a good one
       bubbs.push({x:x, y:y, r:r, emoji:emoji});
@@ -335,9 +337,6 @@ function render() {
         ctx.scale(1 - 2*(i%2), 1);
       }
 
-      if (b.r > 100) {
-        ctx.filter = `blur(${1.75*b.r/160}px)`;
-      }
       ctx.fillText(b.emoji, 0, 0.2*b.r);
       ctx.restore();
     }
@@ -409,7 +408,7 @@ function render() {
             fillBin(bins, binSize, x, y)
             const thisFontSize = baseFontSize * binSize;
             ctx.font =  `${thisFontSize}px sans-serif`
-            ctx.fillText(emoji, marginX + x * size, marginY + (y + binSize) * size);
+            ctx.fillText(emoji, marginX + (x - 0.5) * size, marginY + (y + binSize) * size);
             //ctx.strokeRect(x * size, y * size, binSize * size, binSize * size)
             break
           }
