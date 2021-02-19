@@ -335,6 +335,8 @@ function render() {
 
       if (order == 'alternating') {
         ctx.scale(1 - 2*(i%2), 1);
+      } else if (order == 'random') {
+        ctx.rotate((Math.random() - 0.5) * Math.PI/5)
       }
 
       ctx.fillText(b.emoji, 0, 0.2*b.r);
@@ -466,9 +468,7 @@ function render() {
           ctx.scale(-1, 1);
         }
 
-        // if (pattern == 'random') {
-        //   ctx.rotate((Math.random() - 0.5) * Math.PI/5)
-        // }
+     
 
         if (debug) {
           ctx.strokeRect(-size/2, -size/2, size, size);
