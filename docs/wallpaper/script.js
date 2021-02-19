@@ -182,7 +182,7 @@ function render() {
   }
   ctx.fillRect(0,0, c.width, c.height);
 
-  let pattern = options.pattern || 'diamond';
+  let pattern = options.pattern || 'foam';
   let size = Math.hypot(c.width, c.height) / 50;
 
   let scale = options.scale;
