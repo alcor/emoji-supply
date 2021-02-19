@@ -335,6 +335,9 @@ function render() {
         ctx.scale(1 - 2*(i%2), 1);
       }
 
+      if (b.r > 100) {
+        ctx.filter = `blur(${1.75*b.r/160}px)`;
+      }
       ctx.fillText(b.emoji, 0, 0.2*b.r);
       ctx.restore();
     }
