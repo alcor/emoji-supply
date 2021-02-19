@@ -213,6 +213,19 @@ function render() {
   ctx.shadowOffsetY = size / 8;
   ctx.shadowBlur = size / 8;
 
+  var lastEmoji = undefined;
+
+  const randomEmoji = () => {
+    let i = Math.floor(Math.random() * emojis.length);
+
+    if (emojis.length > 3 && i == lastEmoji) { 
+      i += Math.ceil(Math.random() * (emojis.length - 1))
+      i %= emojis.length;
+    }
+    lastEmoji = i;
+    return emojis[i];
+  }
+
   const gridLayout = (emojis, options = {}) => {
     if (pattern == "diamond") {
       spacingX = size * 3 / 2;
@@ -245,7 +258,7 @@ function render() {
         let emoji = emojis[emojiIndex];
 
         if (order == 'random') {
-          emoji = emojis[Math.floor(Math.random() * emojis.length)]
+          emoji = randomEmoji()
         }
 
         let randomScale = pattern == "random" ? 0.5 : 0.00;
@@ -361,9 +374,6 @@ function render() {
     const randomSize = () => {
       return sizes[Math.floor(Math.random() * sizes.length)]
     }
-    const randomEmoji = () => {
-      return emojis[Math.floor(Math.random() * emojis.length)]
-    }
     const checkFittable = (bins, size, x, y) => {
       for (let ix = x; ix < x + size; ix++) {
         for (let iy = y; iy < y + size; iy++) {
@@ -434,7 +444,7 @@ function render() {
         let emoji = emojis[emojiIndex];
 
         if (order == 'random') {
-          emoji = emojis[Math.floor(Math.random() * emojis.length)]
+          emoji = randomEmoji();
         }
 
         var r = Math.sqrt(i),
