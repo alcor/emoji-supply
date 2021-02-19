@@ -71,7 +71,6 @@ function updateURL() {
 
   // omit empty/default params
   for (const [k, v] of params) {
-    console.log(k,v)
     if (k == 'emoji') continue; // except emoji, let that be empty
     if (v == '' || v == null) params.delete(k)
   }
