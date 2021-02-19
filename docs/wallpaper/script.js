@@ -333,9 +333,10 @@ function render() {
       ctx.textBaseline = "middle";
       ctx.font = 1.75*b.r + "px " + ctx.font.split(" ")[2];
 
-      if (order == 'alternating') {
+      if (order == 'alternating' || order == 'random') {
         ctx.scale(1 - 2*(i%2), 1);
-      } else if (order == 'random') {
+      } 
+      if (order == 'random') {
         ctx.rotate((Math.random() - 0.5) * Math.PI/5)
       }
 
