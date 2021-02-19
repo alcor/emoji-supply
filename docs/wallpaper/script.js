@@ -62,6 +62,7 @@ function updateForm() {
       default:         input.value = v;     break;
     }
   }
+
 }
 
 function updateURL() {
@@ -70,6 +71,7 @@ function updateURL() {
 
   // omit empty/default params
   for (const [k, v] of params) {
+    console.log(k,v)
     if (k == 'emoji') continue; // except emoji, let that be empty
     if (v == '' || v == null) params.delete(k)
   }
@@ -138,8 +140,12 @@ function render() {
 
   let title = options.t || "";
 
+
   if (title.length) {
     filename = title
+    document.title = title
+  } else {
+    document.title = "Emoji Wallpaper"
   }
 
   
@@ -188,7 +194,11 @@ function render() {
   let scale = options.scale;
   size *= scale;
   let fontSize = parseFloat(options.fontSize) || size;
-  ctx.font = fontSize + "px sans-serif";
+
+  let noto = options.noto && options.noto.length;
+  let font = noto ? "Noto Color Emoji" : "sans-serif"
+  ctx.font = `${fontSize}px ${font}`;
+
   let marginX = size*1.5;
   let marginY = size*1.5;
 
@@ -344,7 +354,7 @@ function render() {
         ctx.globalAlpha = 0.2
       }
       // ctx.textBaseline = "middle";
-      ctx.font = 1.75*b.r + "px " + ctx.font.split(" ")[2];
+      ctx.font = `${1.75*b.r}px ${font}`;
 
       if (order == 'alternating' || order == 'random') {
         ctx.scale(1 - 2*(i%2), 1);
@@ -420,7 +430,7 @@ function render() {
           if (checkFittable(bins, binSize, x, y)) {
             fillBin(bins, binSize, x, y)
             const thisFontSize = baseFontSize * binSize;
-            ctx.font =  `${thisFontSize}px sans-serif`
+            ctx.font = `${thisFontSize}px ${font}`;
             ctx.fillText(emoji, marginX + (x - 0.5) * size, marginY + (y + binSize) * size);
             //ctx.strokeRect(x * size, y * size, binSize * size, binSize * size)
             break
