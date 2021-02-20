@@ -501,7 +501,21 @@ function render() {
     }      
   
   let emojiString = document.querySelector('#emojiPicker').value || " ";
-  let emojis = runes(emojiString)
+  let emojisRaw = runes(emojiString)
+  let emojis = []
+
+  let skinTones = ['\u{1F3FB}', '\u{1F3FC}', '\u{1F3FD}', '\u{1F3FE}', '\u{1F3FF}']
+  for (var i = 0; i < emojisRaw.length; i++) {
+    var emoji = emojisRaw[i];
+    var nextEmoji = emojisRaw[i+1];
+    if (skinTones.includes(nextEmoji)) {
+      emoji = emoji + nextEmoji;
+      i++;
+    }
+    emojis.push(emoji);
+  }
+
+
   
   ctx.fillStyle = textColor;
   
