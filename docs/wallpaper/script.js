@@ -194,8 +194,10 @@ function render() {
   let font = noto ? "Noto Color Emoji" : "sans-serif"
   ctx.font = `${fontSize}px ${font}`;
 
-  let marginX = size*1.5;
-  let marginY = size*1.5;
+  let margin = parseFloat(options.margin)/100
+  if (margin == NaN) margin = 1.0;
+  let marginX = size * 1.5 * margin;
+  let marginY = size * 1.5 * margin;
 
   let width = c.width - marginX * 2;
   let height = c.height - marginY * 2;
@@ -319,6 +321,8 @@ function render() {
     var r;
     var maxSize = size * 2.5;
     var bubbs = [];
+    var spacing = parseFloat(options.spacing)/100 || 0.0;
+    console.log(spacing);
     for (var j = 0; j < 10000; j++) {
       let emoji = emojis[j % emojis.length];
       var x = Math.random() * canvas.width;
@@ -326,7 +330,7 @@ function render() {
       r = Math.min(x, canvas.width - x, y, canvas.height - y);
       // shrink radius by other extant bubble radii
       for (var i = 0; i < bubbs.length; i++) {
-        r = Math.min(r, Math.hypot(x - bubbs[i].x, y - bubbs[i].y) - bubbs[i].r);
+        r = Math.min(r, Math.hypot(x - bubbs[i].x, y - bubbs[i].y) - bubbs[i].r - size * spacing / 4);
         if (r < 5) break;
       }
       if (r < 5) {
@@ -352,7 +356,7 @@ function render() {
         ctx.strokeRect(-2, -2, 4, 4);
         ctx.globalAlpha = 0.2
       }
-      // ctx.textBaseline = "middle";
+
       ctx.font = `${1.75*b.r}px ${font}`;
 
       if (order == 'alternating' || order == 'random') {
@@ -448,7 +452,9 @@ function render() {
     α = Math.PI * (3 - Math.sqrt(5));
     var maxRadius = Math.hypot(canvas.width/2, canvas.height/2)
 
-    for (var i = 0; i < 1000; i++) {
+    var spacing = parseFloat(options.spacing)/100 || 1.0;
+    
+    for (var i = 0; i < 100000; i++) {
         let emojiIndex = (i) % emojis.length
         let emoji = emojis[emojiIndex];
 
@@ -459,14 +465,17 @@ function render() {
         var r = Math.sqrt(i),
         a = i * α;
 
-        if (scale*r > maxRadius) break; 
+        if (scale*r*spacing > maxRadius) {
+          console.log(i)
+          break; 
+        }
 
         let randomScale = pattern == "random" ? 1.0 : 0.00;
         let rx = (Math.random() - 0.5) * randomScale;
         let ry = (Math.random() - 0.5) * randomScale;
 
-        var x = marginX + width / 2  + scale * r * Math.cos(a) + size * rx;
-        var y = marginY + height / 2 + scale * r * Math.sin(a) + size * ry;
+        var x = marginX + width / 2  + scale * r * Math.cos(a) * spacing + size * rx;
+        var y = marginY + height / 2 + scale * r * Math.sin(a) * spacing + size * ry;
         
         if (x < -size || x > (width + marginX*2 + size)) continue;
         if (y < -size || y > (height + marginY*2 + size)) continue;
