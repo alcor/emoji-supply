@@ -68,12 +68,14 @@ function updateForm() {
 function updateURL() {
   let form = document.getElementById("form");
   let params = new URLSearchParams(new FormData(form));
+  let options = Object.fromEntries(params);
 
   // omit empty/default params
-  params.forEach((v,k) => {
-    if (k == 'emoji') return; // except emoji, let that be empty
-    if (v == '' || v == null) params.delete(k)
-  })
+  for (const [k, v] of Object.entries(options)) {
+    console.log("keep", k,v)
+    if (k == 'emoji') continue; // except emoji, let that be empty
+    if (v == '' || v == null) { params.delete(k) }
+  }
 
   // This works around a bug in apple's url detection that can't handle a whole mess of encoded unicode characters
   params.set("emoji", encodeURIComponent(params.get("emoji")))
@@ -196,7 +198,7 @@ function render() {
 
   let margin = parseFloat(options.margin)/100
   if (isNaN(margin)) margin = 1.0;
-  console.log(margin)
+
   let marginX = size * 1.5 * margin;
   let marginY = size * 1.5 * margin;
 
