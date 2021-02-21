@@ -195,7 +195,8 @@ function render() {
   ctx.font = `${fontSize}px ${font}`;
 
   let margin = parseFloat(options.margin)/100
-  if (margin == NaN) margin = 1.0;
+  if (isNaN(margin)) margin = 1.0;
+  console.log(margin)
   let marginX = size * 1.5 * margin;
   let marginY = size * 1.5 * margin;
 
