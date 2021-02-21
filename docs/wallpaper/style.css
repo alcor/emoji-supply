@@ -141,6 +141,10 @@ a {
   text-decoration:none;
 }
 
+#advanced {
+  font-style: oblique;
+  opacity:0.6;
+}
 #advanced-toggle {
   position:absolute;
   bottom:0;
@@ -149,6 +153,7 @@ a {
   height:2em;
   line-height:2em;
   text-align:center;
+  cursor:pointer;
 }
 
 body.advanced #advanced-toggle::before {
@@ -156,11 +161,11 @@ body.advanced #advanced-toggle::before {
 }
 
 #advanced-toggle::before {
-  content: 'π'
+  content: '🥧'
 }
 
 #advanced-toggle:not(:hover) {
-  opacity:0.2
+  opacity:0.10
 }
 body:not(.advanced) #advanced {
   display:none;

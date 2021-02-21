@@ -62,17 +62,6 @@
 <span class="swatch" value="#33815c" style="background-color:#33815c;"></span>
 <span class="swatch" value="#941751" style="background-color:#941751;"></span>
 </div> -->
-<div class="ignore" id="advanced">
-  <!-- hidden URL param: fontSize=50 -->
-  font size: <input id="fontSize" name="fontSize" type="text" size=1 value="" /> <label for="fontSize">px</label>
-  <br>spacing: <input id="spacing" name="spacing" type="text" size=1 value="" /> <label for="spacing">%</label>
-  <br>margin: <input id="margin" name="margin" type="text" size=1 value="" /> <label for="margin">%</label>
-  <br><label for="noto">in </label>
-  <select id="noto" name="noto">
-    <option value="" selected>system emoji</option>
-    <option value="true">noto</option>
-  </select>
-</div>
 
 <div class="ignore">
 <label for="scalePicker">A </label>
@@ -94,7 +83,19 @@
 
 </div>
 
+<div class="ignore" id="advanced">
+  <!-- hidden URL param: fontSize=50 -->
+  font size: <input id="fontSize" name="fontSize" type="text" size=1 value="" /> <label for="fontSize">px</label>
+  <label for="noto">in </label>
+  <select id="noto" name="noto">
+    <option value="" selected>system emoji</option>
+    <option value="true">noto</option>
+  </select>
+  <br>
+  spacing: <input id="spacing" name="spacing" type="text" size=1 value="" /> <label for="spacing">%</label>,
+  margin: <input id="margin" name="margin" type="text" size=1 value="" /> <label for="margin">%</label>
 
+</div>
 <p>
 </form>
 
@@ -104,7 +105,7 @@
   <br>
   <canvas id="canvas"></canvas>
 </a>
-<div id="advanced-toggle" onclick="toggleAdvanced()"></div>
+<div id="advanced-toggle" onclick="toggleAdvanced()" title="advanced"></div>
 
 <script  src="./runes.js"></script>
 <script  src="./script.js"></script>
