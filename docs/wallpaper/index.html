@@ -44,12 +44,6 @@
 <label for="emojiPicker"></label> 
 <input id="emojiPicker" name="emoji" type="text" size=10 placeholder="emoji" value="🍌🍓🍊🍇">
 
-<div class="ignore" style="display: none;">
-  <!-- hidden URL param: fontSize=50 -->
-  at <input id="fontSize" name="fontSize" type="text" size=1 value="" /> <label for="fontSize">px</label>
-  <label for="noto">Use Noto:</label><input id="noto" name="noto" type="text" value="" />
-</div>
-
 <br>
 <label for="texture"></label><select id="texture" name="texture">
   <option value="flat">on a solid field of</option>
@@ -68,8 +62,17 @@
 <span class="swatch" value="#33815c" style="background-color:#33815c;"></span>
 <span class="swatch" value="#941751" style="background-color:#941751;"></span>
 </div> -->
+<div class="ignore" id="advanced">
+  <!-- hidden URL param: fontSize=50 -->
+  font size: <input id="fontSize" name="fontSize" type="text" size=1 value="" /> <label for="fontSize">px</label>
+  <br>spacing: <input id="spacing" name="spacing" type="text" size=1 value="" /> <label for="spacing">%</label>
+  <br><label for="noto">in </label>
+  <select id="noto" name="noto">
+    <option value="" selected>system emoji</option>
+    <option value="true">noto</option>
+  </select>
+</div>
 
-<br>
 <div class="ignore">
 <label for="scalePicker">A </label>
 
@@ -89,6 +92,8 @@
 </select>
 
 </div>
+
+
 <p>
 </form>
 
@@ -98,7 +103,7 @@
   <br>
   <canvas id="canvas"></canvas>
 </a>
-
+<div id="advanced-toggle" onclick="toggleAdvanced()"></div>
 
 <script  src="./runes.js"></script>
 <script  src="./script.js"></script>

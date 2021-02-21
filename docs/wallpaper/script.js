@@ -80,15 +80,11 @@ function updateURL() {
   history.replaceState(undefined, undefined, "?" + params.toString())
 }
 
-
-
-
 function setColor(e) {
   console.log("e", e)
   let color = e.value || e.getAttribute("value");
   console.log("setcolor", color)
   document.getElementById("colorPicker").value = color
-  //document.getElementById("textPicker").value = color
   clearTimeout(timer);
   timer = setTimeout(render, 300);
 }
@@ -239,6 +235,10 @@ function render() {
     if (pattern == "diamond") {
       spacingX = size * 3 / 2;
       spacingY = spacingX / 3;
+    }
+    if (options.spacing && options.spacing.length) {
+      spacingX *= options.spacing/100;
+      spacingY *= options.spacing/100;
     }
 
     let cols = Math.round(width / (size + spacingX));
@@ -620,14 +620,23 @@ function changeListeners() {
   })
 
 }
-changeListeners()
-  
 
+changeListeners()
 render();
 
+document.fonts.ready.then(function () { 
+  console.log("fonts loaded")  
+});
 
+function toggleAdvanced() {
+  document.body.classList.toggle("advanced")
+}
+
+
+
+//
 // Color Functions
-
+//
 
 function hexToRGB(hex) {
   var c = hex.substring(1);      // strip #

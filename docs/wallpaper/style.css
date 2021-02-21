@@ -140,3 +140,28 @@ input#rows, input#cols {
 a {
   text-decoration:none;
 }
+
+#advanced-toggle {
+  position:absolute;
+  bottom:0;
+  right:0;
+  width:2em;
+  height:2em;
+  line-height:2em;
+  text-align:center;
+}
+
+body.advanced #advanced-toggle::before {
+  content: '🥧'
+}
+
+#advanced-toggle::before {
+  content: 'π'
+}
+
+#advanced-toggle:not(:hover) {
+  opacity:0.2
+}
+body:not(.advanced) #advanced {
+  display:none;
+}
