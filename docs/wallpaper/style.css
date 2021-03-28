@@ -14,6 +14,8 @@ canvas {
 
 form {
   line-height:2.5em;
+  padding:1em;margin: -1em;
+  margin-bottom:1em;
 }
 
 body {
@@ -146,7 +148,7 @@ a {
   opacity:0.6;
 }
 #advanced-toggle {
-  position:absolute;
+  position:fixed;
   bottom:0;
   right:0;
   width:2em;
@@ -170,3 +172,20 @@ body.advanced #advanced-toggle::before {
 body:not(.advanced) #advanced {
   display:none;
 }
+
+body.fullscreen form {
+background:white;
+}
+body.fullscreen canvas{
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:-1;
+  margin-top:0;
+  border-radius:0;
+}
+
+body.fullscreen form,
+body.fullscreen .button{
+  display:none;
+  }

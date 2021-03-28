@@ -104,8 +104,25 @@ if (iOS) {
 
 function render() {
   updateURL();
-  let options = Object.fromEntries(new URLSearchParams(location.search));
+  renderContent();
+}
 
+var startTime = undefined;
+function renderFrame(time) {
+  if(!startTime){ startTime = time; }
+  renderContent(time);
+  if (shouldAnimate) {
+    setTimeout(() => {
+      window.requestAnimationFrame(renderFrame);
+      },100);
+  }
+}
+
+
+console.log()
+function renderContent(time) {
+  var elapsed = (time - startTime) || 0;
+  let options = Object.fromEntries(new URLSearchParams(location.search));
 
   let form = document.getElementById("form");
   let data = new FormData(form);
@@ -126,7 +143,12 @@ function render() {
   let sizeString = document.querySelector('#sizePicker').value || "*";
   localStorage.setItem("size", sizeString)
 
-  if (sizeString != "*") {
+  if (sizeString == "page") {
+    sw = window.innerWidth;
+    sh = window.innerHeight;
+    sw *= density;
+    sh *= density;
+  } else if (sizeString != "*") {
     let sizes = sizeString.split("x");
     sw = sizes[0]
     sh = sizes[1] || sw
@@ -152,10 +174,14 @@ function render() {
   // a.innerHTML = name + "<p>"
   a.download = filename;
   
-  c.setAttribute("height", sh);
-  c.setAttribute("width", sw);
+  if (c.getAttribute("height") != sh) c.setAttribute("height", sh);
+  if (c.getAttribute("width") != sw) c.setAttribute("width", sw);
 
   var ctx = c.getContext('2d');
+  ctx.save()
+
+  ctx.clearRect(0, 0, c.width/2, c.height);
+  
   ctx.fillStyle = color || "#1e1e1e";
   ctx.lineWidth = 2 * density;
   ctx.fillRect(0,0,c.width,c.height);
@@ -171,19 +197,20 @@ function render() {
   if (options.texture == 'flat') {
     ctx.fillStyle = color;
   } else {
-  // Generate Raking Gradient
-  var r2 = c.width * 2;
-  var grd = ctx.createRadialGradient(
-      c.width / 2, c.height - r2,
-      r2, 
-      c.width / 2, 0 - r2,
-      r2);
-  grd.addColorStop(0,darkColor);
-  grd.addColorStop(0.5,color);
-  grd.addColorStop(1,lightColor);
-  ctx.fillStyle = grd;
+    // Generate Raking Gradient
+    var r2 = c.width * 2;
+    var grd = ctx.createRadialGradient(
+        c.width / 2, c.height - r2,
+        r2, 
+        c.width / 2, 0 - r2,
+        r2);
+    grd.addColorStop(0,darkColor);
+    grd.addColorStop(0.5,color);
+    grd.addColorStop(1,lightColor);
+    ctx.fillStyle = grd;
   }
   ctx.fillRect(0,0, c.width, c.height);
+
 
   let pattern = options.pattern || 'foam';
   let size = Math.hypot(c.width, c.height) / 50;
@@ -466,10 +493,10 @@ function render() {
         }
 
         var r = Math.sqrt(i),
-        a = i * α;
+        a = i * α - elapsed/100000;
 
         if (scale*r*spacing > maxRadius) {
-          console.log(i)
+          //console.log(i)
           break; 
         }
 
@@ -486,7 +513,6 @@ function render() {
         ctx.save()
         if (i == 0) x+= size/2;//console.log(scale * r * Math.cos(a), scale * r * Math.sin(a))
         ctx.translate(x, y);
-        
         let flip = false;
         if (order == 'alternating') {
           if (pattern == 'random') {
@@ -533,7 +559,7 @@ function render() {
   
   //let pattern = document.querySelector('#patternPicker').value || 'hex';
 
-  console.log(options)
+  
   switch (pattern) {
     case 'hex':
     case 'diamond':
@@ -598,6 +624,7 @@ function render() {
     ctx.fillRect(0,0, c.width, c.height);
   }
 
+  ctx.restore()
 
 
   var blob = c.toBlob(function(blob) {
@@ -633,8 +660,21 @@ function changeListeners() {
 
 }
 
+var shouldAnimate = false;
+function startAnimation() {
+  console.log("animate")
+  shouldAnimate = !shouldAnimate;
+  window.requestAnimationFrame(renderFrame);
+}
+
+
 changeListeners()
 render();
+
+if (window.obsstudio) {
+  document.body.classList.add('fullscreen')
+  startAnimation()
+}
 
 document.fonts.ready.then(function () { 
   console.log("fonts loaded")  
