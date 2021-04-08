@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Noto Color Emoji';
-  src: url(https://gitcdn.xyz/repo/googlefonts/noto-emoji/master/fonts/NotoColorEmoji.ttf);
+  src: url(/fonts/NotoColorEmoji.ttf);
 }
 
 canvas {
