@@ -396,6 +396,12 @@ function renderContent(time) {
         ctx.rotate((Math.random() - 0.5) * Math.PI/5)
       }
 
+      if (options.pattern == 'many') {
+        let scale = Math.random()
+        ctx.scale(1.5 + scale, 1.5 + scale);
+        ctx.globalAlpha = 1.0;
+      }
+
       ctx.fillText(b.emoji, 0, 0.6*b.r);
       ctx.restore();
     }
@@ -477,13 +483,15 @@ function renderContent(time) {
 // <em>r = c√n</em><br><em>θ = i × 137.5°</em>
 
   const spiralLayout = (emojis, options = {}) => {
+
     var scale = size * 1.1,
     //n = radius * radius / (scale * scale),
     α = Math.PI * (3 - Math.sqrt(5));
+
     var maxRadius = Math.hypot(canvas.width/2, canvas.height/2)
 
     var spacing = parseFloat(options.spacing)/100 || 1.0;
-    
+
     for (var i = 0; i < 100000; i++) {
         let emojiIndex = (i) % emojis.length
         let emoji = emojis[emojiIndex];
@@ -525,9 +533,6 @@ function renderContent(time) {
         if (flip) {
           ctx.scale(-1, 1);
         }
-
-     
-
         if (debug) {
           ctx.strokeRect(-size/2, -size/2, size, size);
           ctx.strokeRect(-2, -2, 4, 4);
@@ -564,17 +569,19 @@ function renderContent(time) {
     case 'hex':
     case 'diamond':
     case 'grid':
-    case 'random':
-        {
+    case 'random':      
+    {
       gridLayout(emojis, options);
       break;
     }
+
     case 'spiral':
     {
       spiralLayout(emojis, options);
       break;
     }
     case 'foam':
+    case 'many':  
     {
       foamLayout(emojis, options);
       break;
@@ -583,6 +590,8 @@ function renderContent(time) {
       packingLayout(emojis, options);
       break;
     }
+      
+
 
     default: {
       gridLayout(emojis, options)
