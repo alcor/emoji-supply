@@ -97,6 +97,7 @@ var isWin = /Windows/.test(ua)
 var iOS = /iPad|iPhone|iPod/.test(ua)
 var a = document.getElementById("download-link");
 var c = document.getElementById("canvas");
+var fullbleed = false;
 
 if (iOS) {
   //document.getElementById("textPicker").style.display = "none"
@@ -133,6 +134,9 @@ function renderContent(time) {
   var textColor = contrastColor(color);
   var density = window.devicePixelRatio;
   var sh = screen.height, sw = screen.width;
+  if (fullbleed) {
+    sh = window.innerHeight, sw = window.innerWidth
+  }
   if (iOS && Math.abs(window.orientation) == 90) {
     [sw, sh] = [sh, sw]
   }
@@ -480,12 +484,11 @@ function renderContent(time) {
     }
   }
 
-// <em>r = c√n</em><br><em>θ = i × 137.5°</em>
+  // <em>r = c√n</em><br><em>θ = i × 137.5°</em>
 
   const spiralLayout = (emojis, options = {}) => {
 
     var scale = size * 1.1,
-    //n = radius * radius / (scale * scale),
     α = Math.PI * (3 - Math.sqrt(5));
 
     var maxRadius = Math.hypot(canvas.width/2, canvas.height/2)
@@ -504,7 +507,6 @@ function renderContent(time) {
         a = i * α - elapsed/100000;
 
         if (scale*r*spacing > maxRadius) {
-          //console.log(i)
           break; 
         }
 
@@ -558,12 +560,7 @@ function renderContent(time) {
     emojis.push(emoji);
   }
 
-
-  
   ctx.fillStyle = textColor;
-  
-  //let pattern = document.querySelector('#patternPicker').value || 'hex';
-
   
   switch (pattern) {
     case 'hex':
@@ -629,14 +626,14 @@ function renderContent(time) {
   grd.addColorStop(0.95,"rgba(0,0,0,0.9");
     grd.addColorStop(1.0,"rgba(0,0,0,1.0");
     ctx.fillStyle = grd;
-    
     ctx.fillRect(0,0, c.width, c.height);
   }
 
   ctx.restore()
 
+  if (fullbleed) return;
 
-  var blob = c.toBlob(function(blob) {
+  c.toBlob(function(blob) {
     var date = new Date()
     window.URL.revokeObjectURL(blobURL);
     blobURL = window.URL.createObjectURL(blob);
@@ -676,6 +673,10 @@ function startAnimation() {
   window.requestAnimationFrame(renderFrame);
 }
 
+if (inIframe()) {
+  fullbleed = true;
+  document.body.classList.add('fullscreen')
+}
 
 changeListeners()
 render();
@@ -693,7 +694,13 @@ function toggleAdvanced() {
   document.body.classList.toggle("advanced")
 }
 
-
+function inIframe() {
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+}
 
 //
 // Color Functions
