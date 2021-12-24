@@ -1,5 +1,13 @@
 let debug = false;
 
+function random() {
+  if (random.seed) {
+    var x = Math.sin(random.seed++) * 10000;
+    return x - Math.floor(x);
+  }
+  return Math.random();
+}
+
 const copyToClipboard = str => {
   const el = document.createElement('textarea');
   el.value = str;
@@ -62,7 +70,6 @@ function updateForm() {
       default:         input.value = v;     break;
     }
   }
-
 }
 
 function updateURL() {
@@ -111,7 +118,7 @@ function render() {
 var startTime = undefined;
 function renderFrame(time) {
   if(!startTime){ startTime = time; }
-  renderContent(time);
+  renderContent(time, 1);
   if (shouldAnimate) {
     setTimeout(() => {
       window.requestAnimationFrame(renderFrame);
@@ -121,7 +128,9 @@ function renderFrame(time) {
 
 
 console.log()
-function renderContent(time) {
+function renderContent(time, seed) {
+  if (seed) random.seed = seed;
+
   var elapsed = (time - startTime) || 0;
   let options = Object.fromEntries(new URLSearchParams(location.search));
 
@@ -134,9 +143,6 @@ function renderContent(time) {
   var textColor = contrastColor(color);
   var density = window.devicePixelRatio;
   var sh = screen.height, sw = screen.width;
-  if (fullbleed) {
-    sh = window.innerHeight, sw = window.innerWidth
-  }
   if (iOS && Math.abs(window.orientation) == 90) {
     [sw, sh] = [sh, sw]
   }
@@ -147,7 +153,7 @@ function renderContent(time) {
   let sizeString = document.querySelector('#sizePicker').value || "*";
   localStorage.setItem("size", sizeString)
 
-  if (sizeString == "page") {
+  if (sizeString == "page" || fullbleed) {
     sw = window.innerWidth;
     sh = window.innerHeight;
     sw *= density;
@@ -257,10 +263,10 @@ function renderContent(time) {
   var lastEmoji = undefined;
 
   const randomEmoji = () => {
-    let i = Math.floor(Math.random() * emojis.length);
+    let i = Math.floor(random() * emojis.length);
 
     if (emojis.length > 3 && i == lastEmoji) { 
-      i += Math.ceil(Math.random() * (emojis.length - 1))
+      i += Math.ceil(random() * (emojis.length - 1))
       i %= emojis.length;
     }
     lastEmoji = i;
@@ -307,8 +313,8 @@ function renderContent(time) {
         }
 
         let randomScale = pattern == "random" ? 0.5 : 0.00;
-        let rx = (Math.random() - 0.5) * randomScale;
-        let ry = (Math.random() - 0.5) * randomScale;
+        let rx = (random() - 0.5) * randomScale;
+        let ry = (random() - 0.5) * randomScale;
 
         ctx.globalAlpha = 0.95;
         if (options.texture == 'monochrome')
@@ -324,7 +330,7 @@ function renderContent(time) {
         let flip = false;
         if (order == 'alternating') {
           if (pattern == 'random') {
-            flip = (Math.random() < 0.5)
+            flip = (random() < 0.5)
           } else {
             flip = y%2;
           }
@@ -335,7 +341,7 @@ function renderContent(time) {
         }
 
         if (pattern == 'random') {
-          ctx.rotate((Math.random() - 0.5) * Math.PI/5)
+          ctx.rotate((random() - 0.5) * Math.PI/5)
         }
 
         if (debug) {
@@ -359,8 +365,8 @@ function renderContent(time) {
     console.log(spacing);
     for (var j = 0; j < 10000; j++) {
       let emoji = emojis[j % emojis.length];
-      var x = Math.random() * canvas.width;
-      var y = Math.random() * canvas.height;
+      var x = random() * canvas.width;
+      var y = random() * canvas.height;
       r = Math.min(x, canvas.width - x, y, canvas.height - y);
       // shrink radius by other extant bubble radii
       for (var i = 0; i < bubbs.length; i++) {
@@ -397,11 +403,11 @@ function renderContent(time) {
         ctx.scale(1 - 2*(i%2), 1);
       } 
       if (order == 'random') {
-        ctx.rotate((Math.random() - 0.5) * Math.PI/5)
+        ctx.rotate((random() - 0.5) * Math.PI/5)
       }
 
       if (options.pattern == 'many') {
-        let scale = Math.random()
+        let scale = random()
         ctx.scale(1.5 + scale, 1.5 + scale);
         ctx.globalAlpha = 1.0;
       }
@@ -425,7 +431,7 @@ function renderContent(time) {
     });
 
     const randomSize = () => {
-      return sizes[Math.floor(Math.random() * sizes.length)]
+      return sizes[Math.floor(random() * sizes.length)]
     }
     const checkFittable = (bins, size, x, y) => {
       for (let ix = x; ix < x + size; ix++) {
@@ -511,8 +517,8 @@ function renderContent(time) {
         }
 
         let randomScale = pattern == "random" ? 1.0 : 0.00;
-        let rx = (Math.random() - 0.5) * randomScale;
-        let ry = (Math.random() - 0.5) * randomScale;
+        let rx = (random() - 0.5) * randomScale;
+        let ry = (random() - 0.5) * randomScale;
 
         var x = marginX + width / 2  + scale * r * Math.cos(a) * spacing + size * rx;
         var y = marginY + height / 2 + scale * r * Math.sin(a) * spacing + size * ry;
@@ -526,7 +532,7 @@ function renderContent(time) {
         let flip = false;
         if (order == 'alternating') {
           if (pattern == 'random') {
-            flip = (Math.random() < 0.5)
+            flip = (random() < 0.5)
           } else {
             flip = i%2;
           }
@@ -604,10 +610,10 @@ function renderContent(time) {
   // var p = 0, i = 0;
   // var intensity = 4;
   // for (; i < dl; ++i) {
-  //   // var rand = Math.floor(Math.random() * 2) - 1;
-  //   dd[p++] += Math.round((Math.random() - 0.5) * intensity);
-  //   dd[p++] += Math.round((Math.random() - 0.5) * intensity);
-  //   dd[p++] += Math.round((Math.random() - 0.5) * intensity);
+  //   // var rand = Math.floor(random() * 2) - 1;
+  //   dd[p++] += Math.round((random() - 0.5) * intensity);
+  //   dd[p++] += Math.round((random() - 0.5) * intensity);
+  //   dd[p++] += Math.round((random() - 0.5) * intensity);
   //   dd[p++] += 0 //255;
   // } 
   // ctx.putImageData(dt, 0, 0);
@@ -631,7 +637,7 @@ function renderContent(time) {
 
   ctx.restore()
 
-  if (fullbleed) return;
+  if (fullbleed || time) return;
 
   c.toBlob(function(blob) {
     var date = new Date()
@@ -673,10 +679,23 @@ function startAnimation() {
   window.requestAnimationFrame(renderFrame);
 }
 
-if (inIframe()) {
+function setFullbleed() {
   fullbleed = true;
-  document.body.classList.add('fullscreen')
+  document.body.classList.add('fullscreen');
+  window.onresize = renderAfterDelay;
 }
+
+let renderTimeout;
+
+function renderAfterDelay() {
+  clearTimeout(renderTimeout);
+  renderTimeout = setTimeout(render, 100);
+}
+
+if (inIframe()) {
+  setFullbleed();
+}
+
 
 changeListeners()
 render();
@@ -701,6 +720,8 @@ function inIframe() {
     return true;
   }
 }
+
+
 
 //
 // Color Functions
