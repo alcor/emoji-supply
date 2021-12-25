@@ -188,6 +188,9 @@ body.fullscreen canvas{
 }
 
 body.fullscreen form,
-body.fullscreen .button{
+body.fullscreen .button,
+body.loading form,
+body.loading .button,
+body.loading canvas {
   display:none;
-  }
+}

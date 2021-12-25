@@ -47,7 +47,7 @@ const copy = (el) => {
     text = strings.join(" ");
   }
   text += "\n\n"
-  text += location.href;
+  text = location.href;
   copyToClipboard(text)
   document.getElementById("copy").innerText = "✓";
   setTimeout(e => {document.getElementById("copy").innerText = "COPY";}, 5000)
@@ -699,6 +699,7 @@ if (inIframe()) {
 
 changeListeners()
 render();
+document.body.classList.remove('loading');
 
 if (window.obsstudio) {
   document.body.classList.add('fullscreen')
