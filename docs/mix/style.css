@@ -57,6 +57,11 @@ body {
   transition: all 200ms ease-out;
 }
 
+::-webkit-scrollbar {
+  display: none;
+  scrollbar-width: none;
+}
+
 
 html.emojis #emojis,
 html.mixmojis #mixmojis {
