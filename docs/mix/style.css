@@ -13,7 +13,7 @@ html {
 }
 
 body {
-  font-size:24px;
+  font-size: 20px;
   display:
   flex;
   --background-color:black;
@@ -38,7 +38,7 @@ body {
 }
 
 #emojis {
-  padding-bottom: 20vh;
+  padding-bottom: 10vh;
 }
 
 #emojis, #mixmojis{
@@ -46,24 +46,20 @@ body {
   flex;
   flex-wrap: wrap;
   flex: 1 1 40vh;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   flex-direction: row;
   overflow-y: scroll;
   max-height: 100vh;
-  /* margin-bottom: 10vmin; */
-  /* padding: 1vh; */
   background-color: var(--deep-background-color);
   box-sizing: border-box;
-  transition:
-  all 1s;
-  /* padding-bottom: 10vh; */
+  transition: all 200ms ease-out;
 }
 
 
 html.emojis #emojis,
 html.mixmojis #mixmojis {
-  flex: 1 1 70vh;
+  flex: 1 1 75vh;
  
 }
 html.allEmojis #emojis {
@@ -82,7 +78,7 @@ html.allEmojis #preview {
 
 #emojis {
   flex: 1 1 60vh;
-  padding-bottom:20vh;
+  padding-bottom:11vh;
 }
 
 #emojis > div, #mixmojis > div {
@@ -91,7 +87,7 @@ html.allEmojis #preview {
 
 .emoji {
   font-family: 'Noto Color Emoji';
-  font-size:24px;
+  /* font-size:24px; */
   cursor:
   default;
   padding:3px;
@@ -141,12 +137,21 @@ img[src=""] {
   transform:scale(1.0);
 }
 
+#mixmojis .sparse {
+  display:
+  flex;
+  max-width: 24em;
+  margin: auto;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
 #preview {
   position: relative;
   /* bottom:0; */
   /* left:0; */
   /* right:0; */
-  height: 25vh;
+  height: 20vh;
   display: flex;
   justify-content: center;
   padding: 4vmin;
@@ -155,11 +160,13 @@ img[src=""] {
   /* border-bottom: 1px solid black; */
   max-height: 92px;
   box-shadow: 0 2px 9px rgba(0,0,0,0.2);
-  background-color: rgba(0,0,0,0.7);
-  margin-top: -20vmin;
+  background: linear-gradient(0deg, transparent, black, transparent);
+  margin-top: -10vh;
   margin-bottom: 0;
- -webkit-backdrop-filter: blur(10px);
- backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid white;
+  border-bottom: 1px solid dimgray;
 }
 
 #preview img {
