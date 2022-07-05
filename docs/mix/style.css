@@ -1,0 +1,72 @@
+@font-face {
+  font-family: 'Noto Color Emoji';
+  src: url(/fonts/NotoColorEmoji.ttf);
+}
+
+@font-face {
+  font-family: 'Noto Emoji';
+  src: url(/fonts/NotoEmoji-Regular.ttf);
+}
+
+
+body {
+  display:flex;
+}
+#emojis, #mixmojis{
+  display:
+  flex;
+  flex-wrap: wrap;
+  flex: 1 1 50%;
+  /* justify-content: flex-start; */
+  /* align-items: flex-start; */
+  flex-direction: row;
+  overflow-y: scroll;
+  max-height: 100vh;
+}
+
+#emojis > div, #mixmojis > div {
+  display:contents;
+}
+
+.emoji {
+  font-family: 'Noto Color Emoji';
+  font-size:24px;
+  cursor:default;
+  padding:3px;
+  width:1.25em;
+  height:1.25em;
+  display:block;
+}
+
+.emoji.selected {
+  transform:scale(2.0);
+}
+.emoji:hover {
+  background-color:currentColor;
+  border-radius:10px;
+}
+
+.mixmoji {
+  width:100%;
+  width: 4.5em;
+  height: 4.5em;
+}
+
+#preview {
+  position:
+  fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height: 20vmin;
+  background-color:
+  white;
+  display: flex;
+  justify-content: center;
+  padding: 1vmin;
+}
+
+#preview img {
+  width:20vmin;
+  height:20vmin;
+}
