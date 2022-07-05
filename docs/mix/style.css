@@ -107,7 +107,7 @@ html.allEmojis #preview {
   background-color: var(--background-color);
   border: 2px solid var(--text-color);
   position: sticky;
-  top: 14px;
+  bottom: 14px;
 }
 .emoji:hover {
   background-color: var(--background-color);

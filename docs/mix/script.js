@@ -72,7 +72,10 @@ const copyToClipboard = async (e) => {
 }
 
 const focusEmoji = (e) => {
+
   selectEmoji(undefined,e.target.targetId);
+  selectMixmoji(undefined, pc.name.split("_"));
+
 }
 
 let p1 = document.getElementById("p1")
@@ -91,24 +94,22 @@ const scrollElement = (e) => {
   document.documentElement.className = e.target.id.replace("#","");
 }
 
-const appHeight = () => {
+const updateAppHeight = () => {
   const doc = document.documentElement
   doc.style.setProperty('--app-height', `${window.innerHeight}px`)
 }
-window.addEventListener('resize', appHeight)
-appHeight()
+window.addEventListener('resize', updateAppHeight)
+updateAppHeight()
 
-
-console.log(p1)
 
 selectMixmoji = (e, parents) => {
   let img = e?.target || document.getElementById(parents.join("_"));
   parents = Array.from(img.c)
   console.log("Selecting mix", img, parents);
 
-  document.getElementById("pc").src = img.src;
+  pc.src = img.src;
+  pc.name = parents.join("_");
  
-  
   let p2id = (parents[0] == lastEmoji.id) ? parents.pop() : parents.shift();
   let p1id = parents.pop();
   
@@ -117,12 +118,10 @@ selectMixmoji = (e, parents) => {
   
   p1.src = lastEmoji.src;
   p1.targetId = p1id;
-  // document.documentElement.className = "mixmoji";
   p2.src = parent2.src;
   p2.targetId = p2id;
   
   location.hash = "/" + img.c.map(cc => codePointToText(cc)).join("/");
-  // location.hash = "/" + codePointToText(e.target.id);
 }
 
 let lastEmoji = undefined;
