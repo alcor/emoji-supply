@@ -31,7 +31,7 @@ body {
 
 @media (prefers-color-scheme: dark) {
   body {
-    --background-color:rgba(80,80,80,1.0);
+    --background-color:black;
     --deep-background-color:black;
     --text-color:white;  
   }
@@ -106,18 +106,28 @@ html.allEmojis #preview {
   /* background: var(--background-color); */
   border-radius:10px;
 }
+.emoji.dud {
+  opacity:0.5;
+  order: 1;
+}
+img.c-2615 {
+  order:1;
+}
+
 
 .emoji.selected {
   transform:
   scale(2.0);
   background-color: var(--background-color);
-  border: 2px solid var(--text-color);
+  border: 1px solid var(--text-color);
   position: sticky;
   bottom: 14px;
+  opacity:1;
+  z-index:100;
 }
 .emoji:hover {
   background-color: var(--background-color);
-  border: 2px solid var(--text-color);
+  border: 1px solid var(--text-color);
 }
 
 #preview img {
@@ -195,3 +205,18 @@ img[src=""] {
     background-color: rgba(255,255,255,0.2);
     display: none;
 }
+
+img#\31 f60d,
+img#\31 f618,
+img#\31 f970,
+img#\31 f60d,
+img#\31 f498,
+img#\31 f495,
+img#\32 763-fe0f,
+img#\31 f31f,
+img#\31 f493,
+.featured
+{
+    order: -1;
+}
+

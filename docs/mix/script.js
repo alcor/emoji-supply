@@ -33,7 +33,6 @@ const el = (selector, ...args) => {
 window.el = el;
 
 
-
 const codePointToText = (codePoint) => {
   let cps = codePoint.split("-").map(hex => parseInt(hex, 16));
   let emoji = String.fromCodePoint(...cps);
@@ -41,7 +40,6 @@ const codePointToText = (codePoint) => {
 }
 const emojiUrl = (codePoint) => {
   let cp = codePoint.split("-").filter(x => x !== "fe0f").join("_");
-
   return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u${cp}.svg`      
 }
 
@@ -72,25 +70,13 @@ const copyToClipboard = async (e) => {
 }
 
 const focusEmoji = (e) => {
-
   selectEmoji(undefined,e.target.targetId);
   selectMixmoji(undefined, pc.name.split("_"));
-
 }
-
-let p1 = document.getElementById("p1")
-let p2 = document.getElementById("p2")
-let pc = document.getElementById("pc");
-
-let e1 = document.getElementById("emojis");
-let e2 = document.getElementById("mixmojis");
-p1.onclick = focusEmoji;
-p2.onclick = focusEmoji;
 
 const scrollElement = (e) => {
   e.target.onscroll = undefined;
   setTimeout(() => { e.target.onscroll = scrollElement; }, 2000);
-
   document.documentElement.className = e.target.id.replace("#","");
 }
 
@@ -102,7 +88,16 @@ window.addEventListener('resize', updateAppHeight)
 updateAppHeight()
 
 
-selectMixmoji = (e, parents) => {
+let p1 = document.getElementById("p1")
+let p2 = document.getElementById("p2")
+let pc = document.getElementById("pc");
+
+let e1 = document.getElementById("emojis");
+let e2 = document.getElementById("mixmojis");
+p1.onclick = focusEmoji;
+p2.onclick = focusEmoji;
+
+const selectMixmoji = (e, parents) => {
   let img = e?.target || document.getElementById(parents.join("_"));
   parents = Array.from(img.c)
   console.log("Selecting mix", img, parents);
@@ -112,10 +107,8 @@ selectMixmoji = (e, parents) => {
  
   let p2id = (parents[0] == lastEmoji.id) ? parents.pop() : parents.shift();
   let p1id = parents.pop();
-  
   let parent1 = document.getElementById(p1id);
   let parent2 = document.getElementById(p2id)
-  
   p1.src = lastEmoji.src;
   p1.targetId = p1id;
   p2.src = parent2.src;
@@ -125,6 +118,8 @@ selectMixmoji = (e, parents) => {
 }
 
 let lastEmoji = undefined;
+let emojiStack = localStorage.getItem("emojiStack") ? JSON.parse(localStorage.getItem("emojiStack")) : [];
+
 const selectEmoji = (e, id) => {
   let target = e?.target ?? document.getElementById(id);
   id = target.id;
@@ -133,6 +128,9 @@ const selectEmoji = (e, id) => {
   lastEmoji?.classList.remove("selected");
   target.classList.add("selected");
   lastEmoji = target;
+  emojiStack.unshift(id);
+  emojiStack.splice(4);
+  localStorage.setItem("emojiStack", JSON.stringify(emojiStack));
 
   pc.src = target.src;
   p1.src = "";
@@ -155,20 +153,25 @@ const selectEmoji = (e, id) => {
   parent.childNodes.forEach(child => {parent.removeChild(child)});
   let div = el("div", {className: array.length < 20 ? "sparse" : ""}, 
     array.map(match => {
-      let [d, c1, c2] = match.pop().split("/")
+      let [d, c1, c2] = match.pop().split("/");
+      let className = ["mixmoji"];
+      className.push("c-" + c1);
+      className.push("c-" + c2);
+      let altParent = c1 == id ? c2 : c1;
+      if (emojiStack.includes(altParent)) className.push("featured");
       let url = mixmojiUrl(parseInt(d) + 20200000, [c1, c2]);
-      return el("img.mixmoji", {id: [c1, c2].join("_"), c:[c1, c2], onclick:selectMixmoji, style:"transition: all 0.3s " + Math.random()/8 + "s ease-out", onload:imageLoaded, src:url, loading:"lazy"}, codePointToText(c1), codePointToText(c2))
+      return el("img", {id: [c1, c2].join("_"), className:className.join(" "), c:[c1, c2], onclick:selectMixmoji, style:"transition: all 0.3s " + Math.random()/8 + "s ease-out", onload:imageLoaded, src:url, loading:"lazy"}, codePointToText(c1), codePointToText(c2))
     })
-
   )
-
   parent.appendChild(div);
 }
 
 let div = el("div", {}, 
-  window.points.map(point => el("img.emoji", {id: point, onclick:selectEmoji, src:emojiUrl(point), loading:"lazy"}, codePointToText(point)))
+  window.points.map(point => {
+    let dud = window.duds.includes(point);
+    return el("img", {id: point, className: dud ? "dud emoji" : "emoji", onclick:selectEmoji, src:emojiUrl(point), loading:"lazy"}, codePointToText(point))
+  })
 )
-
 document.getElementById("emojis").appendChild(div);
 
 let hash = location.hash;
