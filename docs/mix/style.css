@@ -13,10 +13,11 @@ body {
   display:
   flex;
   --background-color:white;
-  --deep-background-color:rgba(240,240,240,1.0);
+  --deep-background-color:
+  rgba(240,240,240,1.0);
   --text-color:black;
   flex-direction: column;
-  max-height: 100vh;
+  height: 100vh;
   margin: 0;
 }
 
@@ -33,7 +34,7 @@ body {
   flex;
   flex-wrap: wrap;
   flex: 1 1 40vh;
-  justify-content: space-between;
+  justify-content: center;
   align-items: end;
   flex-direction: row;
   overflow-y: scroll;
@@ -54,6 +55,7 @@ body {
   default;
   padding:3px;
   width: 10%;
+  max-width: 48px;
   /* height:1.25em; */
   display:
   block;
@@ -77,8 +79,8 @@ body {
 
 .mixmoji {
   width:100%;
-  width: 4.5em;
-  height: 4.5em;
+  width: 20%;
+  max-width: 96px;
 }
 
 #preview {
