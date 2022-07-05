@@ -51,7 +51,8 @@ body {
   flex-direction: row;
   overflow-y: scroll;
   max-height: 100vh;
-  background-color: var(--deep-background-color);
+  max-width:100vmin;
+  margin: 0 auto;
   box-sizing: border-box;
   transition: all 200ms ease-out;
 }
