@@ -52,12 +52,12 @@ body {
   overflow-y: scroll;
   max-height: 100vh;
   /* margin-bottom: 10vmin; */
-  padding: 1vh;
+  /* padding: 1vh; */
   background-color: var(--deep-background-color);
   box-sizing: border-box;
   transition:
   all 1s;
-  padding-bottom: 10vh;
+  /* padding-bottom: 10vh; */
 }
 
 
@@ -69,8 +69,11 @@ html.mixmojis #mixmojis {
 html.allEmojis #emojis {
   flex: 1 1 100vh;
 }
-html.allEmojis #mix {
+html.allEmojis #mixmojis {
   flex: 1 1 0vh;
+}
+html.allEmojis #preview {
+  opacity:0.0;
 }
 
 .hidden {

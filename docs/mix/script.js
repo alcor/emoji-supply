@@ -99,8 +99,6 @@ const appHeight = () => {
 window.addEventListener('resize', appHeight)
 appHeight()
 
-e1.onscroll = scrollElement;
-e2.onscroll = scrollElement;
 
 console.log(p1)
 
@@ -136,6 +134,10 @@ const clickEmoji = (e) => {
   pc.src = e.target.src;
   p1.src = "";
   p2.src = "";
+
+  e1.onscroll = scrollElement;
+  e2.onscroll = scrollElement;
+  document.documentElement.className = "mixmojis"
   
   const imageLoaded = (e) => {
     e.target.classList.add("loaded")
