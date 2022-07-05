@@ -85,8 +85,10 @@ let e2 = document.getElementById("mixmojis");
 p1.onclick = focusEmoji;
 p2.onclick = focusEmoji;
 
-const focusElement = (e) => {
-  // console.log("e",e)
+const scrollElement = (e) => {
+  e.target.onscroll = undefined;
+  setTimeout(() => { e.target.onscroll = scrollElement; }, 2000);
+
   document.documentElement.className = e.target.id.replace("#","");
 }
 
@@ -97,8 +99,8 @@ const appHeight = () => {
 window.addEventListener('resize', appHeight)
 appHeight()
 
-e1.ontouchstart = e1.onmousedown = focusElement;
-e2.ontouchstart = e2.onmousedown = focusElement;
+e1.onscroll = scrollElement;
+e2.onscroll = scrollElement;
 
 console.log(p1)
 
@@ -164,45 +166,7 @@ let div = el("div", {},
 
 document.getElementById("emojis").appendChild(div);
 
-
-console.log("e",div)
-
-// let p1 = document.getElementById("p1");
-// let p2 = document.getElementById("p2");
-// var revisions = ["20201001","20210218","20210521","20210831","20211115","20220110","20220203","20220406","20220506",
-// ];
-// p1.oninput = update;
-// p2.oninput = update;
-// p1.onfocus = p2.onfocus = (e) => e.target.select();
-// p1.onmouseup = p2.onmouseup = (e) => {return false;}
-
-// const codePoints = s => Array.from(s).map(c => c.codePointAt(0));
-// const concatPoints = a => a.map(d => "u" + d.toString(16)).join("-");
-
-// function update(e) {
-//   e?.target?.select();
-//   let img = document.getElementById("child");
-  
-//   let cp = [
-//     codePoints(p1.value || p1.placeholder),
-//     codePoints(p2.value || p2.placeholder)
-//   ]//.sort((a, b) => a[0]-b[0])
-//   cp = cp.map(a => concatPoints(a))  
-
-//   let cpAlts = [cp, [cp[1], cp[0]]];
-//   cpAlts.forEach(c => {
-//     revisions.forEach(r => {
-//       let url = `https://www.gstatic.com/android/keyboard/emojikitchen/${r}/${c[0]}/${c[0]}_${c[1]}.png`
-//       var tester=new Image();
-//       tester.onload=(i) => console.log("i", img.src = url);
-//       tester.onerror=(i) => {};console.debug("e:"+ url);
-//       tester.src=url;
-//     })
-//   })
-   
-   
-// }
-// update()
-
+let hash = location.hash?.substring(1);
+console.log("hash", hash);
 
 
