@@ -53,6 +53,25 @@ const mixmojiUrl = (r, c) => {
   return `https://www.gstatic.com/android/keyboard/emojikitchen/${r}/u${c[0]}/u${c[0]}_u${c[1]}.png`
 }
 
+const copyToClipboard = async (e) => {
+  console.log("e,",e);
+  try {
+    const imgURL = e.target.src;
+    const data = await fetch(imgURL);
+    const blob = await data.blob();
+
+    const image = new Image();
+    img.src = e.target.src;
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        [blob.type]: blob
+      })
+    ]);
+    console.log('Fetched image copied.');
+  } catch(err) {
+    console.error(err.name, err.message);
+  }
+}
 
 const focusEmoji = (e) => {
   clickEmoji(e);
@@ -72,8 +91,8 @@ const focusElement = (e) => {
 }
 
 
-e1.onscroll = focusElement;
-e2.onscroll = focusElement;
+e1.ontouchstart = e1.onmousedown = focusElement;
+e2.ontouchstart = e2.onmousedown = focusElement;
 
 console.log(p1)
 
