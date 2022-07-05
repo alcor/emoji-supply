@@ -10,18 +10,37 @@
 
 
 body {
-  display:flex;
+  display:
+  flex;
+  --background-color:white;
+  --deep-background-color:rgba(240,240,240,1.0);
+  --text-color:black;
+  flex-direction: column;
+  max-height: 100vh;
+  margin: 0;
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --background-color:rgba(80,80,80,1.0);
+    --deep-background-color:black;
+    --text-color:white;  
+  }
+}
+
 #emojis, #mixmojis{
   display:
   flex;
   flex-wrap: wrap;
-  flex: 1 1 50%;
-  /* justify-content: flex-start; */
-  /* align-items: flex-start; */
+  flex: 1 1 40vh;
+  justify-content: space-between;
+  align-items: end;
   flex-direction: row;
   overflow-y: scroll;
   max-height: 100vh;
+  /* margin-bottom: 10vmin; */
+  padding: 1vh;
+  background-color: var(--deep-background-color);
 }
 
 #emojis > div, #mixmojis > div {
@@ -31,19 +50,29 @@ body {
 .emoji {
   font-family: 'Noto Color Emoji';
   font-size:24px;
-  cursor:default;
+  cursor:
+  default;
   padding:3px;
-  width:1.25em;
-  height:1.25em;
-  display:block;
+  width: 10%;
+  /* height:1.25em; */
+  display:
+  block;
+  box-sizing: border-box;
+  /* background: var(--background-color); */
+  border-radius:10px;
 }
 
 .emoji.selected {
-  transform:scale(2.0);
+  transform:
+  scale(2.0);
+  background-color: var(--background-color);
+  border: 2px solid var(--text-color);
+  position: sticky;
+  top: 14px;
 }
 .emoji:hover {
-  background-color:currentColor;
-  border-radius:10px;
+  background-color: var(--background-color);
+  border: 2px solid var(--text-color);
 }
 
 .mixmoji {
@@ -53,20 +82,29 @@ body {
 }
 
 #preview {
-  position:
-  fixed;
-  bottom:0;
-  left:0;
-  right:0;
+  /* position:
+  fixed; */
+  /* bottom:0; */
+  /* left:0; */
+  /* right:0; */
   height: 20vmin;
-  background-color:
-  white;
   display: flex;
-  justify-content: center;
-  padding: 1vmin;
+  justify-content: space-between;
+  padding: 4vmin;
+  align-items: center;
+  /* border-top: 1px solid black; */
+  /* border-bottom: 1px solid black; */
+  max-height: 92px;
+  box-shadow: 0 2px 9px rgba(0,0,0,0.2);
+  background-color: var(--background-color);
 }
 
 #preview img {
   width:20vmin;
   height:20vmin;
+}
+
+#preview img#p1, #preview img#p2 {
+    width: 10vmin;
+    height: 10vmin;
 }

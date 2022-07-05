@@ -53,6 +53,14 @@ const mixmojiUrl = (r, c) => {
   return `https://www.gstatic.com/android/keyboard/emojikitchen/${r}/u${c[0]}/u${c[0]}_u${c[1]}.png`
 }
 
+
+const focusEmoji = (e) => {
+  clickEmoji(e);
+}
+document.getElementById("p1").onclick = focusEmoji;
+document.getElementById("p2").onclick = focusEmoji;
+
+
 clickMixMoji = (e) => {
   let img = e.target;
 
@@ -83,6 +91,7 @@ const clickEmoji = (e) => {
   const array = [...window.pairs.matchAll(re)];
 
   let parent = document.getElementById("mixmojis");
+  parent.scrollTo(0, 0);
   parent.childNodes.forEach(child => {parent.removeChild(child)});
   let div = el("div", {}, 
     array.map(match => {
