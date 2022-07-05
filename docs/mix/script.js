@@ -101,11 +101,13 @@ appHeight()
 
 console.log(p1)
 
-selectMixmoji = (e) => {
-  let img = e.target;
+selectMixmoji = (e, parents) => {
+  let img = e?.target || document.getElementById(parents.join("_"));
+  parents = Array.from(img.c)
+  console.log("Selecting mix", img, parents);
 
-  document.getElementById("pc").src = e.target.src;
-  let parents = Array.from(img.c)
+  document.getElementById("pc").src = img.src;
+ 
   
   let p2id = (parents[0] == lastEmoji.id) ? parents.pop() : parents.shift();
   let p1id = parents.pop();
@@ -119,17 +121,15 @@ selectMixmoji = (e) => {
   p2.src = parent2.src;
   p2.targetId = p2id;
   
-  console.log("Clicked", img.id, img.c);
   location.hash = "/" + img.c.map(cc => codePointToText(cc)).join("/");
   // location.hash = "/" + codePointToText(e.target.id);
 }
 
 let lastEmoji = undefined;
 const selectEmoji = (e, id) => {
-  console.log(e, id)
   let target = e?.target ?? document.getElementById(id);
   id = target.id;
-  console.log("Selected", target, id);
+  console.log("Selecting Base", target, id);
   location.hash = "/" + codePointToText(id);
   lastEmoji?.classList.remove("selected");
   target.classList.add("selected");
@@ -158,7 +158,7 @@ const selectEmoji = (e, id) => {
     array.map(match => {
       let [d, c1, c2] = match.pop().split("/")
       let url = mixmojiUrl(parseInt(d) + 20200000, [c1, c2]);
-      return el("img.mixmoji", {id: c1+c2, c:[c1, c2], onclick:selectMixmoji, style:"transition: all 0.3s " + Math.random()/8 + "s ease-out", onload:imageLoaded, src:url, loading:"lazy"}, codePointToText(c1), codePointToText(c2))
+      return el("img.mixmoji", {id: [c1, c2].join("_"), c:[c1, c2], onclick:selectMixmoji, style:"transition: all 0.3s " + Math.random()/8 + "s ease-out", onload:imageLoaded, src:url, loading:"lazy"}, codePointToText(c1), codePointToText(c2))
     })
 
   )
@@ -177,9 +177,12 @@ let components = hash.split("/");
 components.shift();
 components = components.map(c => Array.from(decodeURIComponent(c)).map(a=>a.codePointAt(0).toString(16)).join("-"));
 console.log("hash", components);
-if (components.length > 1) {
+if (components.length > 0) {
   document.documentElement.className = "mixmojis";
 }
-selectEmoji(undefined, components.shift())
+selectEmoji(undefined, components[0])
+if (components.length > 1) {
+  selectMixmoji(undefined, components);
+}
 
 
