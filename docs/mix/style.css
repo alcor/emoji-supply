@@ -12,13 +12,16 @@
 body {
   display:
   flex;
-  --background-color:white;
+  --background-color:black;
   --deep-background-color:
-  rgba(240,240,240,1.0);
+  rgba(20,20,20,1.0);
   --text-color:black;
   flex-direction: column;
   height: 100vh;
   margin: 0;
+  overflow: hidden
+  background-color: var(--background-color);
+  background-color: var(--background-color);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,19 +32,42 @@ body {
   }
 }
 
+#emojis {
+  padding-bottom: 20vh;
+}
+
 #emojis, #mixmojis{
   display:
   flex;
   flex-wrap: wrap;
   flex: 1 1 40vh;
   justify-content: center;
-  align-items: end;
+  align-items: center;
   flex-direction: row;
   overflow-y: scroll;
   max-height: 100vh;
   /* margin-bottom: 10vmin; */
   padding: 1vh;
   background-color: var(--deep-background-color);
+  box-sizing: border-box;
+  transition:
+  all 1s;
+  padding-bottom: 10vh;
+}
+
+
+html.emojis #emojis,
+html.mixmojis #mixmojis {
+  flex: 1 1 70vh;
+ 
+}
+.hidden {
+  display:none !important;
+}
+
+#emojis {
+  flex: 1 1 60vh;
+  padding-bottom:20vh;
 }
 
 #emojis > div, #mixmojis > div {
@@ -54,8 +80,8 @@ body {
   cursor:
   default;
   padding:3px;
-  width: 10%;
-  max-width: 48px;
+  width: 12.5%;
+  max-width: 44px;
   /* height:1.25em; */
   display:
   block;
@@ -77,6 +103,10 @@ body {
   border: 2px solid var(--text-color);
 }
 
+img[src=""] {
+  display:none;
+}
+
 .mixmoji {
   width:100%;
   width: 20%;
@@ -84,29 +114,42 @@ body {
 }
 
 #preview {
-  /* position:
-  fixed; */
+  position: relative;
   /* bottom:0; */
   /* left:0; */
   /* right:0; */
-  height: 20vmin;
+  height: 25vh;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 4vmin;
   align-items: center;
   /* border-top: 1px solid black; */
   /* border-bottom: 1px solid black; */
   max-height: 92px;
   box-shadow: 0 2px 9px rgba(0,0,0,0.2);
-  background-color: var(--background-color);
+  background-color: rgba(0,0,0,0.7);
+  margin-top: -20vmin;
+  margin-bottom: 0;
+  backdrop-filter: blur(11px);
 }
 
 #preview img {
-  width:20vmin;
-  height:20vmin;
+  width: auto;
+  height: 100%;
 }
 
 #preview img#p1, #preview img#p2 {
-    width: 10vmin;
-    height: 10vmin;
+    width: auto;
+    height: 56%;
+    margin: 1em;
+}
+
+#preview hr {
+    position: absolute;
+    width: 100vw;
+    z-index: -100;
+    border: none;
+    height: 1px;
+    background-color: rgba(255,255,255,0.2);
+    display: none;
 }

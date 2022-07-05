@@ -57,9 +57,25 @@ const mixmojiUrl = (r, c) => {
 const focusEmoji = (e) => {
   clickEmoji(e);
 }
-document.getElementById("p1").onclick = focusEmoji;
-document.getElementById("p2").onclick = focusEmoji;
+let p1 = document.getElementById("p1")
+let p2 = document.getElementById("p2")
+let pc = document.getElementById("pc");
 
+let e1 = document.getElementById("emojis");
+let e2 = document.getElementById("mixmojis");
+p1.onclick = focusEmoji;
+p2.onclick = focusEmoji;
+
+const focusElement = (e) => {
+  // console.log("e",e)
+  document.documentElement.className = e.target.id.replace("#","");
+}
+
+
+e1.onscroll = focusElement;
+e2.onscroll = focusElement;
+
+console.log(p1)
 
 clickMixMoji = (e) => {
   let img = e.target;
@@ -68,8 +84,8 @@ clickMixMoji = (e) => {
   
   let p2id = img.c[0] == lastEmoji.id ? img.c[1] : img.c[0];
   let parent2 = document.getElementById(p2id)
-  // parent2.classList.add("selected");
-
+  
+  // document.documentElement.className = "mixmoji";
   document.getElementById("p2").src = parent2.src;
   
   console.log("CLicked", img.id, img.c);
@@ -85,30 +101,30 @@ const clickEmoji = (e) => {
   e.target.classList.add("selected");
   lastEmoji = e.target;
 
+
+  pc.src = "";
+  p2.src = "";
+  
   document.getElementById("p1").src = e.target.src;
   const re = new RegExp("^.*" + e.target.id + ".*$","gm");
 
   const array = [...window.pairs.matchAll(re)];
 
   let parent = document.getElementById("mixmojis");
+  parent.classList.remove("hidden");
   parent.scrollTo(0, 0);
   parent.childNodes.forEach(child => {parent.removeChild(child)});
   let div = el("div", {}, 
     array.map(match => {
-      console.log("MATCH", match[0]);
       let [d, c1, c2] = match.pop().split("/")
       let url = mixmojiUrl(parseInt(d) + 20200000, [c1, c2]);
       return el("img.mixmoji", {id: c1+c2, c:[c1, c2], onclick:clickMixMoji, src:url, loading:"lazy"}, codePointToText(c1), codePointToText(c2))
     })
+
   )
 
   parent.appendChild(div);
 }
-
-
-
-
-console.log(window.points.map(point => (point)))
 
 let div = el("div", {}, 
   window.points.map(point => el("img.emoji", {id: point, onclick:clickEmoji, src:emojiUrl(point), loading:"lazy"}, codePointToText(point)))
