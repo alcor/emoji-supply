@@ -90,6 +90,12 @@ const focusElement = (e) => {
   document.documentElement.className = e.target.id.replace("#","");
 }
 
+const appHeight = () => {
+  const doc = document.documentElement
+  doc.style.setProperty('--app-height', `${window.innerHeight}px`)
+}
+window.addEventListener('resize', appHeight)
+appHeight()
 
 e1.ontouchstart = e1.onmousedown = focusElement;
 e2.ontouchstart = e2.onmousedown = focusElement;
@@ -100,12 +106,17 @@ clickMixMoji = (e) => {
   let img = e.target;
 
   document.getElementById("pc").src = e.target.src;
+  let parents = Array.from(img.c)
   
-  let p2id = img.c[0] == lastEmoji.id ? img.c[1] : img.c[0];
+  let p2id = (parents[0] == lastEmoji.id) ? parents.pop() : parents.shift();
+  let p1id = parents.pop();
+  
+  let parent1 = document.getElementById(p1id);
   let parent2 = document.getElementById(p2id)
   
+  p1.src = lastEmoji.src;
   // document.documentElement.className = "mixmoji";
-  document.getElementById("p2").src = parent2.src;
+  p2.src = parent2.src;
   
   console.log("CLicked", img.id, img.c);
   location.hash = "/" + img.c.map(cc => codePointToText(cc)).join("/");
@@ -120,11 +131,13 @@ const clickEmoji = (e) => {
   e.target.classList.add("selected");
   lastEmoji = e.target;
 
-
-  pc.src = "";
+  pc.src = e.target.src;
+  p1.src = "";
   p2.src = "";
   
-  document.getElementById("p1").src = e.target.src;
+  const imageLoaded = (e) => {
+    e.target.classList.add("loaded")
+  }
   const re = new RegExp("^.*" + e.target.id + ".*$","gm");
 
   const array = [...window.pairs.matchAll(re)];
@@ -137,7 +150,7 @@ const clickEmoji = (e) => {
     array.map(match => {
       let [d, c1, c2] = match.pop().split("/")
       let url = mixmojiUrl(parseInt(d) + 20200000, [c1, c2]);
-      return el("img.mixmoji", {id: c1+c2, c:[c1, c2], onclick:clickMixMoji, src:url, loading:"lazy"}, codePointToText(c1), codePointToText(c2))
+      return el("img.mixmoji", {id: c1+c2, c:[c1, c2], onclick:clickMixMoji, style:"transition: all 0.3s " + Math.random()/8 + "s ease-out", onload:imageLoaded, src:url, loading:"lazy"}, codePointToText(c1), codePointToText(c2))
     })
 
   )

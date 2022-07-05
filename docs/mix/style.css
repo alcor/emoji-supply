@@ -8,16 +8,22 @@
   src: url(/fonts/NotoEmoji-Regular.ttf);
 }
 
+html {
+  height: -webkit-fill-available;
+}
 
 body {
+  font-size:24px;
   display:
   flex;
   --background-color:black;
   --deep-background-color:
   rgba(20,20,20,1.0);
-  --text-color:black;
+  --text-color:white;
   flex-direction: column;
   height: 100vh;
+  height: -webkit-fill-available;
+  height: var(--app-height);
   margin: 0;
   overflow: hidden;
   background-color: var(--background-color);
@@ -60,6 +66,13 @@ html.mixmojis #mixmojis {
   flex: 1 1 70vh;
  
 }
+html.allEmojis #emojis {
+  flex: 1 1 100vh;
+}
+html.allEmojis #mix {
+  flex: 1 1 0vh;
+}
+
 .hidden {
   display:none !important;
 }
@@ -79,8 +92,8 @@ html.mixmojis #mixmojis {
   cursor:
   default;
   padding:3px;
-  width: 12.5%;
-  max-width: 44px;
+  width: 2em;
+  height: 2em;
   /* height:1.25em; */
   display:
   block;
@@ -102,14 +115,27 @@ html.mixmojis #mixmojis {
   border: 2px solid var(--text-color);
 }
 
+#preview img {
+  transition: all 0.5s;
+}
 img[src=""] {
-  display:none;
+  opacity:0;
+  transform:scale(0.0);
 }
 
 .mixmoji {
   width:100%;
-  width: 20%;
-  max-width: 96px;
+  width: 4em;
+  /* max-width: 4em; */
+  height: 4em;
+  opacity:0.0;
+  transition: all 1s ease; 
+  transform:scale(0.75) translateY(-3em);
+}
+
+.mixmoji.loaded{
+  opacity:1.0;
+  transform:scale(1.0);
 }
 
 #preview {
