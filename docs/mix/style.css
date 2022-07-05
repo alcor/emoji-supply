@@ -19,8 +19,7 @@ body {
   flex-direction: column;
   height: 100vh;
   margin: 0;
-  overflow: hidden
-  background-color: var(--background-color);
+  overflow: hidden;
   background-color: var(--background-color);
 }
 
@@ -130,7 +129,8 @@ img[src=""] {
   background-color: rgba(0,0,0,0.7);
   margin-top: -20vmin;
   margin-bottom: 0;
-  backdrop-filter: blur(11px);
+ -webkit-backdrop-filter: blur(10px);
+ backdrop-filter: blur(10px);
 }
 
 #preview img {
