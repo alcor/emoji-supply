@@ -98,7 +98,8 @@ p1.onclick = focusEmoji;
 p2.onclick = focusEmoji;
 
 const selectMixmoji = (e, parents) => {
-  let img = e?.target || document.getElementById(parents.join("_"));
+  if (e) document.documentElement.className = "mixmojis";
+  let img = e?.target || document.getElementById(parents.join("_")) || document.getElementById(parents.reverse().join("_"));
   parents = Array.from(img.c)
   console.log("Selecting mix", img, parents);
 
@@ -114,22 +115,26 @@ const selectMixmoji = (e, parents) => {
   p2.src = parent2.src;
   p2.targetId = p2id;
   
-  location.hash = "/" + img.c.map(cc => codePointToText(cc)).join("/");
+  window.history.replaceState({}, "", "/mix?" + img.c.map(cc => codePointToText(cc)).join("&"));
+
 }
 
 let lastEmoji = undefined;
 let emojiStack = localStorage.getItem("emojiStack") ? JSON.parse(localStorage.getItem("emojiStack")) : [];
 
 const selectEmoji = (e, id) => {
+  if (e) document.documentElement.className = "emojis";
   let target = e?.target ?? document.getElementById(id);
   id = target.id;
   console.log("Selecting Base", target, id);
-  location.hash = "/" + codePointToText(id);
+  
+  window.history.replaceState({}, "", "/mix?" + codePointToText(id));
+
   lastEmoji?.classList.remove("selected");
   target.classList.add("selected");
   lastEmoji = target;
   emojiStack.unshift(id);
-  emojiStack.splice(4);
+  emojiStack.splice(9);
   localStorage.setItem("emojiStack", JSON.stringify(emojiStack));
 
   pc.src = target.src;
@@ -138,7 +143,7 @@ const selectEmoji = (e, id) => {
 
   e1.onscroll = scrollElement;
   e2.onscroll = scrollElement;
-  document.documentElement.className = "mixmojis"
+  
   
   const imageLoaded = (e) => {
     e.target.classList.add("loaded")
@@ -158,12 +163,24 @@ const selectEmoji = (e, id) => {
       className.push("c-" + c1);
       className.push("c-" + c2);
       let altParent = c1 == id ? c2 : c1;
-      if (emojiStack.includes(altParent)) className.push("featured");
+      let index = emojiStack.indexOf(altParent);
+
       let url = mixmojiUrl(parseInt(d) + 20200000, [c1, c2]);
-      return el("img", {id: [c1, c2].join("_"), className:className.join(" "), c:[c1, c2], onclick:selectMixmoji, style:"transition: all 0.3s " + Math.random()/8 + "s ease-out", onload:imageLoaded, src:url, loading:"lazy"}, codePointToText(c1), codePointToText(c2))
+      return el("img", {
+        id: [c1, c2].join("_"), 
+        className:className.join(" "), c:[c1, c2], onclick:selectMixmoji, 
+        style:"transition: all 0.3s " + Math.random()/8 + "s ease-out;" + (index < 0 ? "" : "order:" + (-10 + index)),
+        onload:imageLoaded, 
+        src:url, 
+        loading:"lazy"
+      }, codePointToText(c1), codePointToText(c2))
     })
   )
   parent.appendChild(div);
+  if (1) {
+    selectMixmoji(undefined, emojiStack.slice(0,2));
+  }
+
 }
 
 let div = el("div", {}, 
@@ -174,9 +191,9 @@ let div = el("div", {},
 )
 document.getElementById("emojis").appendChild(div);
 
-let hash = location.hash;
-let components = hash.split("/");
-components.shift();
+let hash = location.search.substring(1);
+let components = hash.split("&");
+
 components = components.map(c => Array.from(decodeURIComponent(c)).map(a=>a.codePointAt(0).toString(16)).join("-"));
 console.log("hash", components);
 if (components.length > 0) {

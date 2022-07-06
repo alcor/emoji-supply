@@ -73,9 +73,14 @@ html.allEmojis #emojis {
 }
 html.allEmojis #mixmojis {
   flex: 1 1 0vh;
+  padding-top:0;
+}
+#mixmojis {
+  padding-top:11vh;
 }
 html.allEmojis #preview {
   opacity:0.0;
+  margin-top: -20vh;
 }
 
 .hidden {
@@ -117,7 +122,7 @@ img.c-2615 {
 
 .emoji.selected {
   transform:
-  scale(2.0);
+  scale(1.2);
   background-color: var(--background-color);
   border: 1px solid var(--text-color);
   position: sticky;
@@ -176,13 +181,14 @@ img[src=""] {
   /* border-bottom: 1px solid black; */
   max-height: 92px;
   box-shadow: 0 2px 9px rgba(0,0,0,0.2);
-  background: linear-gradient(0deg, transparent, black, transparent);
+  background: linear-gradient(0deg, rgba(0,0,0,0.5), black, rgba(0,0,0,0.5));
   margin-top: -10vh;
-  margin-bottom: 0;
+  margin-bottom: -10vh;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  border-top: 1px solid white;
-  border-bottom: 1px solid dimgray;
+  border-top: 1px solid rgba(255,255,255,0.4);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  z-index:100;
 }
 
 #preview img {
