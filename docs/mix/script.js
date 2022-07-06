@@ -115,7 +115,7 @@ const selectMixmoji = (e, parents) => {
   p2.src = parent2.src;
   p2.targetId = p2id;
   
-  window.history.replaceState({}, "", "/mix?" + img.c.map(cc => codePointToText(cc)).join("&"));
+  window.history.replaceState({}, "", "/mix/?" + img.c.map(cc => codePointToText(cc)).join("&"));
 
 }
 
@@ -128,7 +128,7 @@ const selectEmoji = (e, id) => {
   id = target.id;
   console.log("Selecting Base", target, id);
   
-  window.history.replaceState({}, "", "/mix?" + codePointToText(id));
+  window.history.replaceState({}, "", "/mix/?" + codePointToText(id));
 
   lastEmoji?.classList.remove("selected");
   target.classList.add("selected");
@@ -192,16 +192,20 @@ let div = el("div", {},
 document.getElementById("emojis").appendChild(div);
 
 let hash = location.search.substring(1);
-let components = hash.split("&");
+if (hash.length) {
+  let components = hash.split("&");
 
-components = components.map(c => Array.from(decodeURIComponent(c)).map(a=>a.codePointAt(0).toString(16)).join("-"));
-console.log("hash", components);
-if (components.length > 0) {
-  document.documentElement.className = "mixmojis";
-}
-selectEmoji(undefined, components[0])
-if (components.length > 1) {
-  selectMixmoji(undefined, components);
+  components = components.map(c => Array.from(decodeURIComponent(c)).map(a=>a.codePointAt(0).toString(16)).join("-"));
+  console.log("hash", components);
+
+  if (components.length > 0) {
+    document.documentElement.className = "mixmojis";
+
+    selectEmoji(undefined, components[0])
+    if (components.length > 1) {
+      selectMixmoji(undefined, components);
+    }
+  }
 }
 
 
