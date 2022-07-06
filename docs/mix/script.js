@@ -177,7 +177,7 @@ const selectEmoji = (e, id) => {
     })
   )
   parent.appendChild(div);
-  if (1) {
+  if (0) {
     selectMixmoji(undefined, emojiStack.slice(0,2));
   }
 
