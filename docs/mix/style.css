@@ -62,10 +62,9 @@ body {
   scrollbar-width: none;
 }
 
-
 html.emojis #emojis,
 html.mixmojis #mixmojis {
-  flex: 1 1 75vh;
+  flex: 1 1 80vh;
  
 }
 html.allEmojis #emojis {
