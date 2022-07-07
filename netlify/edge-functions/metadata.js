@@ -34,10 +34,7 @@ export default async (request, context) => {
     let chars = components.map(c => Array.from(decodeURIComponent(c)));
     components = chars.map(c => c.map(a=>a.codePointAt(0).toString(16)).join("-"));
     
-    let info = {
-      s: "Emoji Kitchen Browser",
-      d: "Explore Emoji Kitchen combinations"
-    }
+    let info = {}
     
     if (components.length > 1 && date) {
       date = 20200000 + parseInt(date,36);
@@ -45,7 +42,7 @@ export default async (request, context) => {
     } else {
       info.i = emojiUrl(components[0]);
     }
-    info.title = chars.join(" & ") + " - " + info.s;
+    info.title = chars.join(" + ");
     info.f = info.i;
 
     console.log(chars.join("&") + "\t" + request.url)
