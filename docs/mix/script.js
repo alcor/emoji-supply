@@ -115,13 +115,19 @@ const selectMixmoji = (e, parents) => {
   p2.src = parent2.src;
   p2.targetId = p2id;
   
-  window.history.replaceState({}, "", "/mix/?" + img.c.map(cc => codePointToText(cc)).join("&"));
 
+  let url = "/mix/?" + img.c.map(cc => codePointToText(cc)).join("&");
+  url += "/" + parseInt(img.date).toString(36);
+  window.history.replaceState({}, "", url);
 }
 
 let lastEmoji = undefined;
 let emojiStack = localStorage.getItem("emojiStack") ? JSON.parse(localStorage.getItem("emojiStack")) : [];
 
+
+const clickedEmoji = (e) => {
+  selectEmoji(undefined, e.target.id);
+}
 const selectEmoji = (e, id) => {
   if (e) document.documentElement.className = "emojis";
   let target = e?.target ?? document.getElementById(id);
@@ -164,10 +170,11 @@ const selectEmoji = (e, id) => {
       className.push("c-" + c2);
       let altParent = c1 == id ? c2 : c1;
       let index = emojiStack.indexOf(altParent);
-
-      let url = mixmojiUrl(parseInt(d) + 20200000, [c1, c2]);
+      let date = parseInt(d) + 20200000;
+      let url = mixmojiUrl(date, [c1, c2]);
       return el("img", {
         id: [c1, c2].join("_"), 
+        date: d, 
         className:className.join(" "), c:[c1, c2], onclick:selectMixmoji, 
         style:"transition: all 0.3s " + Math.random()/8 + "s ease-out;" + (index < 0 ? "" : "order:" + (-10 + index)),
         onload:imageLoaded, 
@@ -186,17 +193,22 @@ const selectEmoji = (e, id) => {
 let div = el("div", {}, 
   window.points.map(point => {
     let dud = window.duds.includes(point);
-    return el("img", {id: point, className: dud ? "dud emoji" : "emoji", onclick:selectEmoji, src:emojiUrl(point), loading:"lazy"}, codePointToText(point))
+    return el("img", {id: point, className: dud ? "dud emoji" : "emoji", onclick:clickedEmoji, src:emojiUrl(point), loading:"lazy"}, codePointToText(point))
   })
 )
 document.getElementById("emojis").appendChild(div);
 
-let hash = location.search.substring(1);
-if (hash.length) {
-  let components = hash.split("&");
+let query = location.search.substring(1);
+if (query.length) {
+  let date = undefined;
+  if (query.indexOf("/")){
+    [query, date] = query.split("/");
+    date = parseInt(date,36);
+  }
+  let components = query.split("&");
+  console.log("query", components, date);
 
   components = components.map(c => Array.from(decodeURIComponent(c)).map(a=>a.codePointAt(0).toString(16)).join("-"));
-  console.log("hash", components);
 
   if (components.length > 0) {
     document.documentElement.className = "mixmojis";
