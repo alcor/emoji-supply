@@ -5,7 +5,7 @@ function decodePrettyComponent(s) {
 
 const emojiUrl = (codePoint) => {
   let cp = codePoint.split("-").filter(x => x !== "fe0f").join("_");
-  return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u${cp}.svg`      
+  return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/512/emoji_u${cp}.png`
 }
 
 const mixmojiUrl = (r, c) => {
@@ -17,10 +17,11 @@ const mixmojiUrl = (r, c) => {
 export default async (request, context) => {
   try {
     let url = new URL(request.url);
-    // console.log("url", request.url);
+    console.log("url", request.url);
     if (!url.pathname.endsWith("/")) return; 
 
     const ua = request.headers.get("user-agent");
+    if (!ua) return;
     let metadataBots = [ "Twitterbot", "curl", "facebookexternalhit", "Slackbot-LinkExpanding", "Discordbot", "snapchat"]
     let isMetadataBot = metadataBots.some(bot => ua.indexOf(bot) != -1);
     if (!isMetadataBot) return;
@@ -34,7 +35,9 @@ export default async (request, context) => {
     let chars = components.map(c => Array.from(decodeURIComponent(c)));
     components = chars.map(c => c.map(a=>a.codePointAt(0).toString(16)).join("-"));
     
-    let info = {}
+    let info = {
+      s: "Emoji Kitchen Browser"
+    }
     
     if (components.length > 1 && date) {
       date = 20200000 + parseInt(date,36);
@@ -42,10 +45,14 @@ export default async (request, context) => {
     } else {
       info.i = emojiUrl(components[0]);
     }
-    info.title = chars.join(" + ");
-    info.f = info.i;
+    info.title = chars.join(" + ");// + " - " + info.s;
 
-    console.log(chars.join("&") + "\t" + request.url)
+
+    if (ua.indexOf("Twitterbot") != -1) { info.i = url.origin + "/cache/?" + info.i }
+    console.log("INFO", info.i, url)
+    // info.f = info.i;
+
+    console.log(chars.join("&") + "\t" + request.url, info)
 
     let content = ['<meta charset="UTF-8">'];
     if (info.title) { content.push(`<title>${info.title}</title>`,`<meta property="og:title" content="${info.title}"/>`); }
@@ -55,7 +62,11 @@ export default async (request, context) => {
     if (info.i) { 
       if (!info.i.startsWith("http")) info.i = atob(info.i.replace(/=/g,''));
       content.push(`<meta property="og:image" content="${info.i}"/>`); 
-      content.push(`<meta name="twitter:card" content="summary_large_image">`);
+      if (ua?.indexOf("Twitterbot") != -1) {
+        content.push(`<meta name="twitter:card" content="summary">`);
+      } else {
+        content.push(`<meta name="twitter:card" content="summary_large_image">`);
+      }
       if (info.iw) content.push(`<meta property="og:image:width" content="${info.iw}"/>`); 
       if (info.ih) content.push(`<meta property="og:image:width" content="${info.ih}"/>`); 
     } 
