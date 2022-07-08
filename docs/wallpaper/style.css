@@ -3,6 +3,11 @@
   src: url(/fonts/NotoColorEmoji.ttf);
 }
 
+@font-face {
+  font-family: 'Noto Emoji';
+  src: url(/fonts/NotoEmoji-Regular.ttf);
+}
+
 canvas {
   background:gray;
   max-width:100%;

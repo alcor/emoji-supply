@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="./style.css">
   <meta property="og:title" content="An Emoji Wallpaper" />
   <meta property="og:description" content="Generate wallpaper for your device with colorful emoji" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z353MGES3V"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -88,10 +90,11 @@
 <div class="ignore" id="advanced">
   <!-- hidden URL param: fontSize=50 -->
   font size: <input id="fontSize" name="fontSize" type="text" size=1 value="" /> <label for="fontSize">px</label>
-  <label for="noto">in </label>
-  <select id="noto" name="noto">
+  <label for="family">in </label>
+  <select id="family" name="family">
     <option value="" selected>system font</option>
-    <option value="true">noto emoji</option>
+    <option value="Noto Emoji">noto b&w emoji</option>
+    <option value="Noto Color Emoji">noto color emoji</option>
   </select>
   <br>
   spacing: <input id="spacing" name="spacing" type="text" size=1 value="" /> <label for="spacing">%</label>,

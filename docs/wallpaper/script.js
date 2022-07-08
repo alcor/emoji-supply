@@ -229,8 +229,11 @@ function renderContent(time, seed) {
   size *= scale;
   let fontSize = parseFloat(options.fontSize) || size;
 
-  let noto = options.noto && options.noto.length;
-  let font = noto ? "Noto Color Emoji" : "sans-serif"
+  let family = options.family;
+  let font = "sans-serif";
+  if (options.noto && options.noto.length) family = "Noto Color Emoji";
+  else if (options.family && options.family.length) font = options.family;
+
   ctx.font = `${fontSize}px ${font}`;
 
   let margin = parseFloat(options.margin)/100
