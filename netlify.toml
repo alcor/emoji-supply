@@ -1,3 +1,7 @@
 [[edge_functions]]
   path = "/mix/*"
   function = "metadata"
+
+[[edge_functions]]
+  path = "/cache/*"
+  function = "cache"
