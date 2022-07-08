@@ -40,7 +40,9 @@ const codePointToText = (codePoint) => {
 }
 const emojiUrl = (codePoint) => {
   let cp = codePoint.split("-").filter(x => x !== "fe0f").join("_");
-  return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u${cp}.svg`      
+  return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/128/emoji_u${cp}.png`   ;  
+  return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u${cp}.svg`     
+   
 }
 
 const mixmojiUrl = (r, c) => {
@@ -87,6 +89,9 @@ const updateAppHeight = () => {
 window.addEventListener('resize', updateAppHeight)
 updateAppHeight()
 
+const setFavicon = (url) => {
+  document.getElementById("favicon").href = url;
+}
 
 let p1 = document.getElementById("p1")
 let p2 = document.getElementById("p2")
@@ -100,11 +105,17 @@ p2.onclick = focusEmoji;
 const selectMixmoji = (e, parents) => {
   if (e) document.documentElement.className = "mixmojis";
   let img = e?.target || document.getElementById(parents.join("_")) || document.getElementById(parents.reverse().join("_"));
-  parents = Array.from(img.c)
+  if (!img) return;
+
+  parents = img?.c ? Array.from(img?.c) : undefined;
   console.log("Selecting mix", img, parents);
 
   pc.src = img.src;
+  setFavicon(pc.src);
+
+  document.getElementById("preview").classList.add("mix")
   pc.name = parents.join("_");
+  document.title = "= " + parents.map(codePointToText).join("+");
  
   let p2id = (parents[0] == lastEmoji.id) ? parents.pop() : parents.shift();
   let p1id = parents.pop();
@@ -122,18 +133,37 @@ const selectMixmoji = (e, parents) => {
 }
 
 let lastEmoji = undefined;
+let pinnedEmoji = undefined;
+
 let emojiStack = localStorage.getItem("emojiStack") ? JSON.parse(localStorage.getItem("emojiStack")) : [];
 
 
 const clickedEmoji = (e) => {
+  if (e.target == pinnedEmoji) {
+    pinnedEmoji.classList.remove("pinned");
+    pinnedEmoji = undefined;
+  }
+  if (e.target == lastEmoji) {
+    // if (pinnedEmoji) {
+      console.log("pinning", e.target == lastEmoji,e.target)
+      pinnedEmoji?.classList.remove("pinned");
+      pinnedEmoji = e.target;
+      pinnedEmoji.classList.add("pinned");
+    // }
+  }
   selectEmoji(undefined, e.target.id);
+
+  if (pinnedEmoji) {
+    selectMixmoji(undefined, [pinnedEmoji.id, e.target.id]);
+  }
 }
 const selectEmoji = (e, id) => {
-  if (e) document.documentElement.className = "emojis";
+  document.documentElement.className = "emojis";
   let target = e?.target ?? document.getElementById(id);
   id = target.id;
   console.log("Selecting Base", target, id);
-  
+  document.getElementById("preview").classList.remove("mix")
+
   window.history.replaceState({}, "", "/mix/?" + codePointToText(id));
 
   lastEmoji?.classList.remove("selected");
@@ -143,8 +173,11 @@ const selectEmoji = (e, id) => {
   emojiStack.splice(9);
   localStorage.setItem("emojiStack", JSON.stringify(emojiStack));
 
-  pc.src = target.src;
-  p1.src = "";
+  document.title = " = " + codePointToText(id);
+
+  setFavicon(target.src);
+  p1.src = target.src;  
+  pc.src = "";
   p2.src = "";
 
   e1.onscroll = scrollElement;
@@ -218,6 +251,6 @@ if (query.length) {
       selectMixmoji(undefined, components);
     }
   }
+} else {
+  // document.documentElement.classList.add("showAbout");
 }
-
-
