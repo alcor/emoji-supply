@@ -91,40 +91,52 @@ updateAppHeight()
 
 const setFavicon = (url) => {
   document.getElementById("favicon").href = url;
+  document.getElementById("md-image").content = url;
 }
 
 let p1 = document.getElementById("p1")
 let p2 = document.getElementById("p2")
 let pc = document.getElementById("pc");
 
-let e1 = document.getElementById("emojis");
-let e2 = document.getElementById("mixmojis");
+let emojiContainer = document.getElementById("emoji-container");
+let mixmojiContainer = document.getElementById("mixmoji-container");
 p1.onclick = focusEmoji;
 p2.onclick = focusEmoji;
 
+
 const selectMixmoji = (e, parents) => {
-  if (e) document.documentElement.className = "mixmojis";
+  if (e) document.documentElement.className = "mixmoji-container";
   let img = e?.target || document.getElementById(parents.join("_")) || document.getElementById(parents.reverse().join("_"));
+  
   if (!img) return;
 
   parents = img?.c ? Array.from(img?.c) : undefined;
-  console.log("Selecting mix", img, parents);
+  console.log("Selecting mix", img.id, parents);
 
   pc.src = img.src;
   setFavicon(pc.src);
 
-  document.getElementById("preview").classList.add("mix")
+  document.getElementById("preview-container").classList.add("mix")
   pc.name = parents.join("_");
   document.title = "= " + parents.map(codePointToText).join("+");
  
-  let p2id = (parents[0] == lastEmoji.id) ? parents.pop() : parents.shift();
+  let p2id = (parents[0] == emoji1.id) ? parents.pop() : parents.shift();
   let p1id = parents.pop();
-  let parent1 = document.getElementById(p1id);
-  let parent2 = document.getElementById(p2id)
-  p1.src = lastEmoji.src;
+
+  emoji1?.classList.remove("selected");
+  emoji2?.classList.remove("secondary");
+  emoji1 = document.getElementById(p1id);
+  emoji2 = document.getElementById(p2id);
+  emoji1?.classList.add("selected");
+  emoji2?.classList.add("secondary");
+
+  p1.src = emoji1.src;
   p1.targetId = p1id;
-  p2.src = parent2.src;
+  p2.src = emoji2.src;
   p2.targetId = p2id;
+  p2.parentElement.classList.add("active");
+
+  
   
 
   let url = "/mix/?" + img.c.map(cc => codePointToText(cc)).join("&");
@@ -132,70 +144,85 @@ const selectMixmoji = (e, parents) => {
   window.history.replaceState({}, "", url);
 }
 
-let lastEmoji = undefined;
+let emoji1 = undefined;
+let emoji2 = undefined;
 let pinnedEmoji = undefined;
 
 let emojiStack = localStorage.getItem("emojiStack") ? JSON.parse(localStorage.getItem("emojiStack")) : [];
 
 
 const clickedEmoji = (e) => {
-  if (e.target == pinnedEmoji) {
+  if (e) document.documentElement.className = "emoji-container";
+
+  let target = e.target.closest("div");
+  if (target == pinnedEmoji) {
+    console.log("unpin", pinnedEmoji.title);
     pinnedEmoji.classList.remove("pinned");
     pinnedEmoji = undefined;
+  } else if (target == emoji1 || target == emoji2) {
+    console.log("pinning", target.title)
+    pinnedEmoji?.classList.remove("pinned");
+    pinnedEmoji = target;
+    pinnedEmoji.classList.add("pinned");
   }
-  if (e.target == lastEmoji) {
-    // if (pinnedEmoji) {
-      console.log("pinning", e.target == lastEmoji,e.target)
-      pinnedEmoji?.classList.remove("pinned");
-      pinnedEmoji = e.target;
-      pinnedEmoji.classList.add("pinned");
-    // }
-  }
-  selectEmoji(undefined, e.target.id);
+
+  selectEmoji(undefined, target.id);
 
   if (pinnedEmoji) {
-    selectMixmoji(undefined, [pinnedEmoji.id, e.target.id]);
+    selectMixmoji(undefined, [pinnedEmoji.id, target.id]);
   }
 }
 const selectEmoji = (e, id) => {
-  document.documentElement.className = "emojis";
+
+  // document.documentElement.className = "emojis";
   let target = e?.target ?? document.getElementById(id);
   id = target.id;
   console.log("Selecting Base", target, id);
-  document.getElementById("preview").classList.remove("mix")
+  document.getElementById("preview-container").classList.remove("mix")
 
   window.history.replaceState({}, "", "/mix/?" + codePointToText(id));
 
-  lastEmoji?.classList.remove("selected");
-  target.classList.add("selected");
-  lastEmoji = target;
+  emoji1?.classList.remove("selected");
+  emoji2?.classList.remove("secondary");
+
+  if (pinnedEmoji) {
+    emoji2 = target;
+    emoji1 = pinnedEmoji;
+  } else {
+    emoji2 = emoji1;
+    emoji1 = target;
+  }
+
+  emoji1?.classList.add("selected");
+  emoji2?.classList.add("secondary");
+
   emojiStack.unshift(id);
   emojiStack.splice(9);
   localStorage.setItem("emojiStack", JSON.stringify(emojiStack));
 
   document.title = " = " + codePointToText(id);
 
+  console.log(target.src)
   setFavicon(target.src);
-  p1.src = target.src;  
+  p1.src = emoji1.src;  
+  p2.src = emoji2?.src;
   pc.src = "";
-  p2.src = "";
 
-  e1.onscroll = scrollElement;
-  e2.onscroll = scrollElement;
+  emojiContainer.onscroll = scrollElement;
+  mixmojiContainer.onscroll = scrollElement;
   
   
-  const imageLoaded = (e) => {
-    e.target.classList.add("loaded")
-  }
+  const imageLoaded = (e) => { e.target.classList.add("loaded") 
+}
   const re = new RegExp("^.*" + target.id + ".*$","gm");
 
   const array = [...window.pairs.matchAll(re)];
 
-  let parent = document.getElementById("mixmojis");
+  let parent = document.getElementById("mixmoji-container");
   parent.classList.remove("hidden");
   parent.scrollTo(0, 0);
   parent.childNodes.forEach(child => {parent.removeChild(child)});
-  let div = el("div", {className: array.length < 20 ? "sparse" : ""}, 
+  let div = el("div#mixmoji-content", {className: array.length < 20 ? "sparse content" : "content"}, 
     array.map(match => {
       let [d, c1, c2] = match.pop().split("/");
       let className = ["mixmoji"];
@@ -204,7 +231,14 @@ const selectEmoji = (e, id) => {
       let altParent = c1 == id ? c2 : c1;
       let index = emojiStack.indexOf(altParent);
       let date = parseInt(d) + 20200000;
+      if (index == 0 && c1 ==  c2) {
+        index = -1;
+      }
       let url = mixmojiUrl(date, [c1, c2]);
+      if (index > 0 || c1 ==  c2) {
+        className.push("featured");
+      }
+
       return el("img", {
         id: [c1, c2].join("_"), 
         date: d, 
@@ -217,19 +251,23 @@ const selectEmoji = (e, id) => {
     })
   )
   parent.appendChild(div);
-  if (0) {
-    selectMixmoji(undefined, emojiStack.slice(0,2));
+  if (1) {
+    selectMixmoji(undefined, [emoji1?.id, emoji2?.id]);
   }
 
 }
 
-let div = el("div", {}, 
+let div = el("div#emoji-content.content", {}, 
   window.points.map(point => {
     let dud = window.duds.includes(point);
-    return el("img", {id: point, className: dud ? "dud emoji" : "emoji", onclick:clickedEmoji, src:emojiUrl(point), loading:"lazy"}, codePointToText(point))
+    let url = emojiUrl(point);
+    let text = codePointToText(point);
+    return el("div", {id:point, title:text, src:url, className: dud ? "dud emoji" : "emoji"}, el("span", text),
+      el("img", {onclick:clickedEmoji, src:url, loading:"lazy"})
+    );
   })
 )
-document.getElementById("emojis").appendChild(div);
+emojiContainer.appendChild(div);
 
 let query = location.search.substring(1);
 if (query.length) {
@@ -244,7 +282,7 @@ if (query.length) {
   components = components.map(c => Array.from(decodeURIComponent(c)).map(a=>a.codePointAt(0).toString(16)).join("-"));
 
   if (components.length > 0) {
-    document.documentElement.className = "mixmojis";
+    document.documentElement.className = "mixmoji-container";
 
     selectEmoji(undefined, components[0])
     if (components.length > 1) {

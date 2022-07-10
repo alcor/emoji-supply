@@ -6,9 +6,9 @@
   <title>Emoji Kitchen Mixer</title>
   <link rel="stylesheet" href="/mix/style.css">
   <meta property="og:site" content="emoji.supply" />
-  <meta property="og:title" content="Emoji Kitchen - Mixer" />
-  <meta property="og:description" content="Explore Emoji Kitchen combinations" />
-  <meta property="og:image" content="/mix/icon.png" />
+  <meta id="md-title" property="og:title" content="Emoji Kitchen - Mixer" />
+  <meta id="md-desc" property="og:description" content="Explore Emoji Kitchen combinations" />
+  <meta id="md-image" property="og:image" content="/mix/icon.png" />
   <link rel="apple-touch-icon" href="/mix/icon.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -27,7 +27,7 @@
 </head>
 <body class="loading">
 <div id="about">
-  <div class="closeIcon" onclick="document.documentElement.classList.remove('showAbout')"></div>
+  <div class="icon closeIcon" onclick="document.documentElement.classList.remove('showAbout')"></div>
   <img src="https://www.gstatic.com/android/keyboard/emojikitchen/20210521/u1fa84/u1fa84_u1f60d.png" style="width:2em" alt="🖍">
   <p>
   This site lets you browse the delightful combinations of
@@ -40,18 +40,19 @@
 
 
 </div>
-<div id="emojis"></div>
-<div id="preview">
-  <img id="p2" src="">
-  <div class="icon addIcon"></div>
-  <img id="p1" src="">
-  <div class="icon equalIcon"></div>
-  <img id="pc" src="">
+<div id="emoji-container" class="container"></div>
+<div id="mixmoji-container" class="container"></div>
+<div id="preview-container">
   <div class="infoIcon" onclick="document.documentElement.classList.toggle('showAbout')"></div>
+  <div class="preview"><img id="p1" src=""></div>
+  <div class="icon addIcon"></div>
+  <div class="preview"><img id="p2" src=""></div>
+  <div class="icon equalsIcon"></div>
+  <div class="preview"><img id="pc" src=""></div>
+  <div class="icon menuIcon" onclick="document.documentElement.classList.toggle('showAbout')"></div>
 </div>
-<div id="mixmojis"></div>
+
 <script  src="/mix/data.js"></script>
 <script  src="/mix/script.js"></script>
-
 </body>
 </html>
