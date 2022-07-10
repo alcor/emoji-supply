@@ -32,7 +32,6 @@ const el = (selector, ...args) => {
 };
 window.el = el;
 
-
 const codePointToText = (codePoint) => {
   let cps = codePoint.split("-").map(hex => parseInt(hex, 16));
   let emoji = String.fromCodePoint(...cps);
@@ -71,6 +70,12 @@ const copyToClipboard = async (e) => {
   }
 }
 
+const pinEmoji = (e) => {
+  if (pinnedEmoji == emoji1) {
+    pinnedEmoji = undefined;
+  }
+}
+
 const focusEmoji = (e) => {
   selectEmoji(undefined,e.target.targetId);
   selectMixmoji(undefined, pc.name.split("_"));
@@ -82,12 +87,7 @@ const scrollElement = (e) => {
   document.documentElement.className = e.target.id.replace("#","");
 }
 
-const updateAppHeight = () => {
-  const doc = document.documentElement
-  doc.style.setProperty('--app-height', `${window.innerHeight}px`)
-}
-window.addEventListener('resize', updateAppHeight)
-updateAppHeight()
+
 
 const setFavicon = (url) => {
   document.getElementById("favicon").href = url;
@@ -103,12 +103,16 @@ let mixmojiContainer = document.getElementById("mixmoji-container");
 p1.onclick = focusEmoji;
 p2.onclick = focusEmoji;
 
-
+let selectedMixmoji = undefined;
 const selectMixmoji = (e, parents) => {
   if (e) document.documentElement.className = "mixmoji-container";
   let img = e?.target || document.getElementById(parents.join("_")) || document.getElementById(parents.reverse().join("_"));
   
   if (!img) return;
+
+  selectedMixmoji?.classList.remove("selected")
+  selectedMixmoji = img;
+  selectedMixmoji.classList.add("selected");
 
   parents = img?.c ? Array.from(img?.c) : undefined;
   console.log("Selecting mix", img.id, parents);
@@ -130,9 +134,9 @@ const selectMixmoji = (e, parents) => {
   emoji1?.classList.add("selected");
   emoji2?.classList.add("secondary");
 
-  p1.src = emoji1.src;
+  p1.src = emoji1.src.replace("128", "512");
   p1.targetId = p1id;
-  p2.src = emoji2.src;
+  p2.src = emoji2.src.replace("128", "512");
   p2.targetId = p2id;
   p2.parentElement.classList.add("active");
 
@@ -148,30 +152,34 @@ let emoji1 = undefined;
 let emoji2 = undefined;
 let pinnedEmoji = undefined;
 
-let emojiStack = localStorage.getItem("emojiStack") ? JSON.parse(localStorage.getItem("emojiStack")) : [];
-
+let recents = localStorage.getItem("recents") ? JSON.parse(localStorage.getItem("recents")) : [];
+let favorites = localStorage.getItem("favorites") ? JSON.parse(localStorage.getItem("favorites")) : [];
 
 const clickedEmoji = (e) => {
+
   if (e) document.documentElement.className = "emoji-container";
 
   let target = e.target.closest("div");
+
   if (target == pinnedEmoji) {
     console.log("unpin", pinnedEmoji.title);
     pinnedEmoji.classList.remove("pinned");
     pinnedEmoji = undefined;
-  } else if (target == emoji1 || target == emoji2) {
+  } else if (e.detail == 2) {
     console.log("pinning", target.title)
     pinnedEmoji?.classList.remove("pinned");
     pinnedEmoji = target;
     pinnedEmoji.classList.add("pinned");
+    return;
   }
-
   selectEmoji(undefined, target.id);
 
   if (pinnedEmoji) {
     selectMixmoji(undefined, [pinnedEmoji.id, target.id]);
   }
 }
+
+
 const selectEmoji = (e, id) => {
 
   // document.documentElement.className = "emojis";
@@ -196,16 +204,16 @@ const selectEmoji = (e, id) => {
   emoji1?.classList.add("selected");
   emoji2?.classList.add("secondary");
 
-  emojiStack.unshift(id);
-  emojiStack.splice(9);
-  localStorage.setItem("emojiStack", JSON.stringify(emojiStack));
+  recents.unshift(id);
+  recents.splice(9);
+  localStorage.setItem("recents", JSON.stringify(recents));
 
   document.title = " = " + codePointToText(id);
 
   console.log(target.src)
   setFavicon(target.src);
-  p1.src = emoji1.src;  
-  p2.src = emoji2?.src;
+  p1.src = emoji1.src.replace("128", "512");;  
+  p2.src = emoji2?.src.replace("128", "512");;
   pc.src = "";
 
   emojiContainer.onscroll = scrollElement;
@@ -229,7 +237,7 @@ const selectEmoji = (e, id) => {
       className.push("c-" + c1);
       className.push("c-" + c2);
       let altParent = c1 == id ? c2 : c1;
-      let index = emojiStack.indexOf(altParent);
+      let index = recents.indexOf(altParent);
       let date = parseInt(d) + 20200000;
       if (index == 0 && c1 ==  c2) {
         index = -1;
@@ -262,7 +270,10 @@ let div = el("div#emoji-content.content", {},
     let dud = window.duds.includes(point);
     let url = emojiUrl(point);
     let text = codePointToText(point);
-    return el("div", {id:point, title:text, src:url, className: dud ? "dud emoji" : "emoji"}, el("span", text),
+    let className = ["emoji"];
+    if (dud) className.push("dud");
+    if (favorites.includes("point")) className.push("favorite");
+    return el("div", {id:point, title:text, src:url, className: className.join(" ")}, el("span", text),
       el("img", {onclick:clickedEmoji, src:url, loading:"lazy"})
     );
   })

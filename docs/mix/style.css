@@ -9,6 +9,7 @@
 }
 
 html {
+  height: 100vh;
   height: -webkit-fill-available;
 }
 
@@ -18,13 +19,19 @@ body {
   system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   display:
   flex;
-  --background-color:black;
-  --deep-background-color:
-  rgba(20,20,20,1.0);
+
+  --background-color: hsl(180deg 5% 80%);
+  --background-color-2:hsl(180deg 5% 95%);
+  --background-color-3: hsl(180deg 5% 100%);
+  --text-color:hsl(180deg 5% 30%);
+
+  --background-color: hsl(180deg 5% 10%);
+  --background-color-2:hsl(180deg 5% 15%);
+  --background-color-3: hsl(180deg 5% 20%);
   --text-color:white;
+  
   flex-direction: column;
-  height: 100vh;
-  height: -webkit-fill-available;
+  height: 138vh;
   height: var(--app-height);
   max-height:100vh;
   margin: 0;
@@ -34,13 +41,18 @@ body {
   var(--text-color);
   /* justify-content: center; */
   /* width: 100%; */
+  justify-content: flex-end;
 }
 
+svg path {
+  fill:var(--text-color);
+}
 @media (prefers-color-scheme: dark) {
   body {
-    --background-color:black;
-    --deep-background-color:black;
-    --text-color:white;  
+    --background-color: hsl(180deg 5% 10%);
+    --background-color-2:hsl(180deg 5% 15%);
+    --background-color-3: hsl(180deg 5% 20%);
+    --text-color:white;
   }
 }
 
@@ -104,7 +116,7 @@ html.allEmoji-container #mixmoji-container {
   /* padding-top: 2px; */
   border-top: 1px solid rgba(100,100,100,1.0);
   /* padding-bottom: 1em; */
-  background-color: hsl(180deg 5% 15%);
+  background-color: var(--background-color-2)
 }
 html.allEmoji-container #preview-container {
   opacity:0.0;
@@ -121,7 +133,7 @@ html.allEmoji-container #preview-container {
   /* flex: 1 1 60vh; */
   /* padding-bottom: 1em; */
   /* padding-top: 1em; */
-  background-color: hsl(180deg 5% 10%);
+  background-color: var(--background-color)
 }
 @media screen and (max-width: 600px) {
   #emoji-container {
@@ -148,6 +160,7 @@ html.allEmoji-container #preview-container {
   top:8px;
   opacity:1;
   z-index:100;
+  /* box-shadow: 0 0 0 2px white; */
 }
 
 .emoji.secondary {
@@ -169,6 +182,8 @@ html.allEmoji-container #preview-container {
   display:
   block;
   box-sizing: border-box;
+
+  touch-action: manipulation;
   /* transform: scale(1); */
 }
 .emoji.dud {
@@ -205,10 +220,32 @@ img.c-2615 {
   box-sizing: border-box;
 }
 
+.emoji.favorite:before {
+  content: "";
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='none' viewBox='0 0 13 13'%3e%3cpath fill='white' d='M4.054 11.119h4.734c.642 0 .955-.318.955-1.015v-3.65c0-.627-.259-.95-.79-1.005V4.196c0-1.875-1.23-2.78-2.532-2.78-1.303 0-2.532.905-2.532 2.78v1.278c-.487.075-.79.393-.79.98v3.65c0 .697.313 1.015.955 1.015Zm.636-7.027c0-1.248.8-1.91 1.73-1.91.93 0 1.732.662 1.732 1.91v1.353l-3.462.004V4.092Z'/%3e%3c/svg%3e");
+  background-position:
+  center;
+  background-size:
+  cover;
+  position: absolute;
+  top: -5px;
+  right: -7px;
+  font-size: 0.2em;
+  color: var(--text-color);
+  opacity: 1.0;
+  background-color: var(--background-color);
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 100%;
+  line-height: 1.5em;
+  text-align: center;
+  border: 2px solid black;
+  box-sizing: border-box;
+}
+
 #emoji-container .emoji.pinned {
   transform: scale(1);
-  outline: 2px solid
-  var(--text-color);
+  box-shadow: 0 0 0 2px var(--text-color);
   background-color: var(--background-color);
   position: sticky;
   bottom: 14px;
@@ -248,6 +285,20 @@ img.c-2615 {
   height: 1em;
   padding: 0.05em;
   box-sizing: border-box;
+  border:2px solid transparent;
+  border-radius:0.2em;
+  touch-action: manipulation;
+  box-sizing: border-box;
+}
+
+.mixmoji.selected {
+  background-color: var(--background-color);
+  background-color: var(--text-color);
+  position: sticky;
+  bottom: 8px;
+  top:8px;
+  opacity:1;
+  z-index:100;
 }
 
 .mixmoji.loaded{
@@ -296,7 +347,7 @@ background-color:var(--text-color);position: fixed;/* top:0; */}
   z-index:100;
   flex: 0 0 auto;
   font-size: 72px;
-  background-color: hsl(180deg 5% 20%);
+  background-color: var(--background-color-3)
 }
 
 .preview img {
@@ -380,6 +431,7 @@ img#\31 f493,
   /* box-shadow: 0 0 50px 12px black; */
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  top: 0;
 }
 
 #about a {
@@ -412,13 +464,15 @@ img#\31 f493,
 .icon.menuIcon {
   background-position: -96px -48px;
   width: 32px;
+  position: absolute;
+  right: 32px;
 }
 
 .favorite {
-    grid-column: span 2;
-    grid-row: span 2;
-    width: 2em;
-    height: 2em;
+    /* grid-column: span 2; */
+    /* grid-row: span 2; */
+    /* width: 2em; */
+    /* height: 2em; */
 }
 
 .allEmojis div#mixmoji-container {
@@ -436,4 +490,8 @@ img#\31 f493,
     margin-left:0;
   }
   
+}
+
+svg fill {
+    fill: red;
 }
