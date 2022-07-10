@@ -165,7 +165,7 @@ html.allEmoji-container #preview-container {
 
 .emoji.secondary {
   background-color: var(--background-color);
-  background-color: rgba(128,100,100,1.0);
+  background-color: rgba(128,128,128,1.0);
   position: sticky;
   bottom: 8px;
   top:8px;
@@ -258,6 +258,7 @@ img.c-2615 {
   /* overflow: hidden; */
   width: 1em;
   user-select: none;
+  transition: background-color 500ms;
 }
 
 #emoji-content > div > span {
@@ -299,6 +300,8 @@ img.c-2615 {
   top:8px;
   opacity:1;
   z-index:100;
+  /* box-sizing: border-box; */
+  border-color: var(--background-color);
 }
 
 .mixmoji.loaded{
