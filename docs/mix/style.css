@@ -350,7 +350,11 @@ background-color:var(--text-color);position: fixed;/* top:0; */}
   z-index:100;
   flex: 0 0 auto;
   font-size: 72px;
-  background-color: var(--background-color-3)
+  background-color: var(--background-color-3);
+  user-select: none;
+  padding-right: 0.25em;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
 }
 
 .preview img {
@@ -468,7 +472,7 @@ img#\31 f493,
   background-position: -96px -48px;
   width: 32px;
   position: absolute;
-  right: 32px;
+  right: 16px;
 }
 
 .favorite {
