@@ -39,9 +39,8 @@ const codePointToText = (codePoint) => {
 }
 const emojiUrl = (codePoint) => {
   let cp = codePoint.split("-").filter(x => x !== "fe0f").join("_");
-  return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/128/emoji_u${cp}.png`   ;  
-  return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u${cp}.svg`     
-   
+  return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/128/emoji_u${cp}.png`;  
+  return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/svg/emoji_u${cp}.svg`       
 }
 
 const mixmojiUrl = (r, c) => {
@@ -70,12 +69,6 @@ const copyToClipboard = async (e) => {
   }
 }
 
-const pinEmoji = (e) => {
-  if (pinnedEmoji == emoji1) {
-    pinnedEmoji = undefined;
-  }
-}
-
 const focusEmoji = (e) => {
   selectEmoji(undefined,e.target.targetId);
   selectMixmoji(undefined, pc.name.split("_"));
@@ -86,8 +79,6 @@ const scrollElement = (e) => {
   setTimeout(() => { e.target.onscroll = scrollElement; }, 2000);
   document.documentElement.className = e.target.id.replace("#","");
 }
-
-
 
 const setFavicon = (url) => {
   document.getElementById("favicon").href = url;
@@ -140,9 +131,6 @@ const selectMixmoji = (e, parents) => {
   p2.targetId = p2id;
   p2.parentElement.classList.add("active");
 
-  
-  
-
   let url = "/mix/?" + img.c.map(cc => codePointToText(cc)).join("&");
   url += "/" + parseInt(img.date).toString(36);
   window.history.replaceState({}, "", url);
@@ -156,9 +144,7 @@ let recents = localStorage.getItem("recents") ? JSON.parse(localStorage.getItem(
 let favorites = localStorage.getItem("favorites") ? JSON.parse(localStorage.getItem("favorites")) : [];
 
 const clickedEmoji = (e) => {
-
   if (e) document.documentElement.className = "emoji-container";
-
   let target = e.target.closest("div");
 
   if (target == pinnedEmoji) {
@@ -181,8 +167,6 @@ const clickedEmoji = (e) => {
 
 
 const selectEmoji = (e, id) => {
-
-  // document.documentElement.className = "emojis";
   let target = e?.target ?? document.getElementById(id);
   id = target.id;
   console.log("Selecting Base", target, id);
@@ -218,10 +202,8 @@ const selectEmoji = (e, id) => {
 
   emojiContainer.onscroll = scrollElement;
   mixmojiContainer.onscroll = scrollElement;
-  
-  
-  const imageLoaded = (e) => { e.target.classList.add("loaded") 
-}
+  const imageLoaded = (e) => { e.target.classList.add("loaded") }
+
   const re = new RegExp("^.*" + target.id + ".*$","gm");
 
   const array = [...window.pairs.matchAll(re)];
@@ -262,7 +244,6 @@ const selectEmoji = (e, id) => {
   if (1) {
     selectMixmoji(undefined, [emoji1?.id, emoji2?.id]);
   }
-
 }
 
 let div = el("div#emoji-content.content", {}, 
@@ -300,6 +281,5 @@ if (query.length) {
       selectMixmoji(undefined, components);
     }
   }
-} else {
-  // document.documentElement.classList.add("showAbout");
 }
+document.body.addEventListener('touchmove', function(e){ e.preventDefault(); });

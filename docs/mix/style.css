@@ -2,34 +2,27 @@
   font-family: 'Noto Color Emoji';
   src: url(/fonts/NotoColorEmoji.ttf);
 }
-
 @font-face {
   font-family: 'Noto Emoji';
   src: url(/fonts/NotoEmoji-Regular.ttf);
 }
-
 html {
   height: 100vh;
   height: -webkit-fill-available;
 }
-
 body {
   font-size: 20px;
-  font-family:
-  system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  display:
-  flex;
-
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  display: flex;
+  position:relative;
   --background-color: hsl(180deg 5% 80%);
   --background-color-2:hsl(180deg 5% 95%);
   --background-color-3: hsl(180deg 5% 100%);
   --text-color:hsl(180deg 5% 30%);
-
   --background-color: hsl(180deg 5% 10%);
   --background-color-2:hsl(180deg 5% 15%);
   --background-color-3: hsl(180deg 5% 20%);
   --text-color:white;
-  
   flex-direction: column;
   height: 138vh;
   height: var(--app-height);
@@ -37,31 +30,24 @@ body {
   margin: 0;
   overflow: hidden;
   background-color: var(--background-color);
-  color:
-  var(--text-color);
-  /* justify-content: center; */
-  /* width: 100%; */
+  color: var(--text-color);
   justify-content: flex-end;
 }
-
 svg path {
   fill:var(--text-color);
 }
 @media (prefers-color-scheme: dark) {
   body {
-    --background-color: hsl(180deg 5% 10%);
-    --background-color-2:hsl(180deg 5% 15%);
-    --background-color-3: hsl(180deg 5% 20%);
-    --text-color:white;
-  }
+      --background-color: hsl(180deg 5% 10%);
+      --background-color-2:hsl(180deg 5% 15%);
+      --background-color-3: hsl(180deg 5% 20%);
+      --text-color:white;
+ }
 }
-
 ::-webkit-scrollbar {
   display: none;
   scrollbar-width: none;
 }
-
-
 .container {
   display: flex;
   flex: 1 1 50%;
@@ -81,27 +67,16 @@ svg path {
   justify-content: space-between;
   width: 100vw;
   height: 100%;
-  /* gap: 2px; */
 }
-
 #emoji-content {
   padding-top: 1vmin;
-  /* margin-bottom: 10em; */
-  /* padding-bottom: 10vmin; */
   font-size: calc(min(10vmin, 48px));
 }
-
 #mixmoji-content {
-  /* padding: 8px 0; */
-  /* padding-bottom: 269px; */
   font-size: calc(min(20vmin, 96px));
   padding-top: 1vmin;
 }
-
-
-
-html.emoji-container #emoji-container,
-html.mixmoji-container #mixmoji-container {
+html.emoji-container #emoji-container, html.mixmoji-container #mixmoji-container {
   flex: 1 1 80%;
 }
 html.allEmoji-container #emoji-container {
@@ -111,40 +86,31 @@ html.allEmoji-container #mixmoji-container {
   flex: 1 1 0vh;
   padding-top:0;
 }
-
 #mixmoji-container {
-  /* padding-top: 2px; */
   border-top: 1px solid rgba(100,100,100,1.0);
-  /* padding-bottom: 1em; */
-  background-color: var(--background-color-2)
+  background-color: var(--background-color-2) 
 }
 html.allEmoji-container #preview-container {
   opacity:0.0;
   margin-top: -20vh;
 }
-
-/* #preview:not(.mix) .icon{display:none;} */
-
+/* #preview:not(.mix) .icon{
+ display:none;
+}
+*/
 .hidden {
   display:none !important;
 }
-
 #emoji-container {
-  /* flex: 1 1 60vh; */
-  /* padding-bottom: 1em; */
-  /* padding-top: 1em; */
-  background-color: var(--background-color)
+  background-color: var(--background-color) 
 }
 @media screen and (max-width: 600px) {
   #emoji-container {
-    padding-top:0;
-  }
+      padding-top:0;
+ }
 }
-
 #emoji-content, #mixmoji-content {
-  /* position: absolute; */
 }
-
 .emoji {
   font-family: 'Noto Color Emoji';
   border-radius: 8px;
@@ -160,9 +126,7 @@ html.allEmoji-container #preview-container {
   top:8px;
   opacity:1;
   z-index:100;
-  /* box-shadow: 0 0 0 2px white; */
 }
-
 .emoji.secondary {
   background-color: var(--background-color);
   background-color: rgba(128,128,128,1.0);
@@ -172,23 +136,17 @@ html.allEmoji-container #preview-container {
   opacity:1;
   z-index:100;
 }
-
 .emoji img{
-  cursor:
-  pointer;
+  cursor: pointer;
   padding: 0.05em;
   width: 1em;
   height: 1em;
-  display:
-  block;
+  display: block;
   box-sizing: border-box;
-
   touch-action: manipulation;
-  /* transform: scale(1); */
 }
 .emoji.dud {
   opacity:0.667;
-  /* order: 1; */
 }
 .emoji.dud:hover {
   opacity :1.0;
@@ -196,14 +154,11 @@ html.allEmoji-container #preview-container {
 img.c-2615 {
   order:1;
 }
-
 .emoji.pinned:before {
   content: "";
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='none' viewBox='0 0 13 13'%3e%3cpath fill='white' d='M4.054 11.119h4.734c.642 0 .955-.318.955-1.015v-3.65c0-.627-.259-.95-.79-1.005V4.196c0-1.875-1.23-2.78-2.532-2.78-1.303 0-2.532.905-2.532 2.78v1.278c-.487.075-.79.393-.79.98v3.65c0 .697.313 1.015.955 1.015Zm.636-7.027c0-1.248.8-1.91 1.73-1.91.93 0 1.732.662 1.732 1.91v1.353l-3.462.004V4.092Z'/%3e%3c/svg%3e");
-  background-position:
-  center;
-  background-size:
-  cover;
+  background-position: center;
+  background-size: cover;
   position: absolute;
   top: -5px;
   right: -7px;
@@ -219,14 +174,11 @@ img.c-2615 {
   border: 2px solid black;
   box-sizing: border-box;
 }
-
 .emoji.favorite:before {
   content: "";
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' fill='none' viewBox='0 0 13 13'%3e%3cpath fill='white' d='M4.054 11.119h4.734c.642 0 .955-.318.955-1.015v-3.65c0-.627-.259-.95-.79-1.005V4.196c0-1.875-1.23-2.78-2.532-2.78-1.303 0-2.532.905-2.532 2.78v1.278c-.487.075-.79.393-.79.98v3.65c0 .697.313 1.015.955 1.015Zm.636-7.027c0-1.248.8-1.91 1.73-1.91.93 0 1.732.662 1.732 1.91v1.353l-3.462.004V4.092Z'/%3e%3c/svg%3e");
-  background-position:
-  center;
-  background-size:
-  cover;
+  background-position: center;
+  background-size: cover;
   position: absolute;
   top: -5px;
   right: -7px;
@@ -242,7 +194,6 @@ img.c-2615 {
   border: 2px solid black;
   box-sizing: border-box;
 }
-
 #emoji-container .emoji.pinned {
   transform: scale(1);
   box-shadow: 0 0 0 2px var(--text-color);
@@ -251,38 +202,24 @@ img.c-2615 {
   bottom: 14px;
 }
 #emoji-content > div {
-  /* font-size:48px; */
   color: transparent;
-  /* position: absolute; */
   height: 1em;
-  /* overflow: hidden; */
   width: 1em;
   user-select: none;
   transition: background-color 500ms;
 }
-
 #emoji-content > div > span {
   color: transparent;
   position: absolute;
   pointer-events: none;
 }
-
-
 .emoji:hover {
   background-color: var(--text-color);
 }
-
-
-
 .mixmoji {
-  /* width:100%; */
   width: 1em;
-  /* max-width: 4em; */
-  /* height: 1em; */
   opacity:0.0;
   transition: all 1s ease;
-  /* transform:
-  scale(0.75) translateY(-3em); */
   height: 1em;
   padding: 0.05em;
   box-sizing: border-box;
@@ -291,7 +228,6 @@ img.c-2615 {
   touch-action: manipulation;
   box-sizing: border-box;
 }
-
 .mixmoji.selected {
   background-color: var(--background-color);
   background-color: var(--text-color);
@@ -300,34 +236,25 @@ img.c-2615 {
   top:8px;
   opacity:1;
   z-index:100;
-  /* box-sizing: border-box; */
   border-color: var(--background-color);
 }
-
 .mixmoji.loaded{
   opacity:1.0;
   transform: scale(1);
 }
-
 #mixmoji-container .sparse {
-  /* display: grid; */
-  /* max-width: 100vh; */
-  margin: auto;
-  flex-wrap: wrap;
-  /* justify-content: flex-start; */
-  /* font-size: 93px; */
-  /* align-items: flex-start; */
-  gap: 0 0.3em;
-  height: auto;
+ margin: auto;
+ flex-wrap: wrap;
+ gap: 0 0.3em;
+ /* height: auto; */
 }
-
-#mixmoji-content:before {/* content:''; */width: auto;
-height:2px;
-background-color:var(--text-color);position: fixed;/* top:0; */}
-
+#mixmoji-content:before {
+ width: auto;
+  height:2px;
+  background-color:var(--text-color);
+ position: fixed;
+}
 #preview-container {
-  /* order: -1; */
-  /* position: fixed; */
   top: 0;
   left:0;
   right:0;
@@ -336,13 +263,8 @@ background-color:var(--text-color);position: fixed;/* top:0; */}
   justify-content: center;
   padding: 1vmin;
   align-items: center;
-  /* border-top: 1px solid black; */
-  /* border-bottom: 1px solid black; */
   height: 96px;
   box-shadow: 0 2px 9px rgba(0,0,0,0.2);
-  /* background: linear-gradient(0deg, rgba(0,0,0,0.5), black, rgba(0,0,0,0.5)); */
-  /* margin-top: -8vh; */
-  /* margin-bottom: -8vh; */
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255,255,255,0.4);
@@ -355,58 +277,37 @@ background-color:var(--text-color);position: fixed;/* top:0; */}
   padding-right: 0.25em;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
+  touch-action: manipulation;
 }
-
 .preview img {
   transition: all 0.5s;
 }
-
-img[src="undefined"],
-img[src=""] {
-  /* opacity:0;
-  transform:scale(0.0); */
-  /* background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' fill='none' viewBox='0 0 48 48'%3e%3cpath fill='white' fill-opacity='.5' d='M22.648 31.926c1.368 0 1.993-.938 1.993-2.188v-.664c.039-2.578.957-3.652 4.082-5.8 3.359-2.266 5.488-4.883 5.488-8.653 0-5.86-4.766-9.219-10.703-9.219-4.414 0-8.281 2.09-9.942 5.86-.41.918-.586 1.816-.586 2.558 0 1.114.645 1.895 1.836 1.895.996 0 1.66-.586 1.954-1.543.996-3.711 3.457-5.117 6.601-5.117 3.809 0 6.797 2.148 6.797 5.547 0 2.793-1.738 4.355-4.238 6.113-3.067 2.129-5.313 4.414-5.313 7.851v1.23c0 1.25.684 2.13 2.031 2.13Zm0 10.683a2.776 2.776 0 0 0 2.793-2.773 2.764 2.764 0 0 0-2.793-2.773 2.772 2.772 0 0 0-2.773 2.773 2.784 2.784 0 0 0 2.773 2.773Z'/%3e%3c/svg%3e"); */
+img[src="undefined"], img[src=""] {
   display: none;
 }
-
-
-
 div.preview {
-width:1em;
-height:1em;
-overflow:hidden;display: flex;flex-direction: column;flex-wrap: wrap;}
-
+  width:1em;
+  height:1em;
+  overflow:hidden;
+ display: flex;
+ flex-direction: column;
+ flex-wrap: wrap;
+}
 .preview img {
   width: 100%;
   height: 100%;
 }
-
 .preview:after {
-  content:
-  "";
+  content: "";
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' fill='none' viewBox='0 0 48 48'%3e%3cpath fill='white' fill-opacity='.5' d='M22.648 31.926c1.368 0 1.993-.938 1.993-2.188v-.664c.039-2.578.957-3.652 4.082-5.8 3.359-2.266 5.488-4.883 5.488-8.653 0-5.86-4.766-9.219-10.703-9.219-4.414 0-8.281 2.09-9.942 5.86-.41.918-.586 1.816-.586 2.558 0 1.114.645 1.895 1.836 1.895.996 0 1.66-.586 1.954-1.543.996-3.711 3.457-5.117 6.601-5.117 3.809 0 6.797 2.148 6.797 5.547 0 2.793-1.738 4.355-4.238 6.113-3.067 2.129-5.313 4.414-5.313 7.851v1.23c0 1.25.684 2.13 2.031 2.13Zm0 10.683a2.776 2.776 0 0 0 2.793-2.773 2.764 2.764 0 0 0-2.793-2.773 2.772 2.772 0 0 0-2.773 2.773 2.784 2.784 0 0 0 2.773 2.773Z'/%3e%3c/svg%3e");
   width: 1em;
   height: 1em;
   background-repeat: no-repeat;
   background-position: center;
 }
-
-
-
-img#\31 f60d,
-img#\31 f618,
-img#\31 f970,
-img#\31 f60d,
-img#\31 f498,
-img#\31 f495,
-img#\32 763-fe0f,
-img#\31 f31f,
-img#\31 f493,
-.featured
-{
-    order: -1;
+img#\31 f60d, img#\31 f618, img#\31 f970, img#\31 f60d, img#\31 f498, img#\31 f495, img#\32 763-fe0f, img#\31 f31f, img#\31 f493, .featured {
+  order: -1;
 }
-
 .showAbout #about {
   opacity:1.0;
   pointer-events:all;
@@ -415,15 +316,12 @@ img#\31 f493,
 #about {
   width: 360px;
   height: 600px;
-  display:
-  flex;
+  display: flex;
   opacity:0.0;
   pointer-events: none;
   transform: translateY(-1em);
-  transition:
-  all 0.2s;
-  position:
-  absolute;
+  transition: all 0.2s;
+  position: absolute;
   border: 1px solid rgba(255,255,255,0.2);
   background: linear-gradient(45deg, black, transparent);
   left: 50%;
@@ -435,12 +333,10 @@ img#\31 f493,
   border-top: none;
   box-sizing: border-box;
   flex-direction: column;
-  /* box-shadow: 0 0 50px 12px black; */
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   top: 0;
 }
-
 #about a {
   color:currentColor;
 }
@@ -450,7 +346,6 @@ img#\31 f493,
   height: 48px;
   margin: 0 -4px;
 }
-
 .icon.lockIcon {
   background-position: 0 0;
 }
@@ -474,31 +369,22 @@ img#\31 f493,
   position: absolute;
   right: 16px;
 }
-
 .favorite {
-    /* grid-column: span 2; */
-    /* grid-row: span 2; */
-    /* width: 2em; */
-    /* height: 2em; */
 }
-
 .allEmojis div#mixmoji-container {
-    display: none;
+  display: none;
 }
-
 @media screen and (max-width: 768px) {
   #about {
-    width:100%;
-    height:100%;
-    position: fixed;
-    margin-top: 0;
-    top:0;
-    left:0;
-    margin-left:0;
-  }
-  
+      width:100%;
+      height:100%;
+      position: fixed;
+      margin-top: 0;
+      top:0;
+      left:0;
+      margin-left:0;
+ }
 }
-
 svg fill {
-    fill: red;
+  fill: red;
 }
