@@ -284,6 +284,8 @@ if (query.length) {
 document.body.addEventListener('touchmove', function(e){ e.preventDefault(); });
 
 if (!navigator.share) document.getElementById("share").style.display = "none"
+document.getElementById("copy").style.display = "none"
+
 about = () => {
   document.documentElement.classList.add('showAbout');
   document.documentElement.classList.remove('showMenu')

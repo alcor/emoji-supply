@@ -4,13 +4,51 @@
   <meta charset="UTF-8">  
   <link rel="stylesheet" href="wallpaper/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <title>emoji.supply</title>
 </head>
-
-<body style="margin-top:10vh; margin-left:10vw; font-size:20px; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">
-  <b>emoji.supply</b><p>
-  <a href="/wallpaper">🖼 Emoji Wallpaper</a><br>
-  <a href="/mix">🎨 Emoji Kitchen Mixer</a>
+<style>
+  body {
+    /* margin-top:10vh; */
+    /* margin-left:10vw; */ font-size:20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    display:
+    flex;
+    flex-direction:
+    row;
+    gap:2em;
+    width:
+    auto;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+  }
+  a {
+    display:
+    flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: black;
+  }
+  .icon {
+    font-size:100px;
+    height: 1em;
+    width:1em;
+    line-height: 1em;
+    margin-bottom: .1em;
+  }
+</style>
+<body>
+  <a href="/wallpaper/">
+    <div class="icon">🖼</div>
+    Emoji Wallpaper
+  </a>
+  <a href="/mix/">
+    <div class="icon">🎨</div>
+    Emoji Kitchen Mixer
+  </a>
 </body>
 <script>
 if (location.search.length)  {
