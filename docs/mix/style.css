@@ -14,17 +14,25 @@ body {
   font-size: 20px;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   display: flex;
-  position:relative;
-  --background-color: hsl(180deg 5% 80%);
-  --background-color-2:hsl(180deg 5% 95%);
-  --background-color-3: hsl(180deg 5% 100%);
-  --text-color:hsl(180deg 5% 30%);
-  --background-color: hsl(180deg 5% 10%);
-  --background-color-2:hsl(180deg 5% 15%);
-  --background-color-3: hsl(180deg 5% 20%);
+  position:
+  relative;
+  --background-color:
+  hsl(180deg 5% 80%);
+  --background-color-2:
+  hsl(180deg 5% 95%);
+  --background-color-3:
+  hsl(180deg 5% 100%);
+  --text-color:
+  hsl(180deg 5% 30%);
+  --background-color:
+  hsl(180deg 5% 10%);
+  --background-color-2:
+  hsl(180deg 5% 15%);
+  --background-color-3:
+  hsl(180deg 5% 20%);
   --text-color:white;
   flex-direction: column;
-  height: 138vh;
+  height: 100vh;
   height: var(--app-height);
   max-height:100vh;
   margin: 0;
@@ -255,10 +263,9 @@ img.c-2615 {
  position: fixed;
 }
 #preview-container {
-  top: 0;
+  /* top: 0; */
   left:0;
   right:0;
-  height: 20vh;
   display: flex;
   justify-content: center;
   padding: 1vmin;
@@ -278,6 +285,8 @@ img.c-2615 {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  box-sizing: border-box;
+  bottom: 0;
 }
 .preview img {
   transition: all 0.5s;
@@ -296,6 +305,7 @@ div.preview {
 .preview img {
   width: 100%;
   height: 100%;
+  cursor: default;
 }
 .preview:after {
   content: "";
@@ -387,4 +397,33 @@ img#\31 f60d, img#\31 f618, img#\31 f970, img#\31 f60d, img#\31 f498, img#\31 f4
 }
 svg fill {
   fill: red;
+}
+
+
+.menu-item {
+  padding: 0.5em 2em;
+  line-height: 48px;
+  cursor: default;
+}
+.menu-item:hover {
+  padding: 0.5em 2em;
+  line-height: 48px;
+  cursor: default;
+  background-color:rgba(255,255,255,0.05)
+}
+
+html:not(.showMenu) #menu {
+  display:none;
+}
+
+div#menu {
+    border: 1px solid rgba(100,100,100,0.9);
+    background-color: rgba(0,0,0,0.8);
+    position: fixed;
+    bottom: 95px;
+    right: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    font-size: 24px;
+    user-select: none;
 }

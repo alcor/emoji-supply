@@ -283,3 +283,36 @@ if (query.length) {
   }
 }
 document.body.addEventListener('touchmove', function(e){ e.preventDefault(); });
+
+if (!navigator.share) document.getElementById("share").style.display = "none"
+about = () => {
+  document.documentElement.classList.add('showAbout');
+  document.documentElement.classList.remove('showMenu')
+}
+
+share = () => {
+  document.documentElement.classList.remove('showMenu');
+  console.log("sharing",  pc.src);
+  navigator.share({
+    title: document.title.replace("=", "").trim(),
+    url: pc.src || location.href
+  })
+  .catch(console.error);
+}
+
+copy = () => {
+  document.documentElement.classList.remove('showMenu')
+
+  var text =  pc.src || location.href;
+  var dummy = document.createElement("input");
+  document.body.appendChild(dummy);
+  dummy.value = text;
+  dummy.select();
+  document.execCommand("copy");
+  document.body.removeChild(dummy);
+
+  document.body.classList.add("copied");
+  setTimeout(function() {
+    document.body.classList.remove("copied");
+  }, 2000);
+}
