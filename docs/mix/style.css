@@ -282,14 +282,14 @@ img.c-2615 {
   background-color: var(--background-color-3);
   user-select: none;
   padding-right: 0.25em;
-  -webkit-touch-callout: none;
+  /* -webkit-touch-callout: none; */
   -webkit-user-select: none;
-  touch-action: manipulation;
   box-sizing: border-box;
   bottom: 0;
 }
 .preview img {
   transition: all 0.5s;
+  touch-action: manipulation;
 }
 img[src="undefined"], img[src=""] {
   display: none;
@@ -366,6 +366,11 @@ img#\31 f60d, img#\31 f618, img#\31 f970, img#\31 f60d, img#\31 f498, img#\31 f4
   background-position: -48px 0;
   margin-left: auto;
   margin-bottom: auto;
+  /* width: 32px; */
+  /* height: 32px; */
+  /* background-size: auto; */
+  transform: scale(0.75);
+  margin-top: 0.5em;
 }
 .icon.equalsIcon {
   background-position: -48px -48px;
@@ -418,7 +423,7 @@ html:not(.showMenu) #menu {
 
 div#menu {
     border: 1px solid rgba(100,100,100,0.9);
-    background-color: rgba(0,0,0,0.8);
+    background-color: var(--background-color-3);
     position: fixed;
     bottom: 95px;
     right: 0;

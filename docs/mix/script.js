@@ -269,7 +269,6 @@ if (query.length) {
     date = parseInt(date,36);
   }
   let components = query.split("&");
-  console.log("query", components, date);
 
   components = components.map(c => Array.from(decodeURIComponent(c)).map(a=>a.codePointAt(0).toString(16)).join("-"));
 
@@ -292,7 +291,6 @@ about = () => {
 
 share = () => {
   document.documentElement.classList.remove('showMenu');
-  console.log("sharing",  pc.src);
   navigator.share({
     title: document.title.replace("=", "").trim(),
     url: pc.src || location.href
