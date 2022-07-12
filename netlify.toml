@@ -7,6 +7,6 @@
   function = "cache"
 
 [[redirects]]
-  from = "/mix/*"
+  from = "/mix*"
   to = "/kitchen/"
   status = 301
