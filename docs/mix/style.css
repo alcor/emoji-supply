@@ -40,6 +40,7 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   justify-content: flex-end;
+  /* width: 100%; */
 }
 svg path {
   fill:var(--text-color);
@@ -270,7 +271,7 @@ img.c-2615 {
   justify-content: center;
   padding: 1vmin;
   align-items: center;
-  height: 96px;
+  height: 1.5em;
   box-shadow: 0 2px 9px rgba(0,0,0,0.2);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -278,7 +279,7 @@ img.c-2615 {
   border-bottom: 1px solid rgba(255,255,255,0.2);
   z-index:100;
   flex: 0 0 auto;
-  font-size: 72px;
+  font-size: calc(max(72px,15vmin));
   background-color: var(--background-color-3);
   user-select: none;
   padding-right: 0.25em;
@@ -320,8 +321,10 @@ img#\31 f60d, img#\31 f618, img#\31 f970, img#\31 f60d, img#\31 f498, img#\31 f4
 }
 .showAbout #about {
   opacity:1.0;
-  pointer-events:all;
-  transform: translateY(-0.5em);
+  pointer-events:
+  all;
+  /* transform: translateY(-0.5em); */
+  display: flex;
 }
 #about {
   width: 360px;
@@ -329,7 +332,7 @@ img#\31 f60d, img#\31 f618, img#\31 f970, img#\31 f60d, img#\31 f498, img#\31 f4
   display: flex;
   opacity:0.0;
   pointer-events: none;
-  transform: translateY(-1em);
+  /* transform: translateY(-1em); */
   transition: all 0.2s;
   position: absolute;
   border: 1px solid rgba(255,255,255,0.2);
@@ -346,6 +349,7 @@ img#\31 f60d, img#\31 f618, img#\31 f970, img#\31 f60d, img#\31 f498, img#\31 f4
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   top: 0;
+  display: none;
 }
 #about a {
   color:currentColor;
@@ -393,7 +397,7 @@ img#\31 f60d, img#\31 f618, img#\31 f970, img#\31 f60d, img#\31 f498, img#\31 f4
   #about {
       width:100%;
       height:100%;
-      position: fixed;
+      position: absolute;
       margin-top: 0;
       top:0;
       left:0;
