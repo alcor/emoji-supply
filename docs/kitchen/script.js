@@ -132,7 +132,7 @@ const selectMixmoji = (e, parents) => {
   p2.parentElement.classList.add("active");
 
   let url = "/kitchen/?" + img.c.map(cc => codePointToText(cc)).join("&");
-  url += "/" + img.date;
+  url += "/" + parseInt(img.date,16).toString(36);
   window.history.replaceState({}, "", url);
 }
 
