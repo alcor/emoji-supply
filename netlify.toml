@@ -1,7 +1,12 @@
 [[edge_functions]]
-  path = "/mix/*"
+  path = "/kitchen/*"
   function = "metadata"
 
 [[edge_functions]]
   path = "/cache/*"
   function = "cache"
+
+[[redirects]]
+  from = "/mix/*"
+  to = "/kitchen/"
+  status = 301

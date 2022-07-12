@@ -131,8 +131,8 @@ const selectMixmoji = (e, parents) => {
   p2.targetId = p2id;
   p2.parentElement.classList.add("active");
 
-  let url = "/mix/?" + img.c.map(cc => codePointToText(cc)).join("&");
-  url += "/" + parseInt(img.date).toString(36);
+  let url = "/kitchen/?" + img.c.map(cc => codePointToText(cc)).join("&");
+  url += "/" + img.date;
   window.history.replaceState({}, "", url);
 }
 
@@ -172,7 +172,7 @@ const selectEmoji = (e, id) => {
   console.log("Selecting Base", target, id);
   document.getElementById("preview-container").classList.remove("mix")
 
-  window.history.replaceState({}, "", "/mix/?" + codePointToText(id));
+  window.history.replaceState({}, "", "/kitchen/?" + codePointToText(id));
 
   emoji1?.classList.remove("selected");
   emoji2?.classList.remove("secondary");
@@ -261,7 +261,7 @@ let div = el("div#emoji-content.content", {},
 )
 emojiContainer.appendChild(div);
 
-let query = location.search.substring(1);
+let query = decodeURIComponent(location.search.substring(1));
 if (query.length) {
   let date = undefined;
   if (query.indexOf("/")){
