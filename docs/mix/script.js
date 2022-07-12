@@ -220,7 +220,7 @@ const selectEmoji = (e, id) => {
       className.push("c-" + c2);
       let altParent = c1 == id ? c2 : c1;
       let index = recents.indexOf(altParent);
-      let date = parseInt(d) + 20200000;
+      let date = parseInt(d,16) + 20200000;
       if (index == 0 && c1 ==  c2) {
         index = -1;
       }
