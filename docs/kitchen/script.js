@@ -188,8 +188,9 @@ const selectEmoji = (e, id) => {
   emoji1?.classList.add("selected");
   emoji2?.classList.add("secondary");
 
+  recents = recents.filter(i => i!==id)
   recents.unshift(id);
-  recents.splice(9);
+  recents.splice(36);
   localStorage.setItem("recents", JSON.stringify(recents));
 
   document.title = " = " + codePointToText(id);
