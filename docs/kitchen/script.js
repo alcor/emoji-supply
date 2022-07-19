@@ -99,6 +99,7 @@ const selectMixmoji = (e, parents) => {
   if (e) document.documentElement.className = "mixmoji-container";
   let img = e?.target || document.getElementById(parents.join("_")) || document.getElementById(parents.reverse().join("_"));
   
+
   if (!img) return;
 
   selectedMixmoji?.classList.remove("selected")
@@ -106,15 +107,19 @@ const selectMixmoji = (e, parents) => {
   selectedMixmoji.classList.add("selected");
 
   parents = img?.c ? Array.from(img?.c) : undefined;
-  console.log("Selecting mix", img.id, parents);
+
+  let comboString = parents.map(codePointToText).join("+");
+  console.log("Selecting Mix", img.id, comboString);
 
   pc.src = img.src;
   setFavicon(pc.src);
 
   document.getElementById("preview-container").classList.add("mix")
   pc.name = parents.join("_");
-  document.title = "= " + parents.map(codePointToText).join("+");
+  document.title = "= " + comboString;
  
+  gtag('event', 'view_item', { 'event_label': comboString, 'event_category': 'mixmoji', 'non_interaction': !e });
+
   let p2id = (parents[0] == emoji1.id) ? parents.pop() : parents.shift();
   let p1id = parents.pop();
 
@@ -147,6 +152,8 @@ const clickedEmoji = (e) => {
   if (e) document.documentElement.className = "emoji-container";
   let target = e.target.closest("div");
 
+  gtag('event', 'view_item', { 'event_label': codePointToText(target.id), 'event_category': 'emoji', 'non_interaction': true });
+  
   if (target == pinnedEmoji) {
     console.log("unpin", pinnedEmoji.title);
     pinnedEmoji.classList.remove("pinned");
@@ -170,7 +177,7 @@ const imageLoaded = (e) => { e.target.classList.add("loaded") }
 const selectEmoji = (e, id) => {
   let target = e?.target ?? document.getElementById(id);
   id = target.id;
-  console.log("Selecting Base", target, id);
+  console.log("Selecting Base", id, codePointToText(id));
   document.getElementById("preview-container").classList.remove("mix")
 
   window.history.replaceState({}, "", "/kitchen/?" + codePointToText(id));
@@ -196,7 +203,6 @@ const selectEmoji = (e, id) => {
 
   document.title = " = " + codePointToText(id);
 
-  console.log(target.src)
   setFavicon(target.src);
   p1.src = emoji1.src.replace("128", "512");;  
   p2.src = emoji2?.src.replace("128", "512");;
