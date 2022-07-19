@@ -131,7 +131,7 @@ const selectMixmoji = (e, parents) => {
   p2.targetId = p2id;
   p2.parentElement.classList.add("active");
 
-  let url = "/kitchen/?" + img.c.map(cc => codePointToText(cc)).join("&");
+  let url = "/kitchen/?" + img.c.map(cc => codePointToText(cc)).join("+");
   url += "/" + parseInt(img.date,16).toString(36);
   window.history.replaceState({}, "", url);
 }
@@ -269,7 +269,7 @@ if (query.length) {
     [query, date] = query.split("/");
     date = parseInt(date,36);
   }
-  let components = query.split("&");
+  let components = query.split("+");
 
   components = components.map(c => Array.from(decodeURIComponent(c)).map(a=>a.codePointAt(0).toString(16)).join("-"));
 

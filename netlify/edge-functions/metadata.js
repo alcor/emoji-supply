@@ -30,7 +30,7 @@ export default async (request, context) => {
     if (!search.length) return;
     let date;
     [search, date] = search.split("/");
-    let components = search.split("&");
+    let components = search.split("+");
 
     let chars = components.map(c => Array.from(decodeURIComponent(c)));
     components = chars.map(c => c.map(a=>a.codePointAt(0).toString(16)).join("-"));
@@ -48,7 +48,7 @@ export default async (request, context) => {
     console.log(info.i);
     info.title = chars.join(" + ");// + " - " + info.s;
 
-    console.log(chars.join("&") + "\t" + request.url, info)
+    console.log(chars.join("+") + "\t" + request.url, info)
 
     let content = ['<meta charset="UTF-8">'];
     if (info.title) { content.push(`<title>${info.title}</title>`,`<meta property="og:title" content="${info.title}"/>`); }
