@@ -128,6 +128,9 @@ html.allEmoji-container #preview-container {
 .emoji {
   box-sizing: border-box;
 }
+.emoji span {
+  user-select: none;
+}
 .emoji.selected {
   background-color: var(--background-color);
   background-color: var(--text-color);
@@ -154,7 +157,14 @@ html.allEmoji-container #preview-container {
   display: block;
   box-sizing: border-box;
   touch-action: manipulation;
+  opacity:0.0;
+  transition: opacity 500ms;
 }
+
+.emoji img.loaded {
+  opacity:1.0;
+}
+
 .emoji.dud {
   opacity:0.667;
 }
@@ -216,7 +226,7 @@ img.c-2615 {
   height: 1em;
   width: 1em;
   user-select: none;
-  transition: background-color 500ms;
+  transition: background-color 500ms, opacity 500ms;
 }
 #emoji-content > div > span {
   color: transparent;
@@ -237,6 +247,7 @@ img.c-2615 {
   border-radius:0.2em;
   touch-action: manipulation;
   box-sizing: border-box;
+  transform:scale(0.5);
 }
 .mixmoji.selected {
   background-color: var(--background-color);
@@ -252,6 +263,7 @@ img.c-2615 {
   opacity:1.0;
   transform: scale(1);
 }
+
 #mixmoji-container .sparse {
  margin: auto;
  flex-wrap: wrap;

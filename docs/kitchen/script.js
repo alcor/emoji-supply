@@ -165,6 +165,7 @@ const clickedEmoji = (e) => {
   }
 }
 
+const imageLoaded = (e) => { e.target.classList.add("loaded") }
 
 const selectEmoji = (e, id) => {
   let target = e?.target ?? document.getElementById(id);
@@ -203,7 +204,6 @@ const selectEmoji = (e, id) => {
 
   emojiContainer.onscroll = scrollElement;
   mixmojiContainer.onscroll = scrollElement;
-  const imageLoaded = (e) => { e.target.classList.add("loaded") }
 
   const re = new RegExp("^.*" + target.id + ".*$","gm");
 
@@ -213,6 +213,7 @@ const selectEmoji = (e, id) => {
   parent.classList.remove("hidden");
   parent.scrollTo(0, 0);
   parent.childNodes.forEach(child => {parent.removeChild(child)});
+  let validPairs = []
   let div = el("div#mixmoji-content", {className: array.length < 20 ? "sparse content" : "content"}, 
     array.map(match => {
       let [d, c1, c2] = match.pop().split("/");
@@ -225,6 +226,8 @@ const selectEmoji = (e, id) => {
       if (index == 0 && c1 ==  c2) {
         index = -1;
       }
+      validPairs.push(altParent)
+
       let url = mixmojiUrl(date, [c1, c2]);
       if (index > 0 || c1 ==  c2) {
         className.push("featured");
@@ -241,6 +244,11 @@ const selectEmoji = (e, id) => {
       }, codePointToText(c1), codePointToText(c2))
     })
   )
+  if (1) {
+    [...document.querySelectorAll(".emoji")].forEach(el => {
+      el.classList.toggle("dud", !validPairs.includes(el.id));
+    })
+  }
   parent.appendChild(div);
   if (1) {
     selectMixmoji(undefined, [emoji1?.id, emoji2?.id]);
@@ -256,7 +264,7 @@ let div = el("div#emoji-content.content", {},
     if (dud) className.push("dud");
     if (favorites.includes("point")) className.push("favorite");
     return el("div", {id:point, title:text, src:url, className: className.join(" ")}, el("span", text),
-      el("img", {onclick:clickedEmoji, src:url, loading:"lazy"})
+      el("img", {onclick:clickedEmoji, onload:imageLoaded, src:url, loading:"lazy"})
     );
   })
 )
