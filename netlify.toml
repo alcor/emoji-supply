@@ -10,3 +10,8 @@
   from = "/mix*"
   to = "/kitchen/"
   status = 301
+
+[[redirects]]
+  from = "/emojikitchen/*"
+  to = "https://www.gstatic.com/android/keyboard/emojikitchen/:splat"
+  status = 200

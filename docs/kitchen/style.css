@@ -63,6 +63,7 @@ svg path {
   overflow-y: scroll;
   transition: all 200ms ease-out;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 .content {
   display: grid;

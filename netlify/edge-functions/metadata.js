@@ -8,10 +8,10 @@ const emojiUrl = (codePoint) => {
   return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/512/emoji_u${cp}.png`
 }
 
-const mixmojiUrl = (r, c) => {
+const mixmojiUrl = (r, c, proxy, url) => {
   c[0] = c[0].split(/-/g).join("-u");
   c[1] = c[1].split(/-/g).join("-u");
-  return `https://www.gstatic.com/android/keyboard/emojikitchen/${r}/u${c[0]}/u${c[0]}_u${c[1]}.png`
+  return `${proxy ? url.origin: 'https://www.gstatic.com/android/keyboard/'}/emojikitchen/${r}/u${c[0]}/u${c[0]}_u${c[1]}.png`
 }
 
 export default async (request, context) => {
@@ -41,16 +41,12 @@ export default async (request, context) => {
     
     if (components.length > 1 && date) {
       date = 20200000 + parseInt(date,36);
-      info.i = mixmojiUrl(date, components);
+      info.i = mixmojiUrl(date, components, ua.indexOf("Twitterbot") != -1, url);
     } else {
       info.i = emojiUrl(components[0]);
     }
+    console.log(info.i);
     info.title = chars.join(" + ");// + " - " + info.s;
-
-
-    if (ua.indexOf("Twitterbot") != -1) { info.i = url.origin + "/cache/?" + info.i }
-    console.log("INFO", info.i, url)
-    // info.f = info.i;
 
     console.log(chars.join("&") + "\t" + request.url, info)
 
