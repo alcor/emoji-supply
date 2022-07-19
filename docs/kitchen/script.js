@@ -310,7 +310,7 @@ share = () => {
   document.documentElement.classList.remove('showMenu');
   navigator.share({
     title: document.title.replace("=", "").trim(),
-    url: pc.src || location.href
+    url: location.href
   })
   .catch(console.error);
 }
