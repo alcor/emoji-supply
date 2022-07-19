@@ -108,15 +108,17 @@ const selectMixmoji = (e, parents) => {
 
   parents = img?.c ? Array.from(img?.c) : undefined;
 
-  let comboString = parents.map(codePointToText).join("+");
+  let comboString = parents.map(codePointToText).join(" + ");
   console.log("Selecting Mix", img.id, comboString);
 
   pc.src = img.src;
   setFavicon(pc.src);
+  document.getElementById("md-title").content = comboString;
 
   document.getElementById("preview-container").classList.add("mix")
   pc.name = parents.join("_");
   document.title = "= " + comboString;
+  
  
   gtag('event', 'view_item', { 'event_label': comboString, 'event_category': 'mixmoji', 'non_interaction': !e });
 
