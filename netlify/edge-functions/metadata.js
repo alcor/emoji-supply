@@ -29,7 +29,7 @@ export default async (request, context) => {
     let search = url.search.substring(1);
     if (!search.length) return;
     let date;
-    [search, date] = search.split("/");
+    [search, date] = search.split("=");
     let components = search.split("+");
 
     let chars = components.map(c => Array.from(decodeURIComponent(c)));
