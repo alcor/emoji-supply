@@ -17,8 +17,7 @@ const mixmojiUrl = (r, c, proxy, url) => {
 export default async (request, context) => {
   try {
     let url = new URL(request.url);
-    if (!url.pathname.endsWith("/")) {
-      console.log("GET", request.url);
+    if (!url.pathname.endsWith("/") || url.search.indexOf("&") != -1 ) {
       return; 
     }
 

@@ -82,7 +82,7 @@ const scrollElement = (e) => {
 
 const setFavicon = (url) => {
   document.getElementById("favicon").href = url;
-  document.getElementById("md-image").content = url;
+  //document.getElementById("md-image").content = url;
 }
 
 let p1 = document.getElementById("p1")
@@ -279,6 +279,7 @@ let div = el("div#emoji-content.content", {},
 emojiContainer.appendChild(div);
 
 let query = decodeURIComponent(location.search.substring(1));
+if (query.includes("&")) query = "";
 if (query.length) {
   let date = undefined;
   if (query.indexOf("=")){
