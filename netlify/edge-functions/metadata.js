@@ -17,8 +17,10 @@ const mixmojiUrl = (r, c, proxy, url) => {
 export default async (request, context) => {
   try {
     let url = new URL(request.url);
-    console.log("url", request.url);
-    if (!url.pathname.endsWith("/")) return; 
+    if (!url.pathname.endsWith("/")) {
+      console.log("GET", request.url);
+      return; 
+    }
 
     const ua = request.headers.get("user-agent");
     if (!ua) return;
@@ -39,16 +41,17 @@ export default async (request, context) => {
       s: "Emoji Kitchen Browser"
     }
     
+    let isTwitter = ua.indexOf("Twitterbot") != -1 && ua.indexOf("facebookexternalhit") == -1;
+
     if (components.length > 1 && date) {
       date = 20200000 + parseInt(date,36);
-      info.i = mixmojiUrl(date, components, ua.indexOf("Twitterbot") != -1, url);
+      info.i = mixmojiUrl(date, components, isTwitter, url);
     } else {
       info.i = emojiUrl(components[0]);
     }
-    console.log(info.i);
     info.title = chars.join(" + ");// + " - " + info.s;
 
-    console.log(chars.join("+") + "\t" + request.url, info)
+    console.log(chars.join("+"))
 
     let content = ['<meta charset="UTF-8">'];
     if (info.title) { content.push(`<title>${info.title}</title>`,`<meta property="og:title" content="${info.title}"/>`); }
