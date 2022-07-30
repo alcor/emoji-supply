@@ -172,7 +172,7 @@ body.advanced #advanced-toggle::before {
 }
 
 #advanced-toggle:not(:hover) {
-  opacity:0.10
+  opacity:0.9;
 }
 body:not(.advanced) #advanced {
   display:none;

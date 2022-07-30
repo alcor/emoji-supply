@@ -115,6 +115,10 @@ function render() {
   renderContent();
 }
 
+document.fonts.onloadingdone = function (fontFaceSetEvent) {
+  renderContent();
+};
+
 var startTime = undefined;
 function renderFrame(time) {
   if(!startTime){ startTime = time; }
@@ -495,7 +499,7 @@ function renderContent(time, seed) {
 
   // <em>r = c√n</em><br><em>θ = i × 137.5°</em>
 
-  const spiralLayout = (emojis, options = {}) => {
+  const spiralLayout = (emojis, options = {}, varyScale = false) => {
 
     var scale = size * 1.1,
     α = Math.PI * (3 - Math.sqrt(5));
@@ -512,8 +516,10 @@ function renderContent(time, seed) {
           emoji = randomEmoji();
         }
 
-        var r = Math.sqrt(i),
-        a = i * α - elapsed/100000;
+        var r = Math.sqrt(i);
+        if (varyScale) r = Math.pow(r/10, 2)*6;
+
+        var a = i * α - elapsed/100000;
 
         if (scale*r*spacing > maxRadius) {
           break; 
@@ -543,6 +549,13 @@ function renderContent(time, seed) {
                         
         if (flip) {
           ctx.scale(-1, 1);
+        }
+
+        if (varyScale) {
+          let rscale = Math.sqrt(r)/2;
+          ctx.scale(rscale, rscale)
+          ctx.globalAlpha = (r) / 10;
+          ctx.rotate(a - Math.PI/2)
         }
         if (debug) {
           ctx.strokeRect(-size/2, -size/2, size, size);
@@ -586,6 +599,11 @@ function renderContent(time, seed) {
       spiralLayout(emojis, options);
       break;
     }
+    case 'scalespiral':
+      {
+        spiralLayout(emojis, options, true);
+        break;
+      }
     case 'foam':
     case 'many':  
     {
