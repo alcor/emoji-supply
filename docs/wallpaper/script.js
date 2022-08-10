@@ -98,6 +98,13 @@ function setColor(e) {
   timer = setTimeout(render, 300);
 }
 
+function createCanvas(w, h) {
+  var canvas = document.createElement('canvas');
+  canvas.setAttribute('width', w);
+  canvas.setAttribute('height', h);
+  return canvas;
+}
+
 var ua = navigator.userAgent;
 var isMac = /Macintosh/.test(ua)
 var isWin = /Windows/.test(ua)
@@ -126,12 +133,13 @@ function renderFrame(time) {
   if (shouldAnimate) {
     setTimeout(() => {
       window.requestAnimationFrame(renderFrame);
-      },100);
+      }, 1000 / 30);
   }
 }
 
 
 console.log()
+let emojiCanvas = [];
 function renderContent(time, seed) {
   if (seed) random.seed = seed;
 
@@ -498,7 +506,7 @@ function renderContent(time, seed) {
   }
 
   // <em>r = c√n</em><br><em>θ = i × 137.5°</em>
-
+  
   const spiralLayout = (emojis, options = {}, varyScale = false) => {
 
     var scale = size * 1.1,
@@ -511,7 +519,6 @@ function renderContent(time, seed) {
     for (var i = 0; i < 100000; i++) {
         let emojiIndex = (i) % emojis.length
         let emoji = emojis[emojiIndex];
-
         if (order == 'random') {
           emoji = randomEmoji();
         }
@@ -562,7 +569,11 @@ function renderContent(time, seed) {
           ctx.strokeRect(-2, -2, 4, 4);
           ctx.globalAlpha = 0.2
         }
-        ctx.fillText(emoji, 0, + size/3);
+  
+          // ctx.fillText(emoji, 0, size * 0.375);
+          
+          ctx.drawImage(emojiCanvas[emojiIndex], -size, -size, size*2, size*2);
+        
         ctx.restore();
       }
     }      
@@ -581,7 +592,17 @@ function renderContent(time, seed) {
     }
     emojis.push(emoji);
   }
-
+  
+  let iconSize = 160;
+  emojiCanvas = emojis.map(emoji => {
+    var imgcanvas = createCanvas(iconSize*2, iconSize*2);
+    var imgctx = imgcanvas.getContext('2d');
+    imgctx.clearRect(0, 0, iconSize, iconSize);
+    imgctx.font = `${iconSize}px ${font}`;
+    imgctx.textAlign = 'center'
+    imgctx.fillText(emoji, imgcanvas.width/2, imgcanvas.height/2 + .375 * iconSize);
+    return imgcanvas;
+  })
   ctx.fillStyle = textColor;
   
   switch (pattern) {
@@ -601,6 +622,7 @@ function renderContent(time, seed) {
     }
     case 'scalespiral':
       {
+        let t1 = performance.now();
         spiralLayout(emojis, options, true);
         break;
       }

@@ -178,6 +178,9 @@ body:not(.advanced) #advanced {
   display:none;
 }
 
+body.fullscreen {
+  background-color: transparent;
+}
 body.fullscreen form {
 background:white;
 }
