@@ -202,3 +202,13 @@ body.loading .button,
 body.loading canvas {
   display:none;
 }
+
+
+
+@media (prefers-color-scheme: dark) {
+  body   { background:  #333; color: white; }
+  input, select, a, button, .button {color:white;}
+  input, select {
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+  }
+}
