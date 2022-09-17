@@ -4,13 +4,14 @@ function decodePrettyComponent(s) {
 }
 
 const emojiUrl = (codePoint) => {
-  let cp = codePoint.split("-").filter(x => x !== "fe0f").join("_");
+  let cp = codePoint.split("-").filter(x => x !== "fe0f").map(s => s.padStart(4,"0")).join("_");
   return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/512/emoji_u${cp}.png`
 }
 
 const mixmojiUrl = (r, c, proxy, url) => {
-  c[0] = c[0].split(/-/g).join("-u");
-  c[1] = c[1].split(/-/g).join("-u");
+  let padZeros = r < 20220500; // Revisions before 0522 had preceding zeros
+  c[0] = c[0].split(/-/g).map(s => padZeros ? s.padStart(4,"0") : s).join("-u");
+  c[1] = c[1].split(/-/g).map(s => padZeros ? s.padStart(4,"0") : s).join("-u");
   return `${proxy ? url.origin: 'https://www.gstatic.com/android/keyboard/'}/emojikitchen/${r}/u${c[0]}/u${c[0]}_u${c[1]}.png`
 }
 
