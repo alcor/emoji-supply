@@ -6000,6 +6000,7 @@ window.pairs = `
 2b6b/1fae4/1f62f/
 3e9/1f61f/1f62e/
 3e9/2639-fe0f/1f641/
+2b6b/1fae0/1f937/
 2919/1fa84/1f999/
 2a4f/1f410/1f600/
 3e9/1f603/1f437/
@@ -13662,6 +13663,7 @@ window.pairs = `
 3e9/1f494/1f435/
 4eeb/1fae6/1f48b/
 3e9/1f4af/1f441-fe0f/
+514f/1f937/2764-fe0f-200d-1fa79/
 514f/1fa84/1f35b/
 514f/1f602/1f957/
 4eeb/1f970/1f959/
@@ -14888,6 +14890,7 @@ window.pairs = `
 4eeb/1fae6/1f431/
 2b6b/1f429/1f435/
 2b6b/1f436/1f436/
+2b6b/1f99d/1f937/
 514f/1fa84/1f375/
 3e9/1f600/2615/
 514f/1f36c/1f604/
@@ -15886,6 +15889,7 @@ window.pairs = `
 3e9/1f430/1f98c/
 3e9/1f42d/1f437/
 2a4f/1f410/1f999/
+2b6b/1f427/1f937/
 501a/1fa84/1f682/
 2a4f/1f307/1f601/
 2b6b/1fab5/1f605/
@@ -17036,6 +17040,7 @@ window.pairs = `
 3e9/1f428/1f422/
 2a4f/1f989/1f9a5/
 2b6b/1f427/1f426/
+514f/1f36c/1f636-200d-1f32b-fe0f/
 3e9/1f49b/1f308/
 2919/1fa84/2601-fe0f/
 3e9/1f600/1f31f/
@@ -17296,6 +17301,7 @@ window.pairs = `
 2a4f/1f41f/1f426/
 2b6b/1f427/1f422/
 2a4f/1f989/1f989/
+514f/1f36c/1f62e-200d-1f4a8/
 3e9/1f49b/1f525/
 3e9/1f5a4/1f308/
 501a/1fa84/1f32c-fe0f/
@@ -18143,6 +18149,7 @@ window.pairs = `
 2a4f/1f989/1f9a0/
 3e9/1f422/1f577-fe0f/
 27ea/1f40c/1f41d/
+2b6b/1f34a/1f937/
 2b6b/1f3c6/1f5a4/
 514f/1fa84/1f39f-fe0f/
 2b6b/1f381/1f603/
@@ -18250,6 +18257,7 @@ window.pairs = `
 2a4f/1f41f/1f982/
 3e9/1f419/1f577-fe0f/
 3e9/1f41d/1f41d/
+2b6b/1f34c/1f937/
 2b6b/1f3c6/1fa84/
 2b6b/1f381/1f601/
 3e9/1f605/1f38a/
@@ -22513,6 +22521,7 @@ window.pairs = `
 3e9/1f9a5/1f382/
 2b6b/1f34a/1f35e/
 3e9/1f951/1f951/
+2b6b/1fab5/1f937/
 514f/1fa84/1f5c3-fe0f/
 3e9/1f923/1f4f0/
 514f/1f602/1f4da/
@@ -24203,6 +24212,7 @@ window.pairs = `
 4fb6/1faa8/1f339/
 3e9/1f30d/1f332/
 4fb6/1f349/1f382/
+501a/1fa84/a9-fe0f/
 514f/1f602/2753/
 4eeb/1f970/1f4f4/
 4eeb/1f60d/26ce/
@@ -24238,6 +24248,7 @@ window.pairs = `
 2a4f/1f989/1f31b/
 2b6b/1fab5/1f339/
 2b6b/1f34a/1f382/
+501a/1fa84/ae-fe0f/
 514f/1fa84/2122-fe0f/
 514f/1f602/2757/
 4eeb/1f970/2716-fe0f/
@@ -24271,6 +24282,7 @@ window.pairs = `
 3e9/1f335/1f37d-fe0f/
 4fb6/1f349/1f9c1/
 2919/1f34b/1f382/
+2b6b/1f381/1f937/
 514f/1fa84/1f192/
 514f/1f602/3030-fe0f/
 4eeb/1f970/2795/
@@ -24420,6 +24432,7 @@ window.pairs = `
 2a4f/1f307/1f33c/
 4fb6/1f349/2615/
 3e9/1f34d/1f9c1/
+2b6b/1f3c6/1f937/
 514f/1fa84/1f198/
 514f/1f602/27bf/
 4eeb/1f970/2049-fe0f/
@@ -24493,6 +24506,7 @@ window.pairs = `
 2919/1f34b/2615/
 514f/1f36c/1f34d/
 2a4f/1f353/1f382/
+514f/1f602/a9-fe0f/
 4eeb/1f970/2757/
 4eeb/1f60d/2753/
 4eeb/1f618/267e-fe0f/
@@ -24529,6 +24543,7 @@ window.pairs = `
 4fb6/1f344/1f30d/
 2b6b/1f34c/2615/
 4fb6/1f352/1f9c1/
+514f/1f602/ae-fe0f/
 514f/1f602/2122-fe0f/
 4eeb/1f970/3030-fe0f/
 4eeb/1f60d/2757/
@@ -24705,7 +24720,6 @@ window.pairs = `
 2a4f/1f353/2615/
 3e9/1f382/1f951/
 514f/1f602/1f198/
-4eeb/1f970/00a9-fe0f/
 4eeb/1f60d/27bf/
 4eeb/1f618/2705/
 514f/1f614/26d3-fe0f/
@@ -24739,9 +24753,8 @@ window.pairs = `
 3e9/1f31b/1f577-fe0f/
 2b6b/1f34c/1f30d/
 3e9/1f34d/1f37d-fe0f/
+4eeb/1f970/a9-fe0f/
 514f/1f602/1f199/
-4eeb/1f970/00ae-fe0f/
-4eeb/1f60d/00a9-fe0f/
 4eeb/1f618/27b0/
 514f/1f614/1fa78/
 3e9/1f973/1f4f0/
@@ -24774,8 +24787,9 @@ window.pairs = `
 4fb6/1f344/1faa8/
 3e9/1f34d/1f30d/
 3e9/1f9c1/1f951/
+4eeb/1f970/ae-fe0f/
+4eeb/1f60d/a9-fe0f/
 4eeb/1f970/2122-fe0f/
-4eeb/1f60d/00ae-fe0f/
 4eeb/1f618/27bf/
 501a/1f614/1f9fc/
 3e9/1f978/1f4f0/
@@ -24805,9 +24819,9 @@ window.pairs = `
 27ea/1f982/1f31c/
 3e9/1f31b/1f9a0/
 4fb6/1f344/1fab5/
+4eeb/1f60d/ae-fe0f/
 4eeb/1f970/1f192/
 4eeb/1f60d/2122-fe0f/
-4eeb/1f618/00a9-fe0f/
 514f/1f614/1fae7/
 3e9/1f60e/1f4f0/
 514f/1f97a/260e-fe0f/
@@ -24839,9 +24853,9 @@ window.pairs = `
 3e9/1f31b/1f490/
 4fb6/1f352/1f37d-fe0f/
 3e9/1f382/1f336-fe0f/
+4eeb/1f618/a9-fe0f/
 4eeb/1f970/1f193/
 4eeb/1f60d/1f192/
-4eeb/1f618/00ae-fe0f/
 501a/1f614/1f9ff/
 514f/1f60e/1f4b8/
 3e9/1f913/1f4f0/
@@ -24873,6 +24887,7 @@ window.pairs = `
 4fb6/1f349/1faa8/
 4fb6/1f352/1f30d/
 2a4f/1f353/1f37d-fe0f/
+4eeb/1f618/ae-fe0f/
 4eeb/1f970/1f195/
 4eeb/1f60d/1f193/
 4eeb/1f618/2122-fe0f/
@@ -25723,6 +25738,7 @@ window.pairs = `
 2b6b/1f34c/2601-fe0f/
 3e9/1f31f/1f34d/
 4fb6/1f352/1f31e/
+514f/1f614/a9-fe0f/
 514f/1f60e/2652/
 514f/1f97a/262f-fe0f/
 3e9/1f47f/1f4f0/
@@ -25747,6 +25763,7 @@ window.pairs = `
 4eeb/1f31f/1f96d/
 2a4f/1f353/1f31e/
 4fb6/1faa8/1f9c0/
+514f/1f614/ae-fe0f/
 514f/1f614/2122-fe0f/
 514f/1f60e/2653/
 514f/1f97a/262e-fe0f/
@@ -26118,6 +26135,7 @@ window.pairs = `
 4eeb/2601-fe0f/1f966/
 4eeb/1f31f/1f9c4/
 2a4f/1f35e/1f31c/
+514f/1f60e/a9-fe0f/
 514f/1f97a/2796/
 514f/1f47b/2696-fe0f/
 4eeb/1f498/1f512/
@@ -26138,6 +26156,7 @@ window.pairs = `
 3e9/1f32a-fe0f/1f336-fe0f/
 4eeb/2601-fe0f/1f9c4/
 4eeb/1f31f/1f9c5/
+514f/1f60e/ae-fe0f/
 514f/1f60e/2122-fe0f/
 514f/1f97a/2797/
 514f/1f47b/26d3-fe0f/
@@ -26375,6 +26394,7 @@ window.pairs = `
 4eeb/1f31f/1f356/
 3e9/1f9c1/2615/
 514f/1f36c/1f36c/
+514f/1f97a/a9-fe0f/
 514f/1f47b/264a/
 501a/1f498/26a0-fe0f/
 501a/1f493/1f9fc/
@@ -26393,6 +26413,7 @@ window.pairs = `
 4eeb/2601-fe0f/1f356/
 4eeb/1f31f/1f969/
 3e9/1f31e/1f32d/
+514f/1f97a/ae-fe0f/
 514f/1f97a/2122-fe0f/
 514f/1f47b/264b/
 4eeb/1f498/262f-fe0f/
@@ -26840,6 +26861,7 @@ window.pairs = `
 4eeb/2601-fe0f/1f35c/
 4eeb/1f31f/1f35d/
 2a4f/1f307/1f30d/
+514f/1f47b/a9-fe0f/
 4eeb/1f498/267b-fe0f/
 4eeb/1f493/2049-fe0f/
 4eeb/1f495/2797/
@@ -26854,6 +26876,7 @@ window.pairs = `
 514f/1f38a/1f959/
 4eeb/2601-fe0f/1f35d/
 4eeb/1f31f/1f360/
+514f/1f47b/ae-fe0f/
 514f/1f47b/2122-fe0f/
 4eeb/1f498/2705/
 4eeb/1f493/2753/
@@ -26904,7 +26927,6 @@ window.pairs = `
 4eeb/1f31f/1f365/
 4fb6/1faa8/1faa8/
 514f/1f47b/1f195/
-4eeb/1f498/00a9-fe0f/
 4eeb/1f493/267b-fe0f/
 4eeb/1f495/2757/
 4eeb/2763-fe0f/2049-fe0f/
@@ -26919,8 +26941,8 @@ window.pairs = `
 4eeb/2601-fe0f/1f365/
 4eeb/1f31f/1f960/
 4fb6/1faa8/1fab5/
+4eeb/1f498/a9-fe0f/
 514f/1f47b/1f197/
-4eeb/1f498/00ae-fe0f/
 4eeb/1f493/2705/
 4eeb/1f495/3030-fe0f/
 4eeb/2763-fe0f/2753/
@@ -26934,6 +26956,7 @@ window.pairs = `
 4eeb/2601-fe0f/1f960/
 501a/1f31f/1f980/
 2b6b/1fab5/1fab5/
+4eeb/1f498/ae-fe0f/
 514f/1f47b/1f198/
 4eeb/1f498/2122-fe0f/
 4eeb/1f493/27b0/
@@ -26969,7 +26992,6 @@ window.pairs = `
 3e9/1f31c/1f382/
 2b6b/1fab5/1f307/
 4eeb/1f498/1f193/
-4eeb/1f493/00a9-fe0f/
 4eeb/1f495/27b0/
 4eeb/2763-fe0f/267b-fe0f/
 514f/1f48b/2753/
@@ -26984,8 +27006,8 @@ window.pairs = `
 501a/2601-fe0f/1f366/
 501a/1f31f/1f367/
 3e9/1f31b/1f9c1/
+4eeb/1f493/a9-fe0f/
 4eeb/1f498/1f195/
-4eeb/1f493/00ae-fe0f/
 4eeb/1f495/27bf/
 4eeb/2763-fe0f/2705/
 514f/1f48b/2757/
@@ -27001,9 +27023,9 @@ window.pairs = `
 3e9/1f31e/1f382/
 3e9/1f31c/1f9c1/
 2a4f/1f307/1f307/
+4eeb/1f493/ae-fe0f/
 4eeb/1f498/1f197/
 4eeb/1f493/2122-fe0f/
-4eeb/1f495/00a9-fe0f/
 4eeb/2763-fe0f/27b0/
 514f/1f48b/3030-fe0f/
 514f/1f937/264d/
@@ -27015,9 +27037,9 @@ window.pairs = `
 501a/2601-fe0f/1f368/
 4eeb/1f31f/1f369/
 514f/1f36c/1f31b/
+4eeb/1f495/a9-fe0f/
 4eeb/1f498/1f198/
 4eeb/1f493/1f192/
-4eeb/1f495/00ae-fe0f/
 4eeb/2763-fe0f/27bf/
 514f/1f48b/267b-fe0f/
 514f/1f937/264e/
@@ -27031,10 +27053,10 @@ window.pairs = `
 3e9/2b50/1f382/
 3e9/1f31e/1f9c1/
 514f/1f36c/1f31c/
+4eeb/1f495/ae-fe0f/
 4eeb/1f498/1f199/
 4eeb/1f493/1f193/
 4eeb/1f495/2122-fe0f/
-4eeb/2763-fe0f/00a9-fe0f/
 514f/1f48b/2705/
 514f/1f937/264f/
 4fb6/1f352/2665-fe0f/
@@ -27044,9 +27066,9 @@ window.pairs = `
 4eeb/2601-fe0f/1f36a/
 3e9/1f31f/1f382/
 3e9/1f31b/2615/
+4eeb/2763-fe0f/a9-fe0f/
 4eeb/1f493/1f195/
 4eeb/1f495/1f192/
-4eeb/2763-fe0f/00ae-fe0f/
 514f/1f48b/27b0/
 514f/1f937/2650/
 27ea/1f40c/1f4f0/
@@ -27059,6 +27081,7 @@ window.pairs = `
 3e9/2b50/1f9c1/
 514f/1f36c/1f31e/
 3e9/1f31c/2615/
+4eeb/2763-fe0f/ae-fe0f/
 4eeb/1f493/1f197/
 4eeb/1f495/1f193/
 4eeb/2763-fe0f/2122-fe0f/
@@ -27086,6 +27109,7 @@ window.pairs = `
 4eeb/1f31f/1f36b/
 514f/1f36c/2b50/
 3e9/1f31e/2615/
+514f/1f48b/a9-fe0f/
 4eeb/1f493/1f199/
 4eeb/1f495/1f197/
 4eeb/2763-fe0f/1f193/
@@ -27096,6 +27120,7 @@ window.pairs = `
 514f/1f38a/1f35c/
 4eeb/2601-fe0f/1f36b/
 514f/1f31f/1f36c/
+514f/1f48b/ae-fe0f/
 4eeb/1f495/1f198/
 4eeb/2763-fe0f/1f195/
 514f/1f48b/2122-fe0f/
@@ -27289,6 +27314,7 @@ window.pairs = `
 3e9/1f30d/1f308/
 4fb6/1faa8/2601-fe0f/
 2b6b/1fab5/1f31f/
+514f/1f937/a9-fe0f/
 501a/2665-fe0f/1f950/
 501a/1f52e/1f969/
 501a/1f381/1f370/
@@ -27297,6 +27323,7 @@ window.pairs = `
 2b6b/1fab5/2601-fe0f/
 4eeb/1f31f/1f3e0/
 2a4f/1f307/2b50/
+514f/1f937/ae-fe0f/
 514f/1f937/2122-fe0f/
 3e9/1f332/1f4f0/
 501a/2665-fe0f/1fad3/
@@ -28616,25 +28643,25 @@ window.pairs = `
 501a/1f52e/1f4be/
 501a/2665-fe0f/1fa95/
 3e9/1f451/1f48e/
-4eeb/1f31f/00a9-fe0f/
 4eeb/2601-fe0f/27bf/
 514f/1f38a/2651/
 501a/1f381/264f/
 501a/1f52e/1f4bf/
 501a/2665-fe0f/1f941/
 3e9/1f48e/1f48e/
-4eeb/1f31f/00ae-fe0f/
-4eeb/2601-fe0f/00a9-fe0f/
+4eeb/1f31f/a9-fe0f/
 514f/1f38a/2652/
 501a/1f381/2650/
 501a/1f52e/1f39e-fe0f/
 501a/2665-fe0f/1fa98/
+4eeb/1f31f/ae-fe0f/
+4eeb/2601-fe0f/a9-fe0f/
 4eeb/1f31f/2122-fe0f/
-4eeb/2601-fe0f/00ae-fe0f/
 514f/1f38a/2653/
 501a/1f381/2651/
 501a/1f52e/1f3ac/
 501a/2665-fe0f/1f4f1/
+4eeb/2601-fe0f/ae-fe0f/
 4eeb/1f31f/1f192/
 4eeb/2601-fe0f/2122-fe0f/
 514f/1f38a/26ce/
@@ -28714,15 +28741,19 @@ window.pairs = `
 501a/1f381/27b0/
 501a/1f52e/1f5dd-fe0f/
 501a/2665-fe0f/2712-fe0f/
+514f/1f38a/a9-fe0f/
 501a/1f381/27bf/
 501a/1f52e/1f6e0-fe0f/
 501a/2665-fe0f/1f58a-fe0f/
+514f/1f38a/ae-fe0f/
 514f/1f38a/2122-fe0f/
 501a/1f52e/1fa83/
 501a/2665-fe0f/1f58c-fe0f/
+501a/1f381/a9-fe0f/
 514f/1f38a/1f192/
 501a/1f52e/1f3f9/
 501a/2665-fe0f/1f58d-fe0f/
+501a/1f381/ae-fe0f/
 514f/1f38a/1f193/
 501a/1f381/2122-fe0f/
 501a/1f52e/2696-fe0f/
@@ -28814,7 +28845,9 @@ window.pairs = `
 501a/1f52e/27bf/
 501a/2665-fe0f/2049-fe0f/
 501a/2665-fe0f/2753/
+501a/1f52e/a9-fe0f/
 501a/2665-fe0f/2757/
+501a/1f52e/ae-fe0f/
 501a/1f52e/2122-fe0f/
 501a/2665-fe0f/3030-fe0f/
 501a/1f52e/1f192/
@@ -28826,7 +28859,9 @@ window.pairs = `
 501a/1f52e/1f197/
 501a/2665-fe0f/27bf/
 501a/1f52e/1f198/
+501a/2665-fe0f/a9-fe0f/
 501a/1f52e/1f199/
+501a/2665-fe0f/ae-fe0f/
 501a/2665-fe0f/2122-fe0f/
 501a/2665-fe0f/1f192/
 501a/2665-fe0f/1f193/
