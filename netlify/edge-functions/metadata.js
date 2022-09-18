@@ -49,10 +49,10 @@ export default async (request, context) => {
     } else {
       info.i = emojiUrl(components[0]);
     }
-    info.title = chars.join(" + ");// + " - " + info.s;
+    info.title = chars.join(" + ").replace(",", "");// + " - " + info.s;
 
     console.log(chars.join("+"))
-
+    
     let content = ['<meta charset="UTF-8">'];
     if (info.title) { content.push(`<title>${info.title}</title>`,`<meta property="og:title" content="${info.title}"/>`); }
     if (info.s) { content.push(`<meta property="og:site_name" content="${info.s}"/>`); }
