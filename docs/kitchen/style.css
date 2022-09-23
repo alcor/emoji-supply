@@ -157,7 +157,7 @@ html.allEmoji-container #preview-container {
 }
 
 .emoji.dud {
-  opacity:0.667;
+  opacity:0.25;
 }
 .emoji.dud:hover {
   opacity :1.0;
