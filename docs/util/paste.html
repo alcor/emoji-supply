@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<script type="module">
+  async function paste() {
+    let items = await navigator.clipboard.read();
+    console.log(items);
+    for (let item of items) {
+        if (!item.types.includes("image/png"))
+            continue;
+                const clipboard = navigator.clipboard;
+        const image =
+          item.types.includes("image/png") && (await item.getType("image/png"));
+        const text =
+          item.types.includes("text/plain") && item.getType("text/plain");
+
+        if (image) {
+          let url = URL.createObjectURL(image)
+          sizeImage(url)
+        }
+        
+      }
+    }
+  
+  let blob = undefined;
+  function sizeImage(url) {
+    var img = new Image();
+    img.onload = function () {
+      drawImage(img)
+
+    }
+    img.src = url;
+  }
+  
+  function drawImage(img) {    
+    let stroke = img.width / 24  // thickness scale
+    let steps = 24
+    let x = stroke  
+    let y = stroke
+
+    let tempCanvas = document.createElement("canvas")
+    tempCanvas.width = img.width + stroke * 2
+    tempCanvas.height = img.height + stroke * 2
+    let ctx = tempCanvas.getContext("2d");
+    ctx.imageSmoothingQuality = "high";
+
+    let angleStep = 2 * Math.PI / steps;
+    for(let a = angleStep / 2; a < (2 * Math.PI); a += angleStep) {
+      ctx.drawImage(img, x + Math.cos(a) * stroke/2, y + Math.sin(a) * stroke/2)
+      ctx.drawImage(img, x + Math.cos(a) * stroke, y + Math.sin(a) * stroke)
+    }
+
+    // fill with color
+    ctx.globalCompositeOperation = "source-in";
+    ctx.fillStyle = "white";
+    ctx.fillRect(0,0,tempCanvas.width*2, tempCanvas.height*2);
+
+    // draw original image in normal mode
+    ctx.globalCompositeOperation = "source-over";
+
+    ctx.drawImage(img, x, y);
+
+    let scale = 0.5 
+
+    let canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+    canvas.width = tempCanvas.width * scale;
+    canvas.height = tempCanvas.height * scale;
+    
+    
+    let blur = img.width / 100;
+    let sxo =  0;
+    let syo =  blur / 2;
+    let xo = sxo + blur
+    let yo = syo + blur 
+    canvas.width += xo * 2;
+    canvas.height += yo * 2;
+
+    ctx = canvas.getContext("2d");
+    ctx.shadowColor = 'rgba(0,0,0,0.18)';
+    ctx.shadowBlur = blur
+    ctx.shadowOffsetX = sxo
+    ctx.shadowOffsetY = syo
+
+    ctx.drawImage(tempCanvas, 0, 0, tempCanvas.width, tempCanvas.height,
+    xo, yo, tempCanvas.width * scale, tempCanvas.height * scale);
+    
+    canvas.style.width = `${canvas.width / 2}px`
+    canvas.style.height = `${canvas.height / 2}px`
+    canvas.toBlob((b) => console.log("b", b))
+  }
+
+  async function copy() {
+    var canvas = document.getElementById("canvas");
+    write(blob)
+  }
+
+  document.getElementById("paste").onclick = paste
+  document.getElementById("canvas").onclick = paste
+  document.getElementById("copy").onclick = copy
+
+  
+  async function write(data) {
+    try {
+      const makeImagePromise = async () => {
+        return await new Promise(resolve => canvas.toBlob(resolve));
+      }
+      await navigator.clipboard.write(
+        [new ClipboardItem({["image/png"]: makeImagePromise() })]
+      )
+      console.log('success')
+    } catch (err) {
+      console.log(`${err.name}:  ${err.message}`)
+    }
+  }
+
+</script>
+<body>
+  <p>
+  <button id="paste">Paste</button>
+  <button id="copy">Copy</button>
+  </p>
+  <canvas id="canvas" width=256 height=256 style="border:1px solid gray; background:#fafafa; max-width:100vw;"></canvas>
+</body>
+</html>
