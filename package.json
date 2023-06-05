@@ -1,0 +1,5 @@
+{npm
+  "devDependencies": {
+    "netlify-cli": "^11.5.1"
+  }
+}

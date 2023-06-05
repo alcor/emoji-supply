@@ -213,7 +213,7 @@ const selectEmoji = (e, id) => {
   emojiContainer.onscroll = scrollElement;
   mixmojiContainer.onscroll = scrollElement;
 
-  const re = new RegExp("^.*" + target.id + ".*$", "gm");
+  const re = new RegExp("^.*\/" + target.id + "\/.*$", "gm");
 
   const array = [...window.pairs.matchAll(re)];
 
