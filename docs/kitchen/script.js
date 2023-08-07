@@ -37,6 +37,27 @@ const codePointToText = (codePoint) => {
   let emoji = String.fromCodePoint(...cps);
   return emoji;
 }
+
+function convertBase(value, from_base, to_base) {
+  value = value.toString();
+  var range = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ+/'.split('');
+  var from_range = range.slice(0, from_base);
+  var to_range = range.slice(0, to_base);
+  
+  var dec_value = value.split('').reverse().reduce(function (carry, digit, index) {
+    if (from_range.indexOf(digit) === -1) throw new Error('Invalid digit `'+digit+'` for base '+from_base+'.');
+    return carry += from_range.indexOf(digit) * (Math.pow(from_base, index));
+  }, 0);
+  
+  var new_value = '';
+  while (dec_value > 0) {
+    new_value = to_range[dec_value % to_base] + new_value;
+    dec_value = (dec_value - (dec_value % to_base)) / to_base;
+  }
+  return new_value || '0';
+}
+
+
 const emojiUrl = (codePoint) => {
   let cp = codePoint.split("-").filter(x => x !== "fe0f").map(s => s.padStart(4, "0")).join("_");
   return `https://raw.githubusercontent.com/googlefonts/noto-emoji/main/png/128/emoji_u${cp}.png`;
@@ -213,30 +234,41 @@ const selectEmoji = (e, id) => {
   emojiContainer.onscroll = scrollElement;
   mixmojiContainer.onscroll = scrollElement;
 
-  const re = new RegExp("^.*\/" + target.id + "\/.*$", "gm");
+  let index = window.points.indexOf(target.id);
+  let b64 = convertBase(index, 10, 64);
+  console.log("index", index, b64);
+  const re = new RegExp("^.*\\." + b64 + "\\..*$", "gm");
 
-  const array = [...window.pairs.matchAll(re)];
 
   let parent = document.getElementById("mixmoji-container");
   parent.classList.remove("hidden");
   parent.scrollTo(0, 0);
   parent.childNodes.forEach(child => { parent.removeChild(child) });
+
+  const array = [...window.pairs.matchAll(re)];
   let validPairs = []
   let div = el("div#mixmoji-content", { className: array.length < 20 ? "sparse content" : "content" },
     array.map(match => {
-      let [d, c1, c2] = match.pop().split("/");
+
+      let string = match.pop();
+      let [d, c1, c2] = string.split(".");
+      c1 = window.points[convertBase(c1, 64, 10)];
+      c2 = window.points[convertBase(c2, 64, 10)];
+      d = window.revisions[convertBase(d, 64, 10)];
+
       let className = ["mixmoji"];
       className.push("c-" + c1);
       className.push("c-" + c2);
       let altParent = c1 == id ? c2 : c1;
       let index = recents.indexOf(altParent);
-      let date = parseInt(d, 16) + 20200000;
+      
       if (index == 0 && c1 == c2) {
         index = -1;
       }
       validPairs.push(altParent)
 
-      let url = mixmojiUrl(date, [c1, c2]);
+      let url = mixmojiUrl(d, [c1, c2]);
+
       if (index > 0 || c1 == c2) {
         className.push("featured");
       }
@@ -264,8 +296,9 @@ const selectEmoji = (e, id) => {
 }
 
 let div = el("div#emoji-content.content", {},
-  window.points.map(point => {
-    let dud = window.duds.includes(point);
+  window.points.map((point, index) => {
+    let dud = window.counts[index] < 31;
+    if (dud) console.log("window", window.counts[index], dud)
     let url = emojiUrl(point);
     let text = codePointToText(point);
     let className = ["emoji"];
