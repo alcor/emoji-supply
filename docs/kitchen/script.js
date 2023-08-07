@@ -103,7 +103,34 @@ const scrollElement = (e) => {
 
 const setFavicon = (url) => {
   document.getElementById("favicon").href = url;
-  //document.getElementById("md-image").content = url;
+}
+
+let isFigmaNative = navigator.userAgent.includes("Figma");
+let isIframe = window.self !== window.top;
+
+
+const clickResult = (e) => {
+  parent.postMessage({ pluginMessage: {clickedImage: e.target.src}, pluginId:'*'}, '*')
+}
+
+const dragStart = (e) => {
+  e.dataTransfer.setData("text/uri-list", e.target.src);
+}
+const dragEnd = (e) => {
+    // Don't proceed if the item was dropped inside the plugin window.
+    // if (e.view.length === 0) return;
+    window.parent.postMessage(
+      {
+        pluginId: '*',
+        pluginDrop: {
+          clientX: e.x,
+          clientY: e.y,
+          items: [{ type: 'text/uri-list', data: e.target.src }],
+          dropMetadata: { fromBrowser: true },
+        }
+      },
+      '*'
+    );
 }
 
 let p1 = document.getElementById("p1")
@@ -114,6 +141,14 @@ let emojiContainer = document.getElementById("emoji-container");
 let mixmojiContainer = document.getElementById("mixmoji-container");
 p1.onclick = focusEmoji;
 p2.onclick = focusEmoji;
+pc.onclick = clickResult;
+
+if (isIframe && !isFigmaNative) {
+// document.addEventListener('dragstart', dragStart);
+document.addEventListener('dragend', dragEnd);
+}
+
+
 
 let selectedMixmoji = undefined;
 const selectMixmoji = (e, parents) => {
@@ -280,6 +315,7 @@ const selectEmoji = (e, id) => {
         style: "transition: all 0.3s " + Math.random() / 8 + "s ease-out;" + (index < 0 ? "" : "order:" + (-10 + index)),
         onload: imageLoaded,
         src: url,
+        draggable: isIframe && !isFigmaNative,
         loading: "lazy"
       }, codePointToText(c1), codePointToText(c2))
     })
@@ -305,7 +341,7 @@ let div = el("div#emoji-content.content", {},
     if (dud) className.push("dud");
     if (favorites.includes("point")) className.push("favorite");
     return el("div", { id: point, title: text, src: url, className: className.join(" ") }, el("span", text),
-      el("img", { onclick: clickedEmoji, onload: imageLoaded, src: url, loading: "lazy" })
+      el("img", { onclick: clickedEmoji, onload: imageLoaded, src: url, draggable: isIframe && !isFigmaNative, loading: "lazy" })
     );
   })
 )
