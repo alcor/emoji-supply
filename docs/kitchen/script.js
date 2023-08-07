@@ -315,7 +315,7 @@ const selectEmoji = (e, id) => {
         style: "transition: all 0.3s " + Math.random() / 8 + "s ease-out;" + (index < 0 ? "" : "order:" + (-10 + index)),
         onload: imageLoaded,
         src: url,
-        draggable: isIframe && !isFigmaNative,
+        draggable: true,
         loading: "lazy"
       }, codePointToText(c1), codePointToText(c2))
     })
@@ -341,7 +341,7 @@ let div = el("div#emoji-content.content", {},
     if (dud) className.push("dud");
     if (favorites.includes("point")) className.push("favorite");
     return el("div", { id: point, title: text, src: url, className: className.join(" ") }, el("span", text),
-      el("img", { onclick: clickedEmoji, onload: imageLoaded, src: url, draggable: isIframe && !isFigmaNative, loading: "lazy" })
+      el("img", { onclick: clickedEmoji, onload: imageLoaded, src: url, draggable: true, loading: "lazy" })
     );
   })
 )
