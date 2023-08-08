@@ -143,6 +143,73 @@ p1.onclick = focusEmoji;
 p2.onclick = focusEmoji;
 pc.onclick = clickResult;
 
+
+let search = document.getElementById("search")
+
+window.addEventListener('load', function() {
+  search.focus();
+});
+
+search.oninput = (e) => {
+  let query = e.target.value;
+
+  if (query.length < 3) {
+    [...document.querySelectorAll(".emoji")].forEach(el => {
+      el.classList.remove("dimmed")
+      el.classList.remove("promoted")
+    });
+  } else {
+    let words = query.split(" ");
+    let word1 = words.shift();
+    let word2 = words.shift();
+    let firstMatch;
+    [...document.querySelectorAll(".emoji")].forEach(el => {
+      let index = window.points.indexOf(el.id);
+      let matchRE = new RegExp(`[, ]${word1}`, "i");
+      let visible = window.point_names[index].match(matchRE); //includes("," + query);
+      if (visible) console.log(el.id, window.point_names[index])
+      el.classList.toggle("dimmed", !visible);
+      el.classList.toggle("promoted", visible)
+      if (!firstMatch && visible) firstMatch = el;
+    })  
+    
+    if (firstMatch) focusFirst();
+    document.documentElement.className = "mixmoji-container";
+  }
+  
+};
+
+let lastFirst = undefined;
+const focusFirst = () => {
+  for (const element of document.querySelectorAll(".emoji")) {
+    if (!element.classList.contains("dimmed")) {
+      if (lastFirst != element) clickedEmoji({target:element});
+      lastFirst = element;
+      document.documentElement.className = "mixmoji-container";
+      break;
+    }
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' || e.keyCode === 13) {
+    search.value = "";
+    console.log('Enter key was pressed');  
+    focusFirst();
+  } else if (e.key === 'Escape' || e.keyCode === 27) {
+    search.value = "";
+
+    [...document.querySelectorAll(".emoji")].forEach(el => {
+      el.classList.remove("dimmed")
+      el.classList.remove("promoted")
+    });
+    document.documentElement.className = "";
+  }
+  search.focus();
+
+  
+});
+
 if (isIframe && !isFigmaNative) {
 // document.addEventListener('dragstart', dragStart);
 document.addEventListener('dragend', dragEnd);
