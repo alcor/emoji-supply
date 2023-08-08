@@ -1,7 +1,7 @@
 {
-  "name": "test",
+  "name": "Figma-Emoji-Kitchen-Browser",
   "version": "1.0.0",
-  "description": "Your Figma Plugin",
+  "description": "Browse the combinations from Emoji Kitchen in Figma.",
   "main": "code.js",
   "scripts": {
     "build": "tsc -p tsconfig.json",
