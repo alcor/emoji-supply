@@ -94,6 +94,17 @@ const focusEmoji = (e) => {
   selectEmoji(undefined, e.target.targetId);
   selectMixmoji(undefined, pc.name.split("_"));
 }
+const swapEmoji = (e) => {
+  selectEmoji(undefined, p2.targetId);
+  selectMixmoji(undefined, pc.name.split("_"));
+
+  window.scrollTo(0, 0);
+  window.visualViewport.scale = 1.0;
+
+}
+
+
+
 
 const scrollElement = (e) => {
   e.target.onscroll = undefined;
@@ -110,7 +121,9 @@ let isIframe = window.self !== window.top;
 
 
 const clickResult = (e) => {
-  parent.postMessage({ pluginMessage: {clickedImage: e.target.src}, pluginId:'*'}, '*')
+  if (isIframe) {
+    parent.postMessage({ pluginMessage: {clickedImage: e.target.src}, pluginId:'*'}, '*')
+  }
 }
 
 const dragStart = (e) => {
@@ -136,13 +149,26 @@ const dragEnd = (e) => {
 let p1 = document.getElementById("p1")
 let p2 = document.getElementById("p2")
 let pc = document.getElementById("pc");
+let plus = document.getElementById("plus");
 
 let emojiContainer = document.getElementById("emoji-container");
 let mixmojiContainer = document.getElementById("mixmoji-container");
-p1.onclick = focusEmoji;
-p2.onclick = focusEmoji;
+plus.onclick = swapEmoji;
+// p1.onclick = focusEmoji;
+// p2.onclick = focusEmoji;
+
+p1.onclick = clickResult;
+p2.onclick = clickResult;
 pc.onclick = clickResult;
 
+
+plus.addEventListener('dblclick', function(event) {
+  event.preventDefault();
+}, { passive: false });
+
+document.addEventListener('dblclick', function(event) {
+  event.preventDefault();
+}, { passive: false });
 
 let search = document.getElementById("search")
 
@@ -469,4 +495,8 @@ copy = () => {
   setTimeout(function () {
     document.body.classList.remove("copied");
   }, 2000);
+}
+
+if (/Mobi|Android/i.test(navigator.userAgent)) {
+  document.body.classList.add("mobile");
 }

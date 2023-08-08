@@ -96,6 +96,8 @@ html.allEmoji-container #preview-container {
 .search-container {
   display: flex;
   justify-content: center;
+  position:fixed;
+  transform:scale(0.0);
 }
 
 #search {
@@ -109,16 +111,19 @@ html.allEmoji-container #preview-container {
   text-transform: uppercase;
   line-height: 32px;
   font-size: 20px;
-
-  transform: translateY(0);
   border: 0;
-  position:absolute;
-  top:-100%;
 }
 
-#search:empty {
-  /* transform:translateY(-40px); */
+#search {
 }
+
+body.mobile .search-container {
+  display: none;
+}
+
+
+
+
 #search:focus {
   outline: none;
   border-color: var(--text-color);
@@ -376,6 +381,7 @@ img#\31 f493,
   width: 360px;
   height: 600px;
   display: flex;
+  font-size:18px;
   opacity: 0;
   pointer-events: none;
   /* transform: translateY(-1em); */
@@ -385,7 +391,7 @@ img#\31 f493,
   background: linear-gradient(45deg, var(--background-color), transparent);
   left: 50%;
   position: absolute;
-  margin-left: -180px;
+  margin-left: -160px;
   z-index: 1000;
   padding: 1em;
   justify-content: space-between;
@@ -452,6 +458,8 @@ img#\31 f493,
     top: 0;
     left: 0;
     margin-left: 0;
+
+  border: none;
   }
 }
 svg fill {
@@ -459,14 +467,11 @@ svg fill {
 }
 
 .menu-item {
-  padding: 0.5em 2em;
-  line-height: 48px;
+  padding: 0.0em 1em;
+  line-height: 40px;
   cursor: default;
 }
 .menu-item:hover {
-  padding: 0.5em 2em;
-  line-height: 48px;
-  cursor: default;
   background-color: var(--hover-color);
 }
 
@@ -482,8 +487,10 @@ div#menu {
   right: 0;
   z-index: 1000;
   backdrop-filter: blur(10px);
-  font-size: 24px;
+  font-size: 18px;
   user-select: none;
+  min-width:160px;
+  padding: 12px 0;
 }
 
 .preview {
