@@ -112,6 +112,8 @@ html.allEmoji-container #preview-container {
 
   transform: translateY(0);
   border: 0;
+  position:absolute;
+  top:-100%;
 }
 
 #search:empty {
