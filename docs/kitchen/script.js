@@ -126,20 +126,39 @@ const clickResult = (e) => {
   }
 }
 
+let offset = {}
+
 const dragStart = (e) => {
-  e.dataTransfer.setData("text/uri-list", e.target.src);
+  offset.x = e.offsetX;
+  offset.y = e.offsetY;
 }
+
 const dragEnd = (e) => {
+
     // Don't proceed if the item was dropped inside the plugin window.
     // if (e.view.length === 0) return;
+    console.log("View", e.view.length, e.view)
+
     window.parent.postMessage(
       {
         pluginId: '*',
         pluginDrop: {
-          clientX: e.x,
-          clientY: e.y,
+          clientX: e.clientX,
+          clientY: e.clientY,
           items: [{ type: 'text/uri-list', data: e.target.src }],
-          dropMetadata: { fromBrowser: true },
+          dropMetadata: { 
+            fromBrowser: true,
+            itemSize: { 
+              width: e.target.clientWidth,
+              height: e.target.clientHeight
+            },
+            windowSize = {
+              width: window.outerWidth,
+              height: window.outerHeight
+            };
+            offset: offset,
+            
+           },
         }
       },
       '*'
