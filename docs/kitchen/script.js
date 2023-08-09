@@ -156,6 +156,10 @@ const dragEnd = (e) => {
               width: window.outerWidth,
               height: window.outerHeight
             },
+            dropPosition: {
+              x: e.clientX,
+              y: e.clientY
+            },
             offset: offset,
            },
         }
