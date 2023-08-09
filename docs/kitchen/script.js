@@ -157,7 +157,6 @@ const dragEnd = (e) => {
               height: window.outerHeight
             };
             offset: offset,
-            
            },
         }
       },
