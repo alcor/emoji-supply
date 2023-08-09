@@ -152,10 +152,10 @@ const dragEnd = (e) => {
               width: e.target.clientWidth,
               height: e.target.clientHeight
             },
-            windowSize = {
+            windowSize : {
               width: window.outerWidth,
               height: window.outerHeight
-            };
+            },
             offset: offset,
            },
         }
