@@ -72,19 +72,26 @@ const mixmojiUrl = (r, c) => {
 }
 
 const copyToClipboard = async (e) => {
-  console.log("e,", e);
   try {
-    const imgURL = e.target.src;
-    const data = await fetch(imgURL)
-    const blob = await data.blob();
-    const image = new Image();
-    img.src = e.target.src;
+    let blob = e.target.blob;
+
+    if (!blob) {
+      const imgURL = e.target.src;
+      // .replace("https://www.gstatic.com/android/keyboard/emojikitchen", "https://emoji.supply/emojikitchen");
+      const data = await fetch(imgURL)
+      blob = await data.blob();
+    }
+
     await navigator.clipboard.write([
       new ClipboardItem({
         [blob.type]: blob
       })
     ]);
-    console.log('Fetched image copied.');
+
+    document.body.classList.add("copied");
+    setTimeout(function () { document.body.classList.remove("copied"); }, 2000);
+  
+    console.log('Copied image to clipboard');
   } catch (err) {
     console.error(err.name, err.message);
   }
@@ -123,6 +130,8 @@ let isIframe = window.self !== window.top;
 const clickResult = (e) => {
   if (isIframe) {
     parent.postMessage({ pluginMessage: {clickedImage: e.target.src}, pluginId:'*'}, '*')
+  } else {
+    copyToClipboard(e);
   }
 }
 
@@ -263,7 +272,11 @@ if (isIframe && !isFigmaNative) {
 document.addEventListener('dragend', dragEnd);
 }
 
-
+const updateBlobForElement = async (element) => {
+  const data = await fetch(element.src)
+  const blob = await data.blob();
+  element.blob = blob;
+}
 
 let selectedMixmoji = undefined;
 const selectMixmoji = (e, parents) => {
@@ -284,6 +297,8 @@ const selectMixmoji = (e, parents) => {
 
   pc.src = img.src;
   setFavicon(pc.src);
+  updateBlobForElement(pc);
+
   document.getElementById("md-title").content = comboString;
 
   document.getElementById("preview-container").classList.add("mix")
@@ -308,6 +323,8 @@ const selectMixmoji = (e, parents) => {
   p2.src = emoji2.src.replace("128", "512");
   p2.targetId = p2id;
   p2.parentElement.classList.add("active");
+  updateBlobForElement(p1);
+  updateBlobForElement(p2);
 
   let url = "/kitchen/?" + img.c.map(cc => codePointToText(cc)).join("+");
   url += "=" + parseInt(img.date, 16).toString(36);
@@ -377,8 +394,10 @@ const selectEmoji = (e, id) => {
   document.title = " = " + codePointToText(id);
 
   setFavicon(target.src);
-  p1.src = emoji1.src.replace("128", "512");;
-  p2.src = emoji2?.src.replace("128", "512");;
+  p1.src = emoji1.src.replace("128", "512");
+  p2.src = emoji2?.src.replace("128", "512");
+  updateBlobForElement(p1);
+  updateBlobForElement(p2);
   pc.src = "";
 
   emojiContainer.onscroll = scrollElement;
@@ -449,7 +468,6 @@ const selectEmoji = (e, id) => {
 let div = el("div#emoji-content.content", {},
   window.points.map((point, index) => {
     let dud = window.counts[index] < 31;
-    if (dud) console.log("window", window.counts[index], dud)
     let url = emojiUrl(point);
     let text = codePointToText(point);
     let className = ["emoji"];
@@ -514,9 +532,7 @@ copy = () => {
   document.body.removeChild(dummy);
 
   document.body.classList.add("copied");
-  setTimeout(function () {
-    document.body.classList.remove("copied");
-  }, 2000);
+  setTimeout(function () { document.body.classList.remove("copied"); }, 2000);
 }
 
 if (/Mobi|Android/i.test(navigator.userAgent)) {

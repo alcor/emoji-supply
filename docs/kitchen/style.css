@@ -117,12 +117,31 @@ html.allEmoji-container #preview-container {
 #search {
 }
 
+#toast {
+  position:absolute;
+  bottom: calc(max(72px, 15vmin) + 2em);
+  right:10px;
+  transform: translateX(0);
+
+  z-index:1000;
+  color: var(--background-color);
+  background-color: var(--text-color);
+  padding:0.25em 0.5em;
+  margin:auto;
+  text-align:center;
+  border-radius:4px;
+  transition:transform 300ms, opacity 300ms;
+  opacity:1.0;
+  pointer-events: none;
+}
+
+body:not(.copied) #toast {
+  transform: translateX(150%);
+  opacity:0.0;
+}
 body.mobile .search-container {
   display: none;
 }
-
-
-
 
 #search:focus {
   outline: none;

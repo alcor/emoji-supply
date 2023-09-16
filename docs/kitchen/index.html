@@ -7,12 +7,13 @@
   <link rel="stylesheet" href="/kitchen/style.css">
   <meta property="og:site_name" content="Emoji Kitchen Browser" />
   <meta id="md-title" property="og:title" content="Emoji Kitchen Browser" />
-  <meta id="md-desc" property="og:description" content="Explore Emoji Kitchen combinations" />
+  <meta id="md-desc" property="og:description" content="Browse thousands of delightful Emoji Kitchen combinations, available in Gboard for Android." />
+  <meta name="description" content="Browse thousands of delightful Emoji Kitchen combinations, available in Gboard for Android. All credit goes to the Emoji Kitchen team for the care they put into emoji, standards, and imaginary creatures."/>
   <link rel="apple-touch-icon" href="/kitchen/icon.png">
   <meta name="apple-mobile-web-app-title" content="Emoji Kitchen">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="shortcut icon" id="favicon" href="/favicon.ico">
+  <link rel="shortcut icon" id="favicon" href="https://www.gstatic.com/android/keyboard/emojikitchen/20210521/u1fa84/u1fa84_u1fa84.png">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z353MGES3V"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -32,13 +33,18 @@
 <div id="menu">
   <div id="copy" class="menu-item" onclick="copy()">Copy URL</div>
   <div id="share" class="menu-item" onclick="share()">Share</div>
-  <div id="share" class="menu-item" onclick="window.open('https://tinyurl.com/g-board')">Get Gboard</div>
+  <div id="get" class="menu-item" onclick="window.open('https://tinyurl.com/g-board')">Get Gboard</div>
   <div class="menu-item" onclick="about()">About</div>
 </div>
 <div id="about">
   <div class="icon closeIcon" onclick="document.documentElement.classList.remove('showAbout')"></div>
   <p>
-  This page lets you browse the delightful combinations of
+  
+  <img width="128" height="128" src="https://www.gstatic.com/android/keyboard/emojikitchen/20210521/u1fa84/u1fa84_u1fa84.png"> 
+  
+  <p>
+  <p>
+  This page lets you browse the thousands of delightful combinations of
   <a target="_blank" href="https://tinyurl.com/emojikitchen">Emoji Kitchen</a>,
   available in <a target="_blank" href="https://tinyurl.com/g-board">Gboard</a> for Android.
 </p>
@@ -61,7 +67,7 @@
   <div class="preview"><img draggable="true" id="pc" src=""></div>
   <div class="icon menuIcon" onclick="document.documentElement.classList.toggle('showMenu')"></div>
 </div>
-
+<div id="toast">Copied</div>
 <script  src="https://git.emoji.supply/kitchen/emojidata.js"></script>
 <script  src="/kitchen/script.js"></script>
 </body>
