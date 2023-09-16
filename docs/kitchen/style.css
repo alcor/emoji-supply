@@ -121,8 +121,6 @@ html.allEmoji-container #preview-container {
   position:absolute;
   bottom: calc(max(72px, 15vmin) + 2em);
   right:10px;
-  transform: translateX(0);
-
   z-index:1000;
   color: var(--background-color);
   background-color: var(--text-color);
@@ -136,7 +134,7 @@ html.allEmoji-container #preview-container {
 }
 
 body:not(.copied) #toast {
-  transform: translateX(150%);
+  transform: translateY(-4px);
   opacity:0.0;
 }
 body.mobile .search-container {
