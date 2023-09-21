@@ -1,6 +1,6 @@
-[[edge_functions]]
-  path = "/kitchen/"
-  function = "metadata"
+# [[edge_functions]]
+#   path = "/kitchen/"
+#   function = "metadata"
 
 [[redirects]]
   from = "/mix*"
