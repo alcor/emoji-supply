@@ -16,8 +16,8 @@ const mixmojiUrl = (r, c, proxy, url) => {
 }
 
 export default async (request, context) => {
+  let url = new URL(request.url);
   try {
-    let url = new URL(request.url);
     if (!url.pathname.endsWith("/") || url.search.indexOf("&") != -1 ) {
       return; 
     }
@@ -34,7 +34,8 @@ export default async (request, context) => {
     [search, date] = search.split("=");
     let components = search.split("+");
 
-    let chars = components.map(c => Array.from(decodeURIComponent(c)));
+    let chars = undefined
+    components.map(c => Array.from(decodeURIComponent(c)));
     components = chars.map(c => c.map(a=>a.codePointAt(0).toString(16)).join("-"));
     
     let info = {
@@ -88,5 +89,5 @@ export default async (request, context) => {
     return new Response(content.join("\n"), {
       headers: { "content-type": "text/html" },
     });
-  } catch (e) {console.log(e)}
+  } catch (e) {console.log(e, url)}
 } 
