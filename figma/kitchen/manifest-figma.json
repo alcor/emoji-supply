@@ -1,8 +1,9 @@
 {
+  "id": "emoji.supply",
   "name": "Emoji Kitchen Browser",
-  "id": "1269531050651505496",
   "api": "1.0.0",
   "main": "code.js",
+  "id": "1270415471355558991",
   "editorType": ["figma", "figjam"],
   "permissions": ["activeusers"]
 }

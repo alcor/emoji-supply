@@ -6,3 +6,4 @@
 node_modules
 package-lock.json
 docs/kitchen/emoji-en-US.js
+tools/fetchemoji.json
