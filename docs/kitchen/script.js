@@ -253,6 +253,10 @@ document.addEventListener('keydown', function(e) {
     search.value = "";
     console.log('Enter key was pressed');  
     focusFirst();
+    [...document.querySelectorAll(".emoji")].forEach(el => {
+      el.classList.remove("dimmed")
+      el.classList.remove("promoted")
+    });
   } else if (e.key === 'Escape' || e.keyCode === 27) {
     search.value = "";
 

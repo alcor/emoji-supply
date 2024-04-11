@@ -54,7 +54,8 @@ svg path {
   margin: 0 auto;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   width: 100vw;
   height: 100%;
 }
@@ -96,25 +97,24 @@ html.allEmoji-container #preview-container {
 .search-container {
   display: flex;
   justify-content: center;
-  position:fixed;
-  transform:scale(0.0);
+  /* position:fixed; */
+  /* transform:scale(0.0); */
 }
 
 #search {
   /* border-radius:20px; */
+  letter-spacing: 2px;;
   width: 100vh;
   max-width: 100vw;
   margin-top: 8px;
   padding: 0 4px;
   border: 1px solid #eee;
-  text-align: left;
+  text-align: center;
   text-transform: uppercase;
   line-height: 32px;
   font-size: 20px;
+  font-weight:300;
   border: 0;
-}
-
-#search {
 }
 
 #toast {
