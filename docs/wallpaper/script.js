@@ -365,6 +365,7 @@ function renderContent(time, seed) {
           ctx.globalAlpha = 0.2
           ctx.strokeRect(size/2, size/2, spacingX, spacingY);
         }
+        ctx.fillStyle = textColor;
         ctx.fillText(emoji, 0, + size/3);
         ctx.restore();
       }
